@@ -41,7 +41,7 @@
  */
 
 ../../../../rtl/verilog/ahb3/mpsoc_ahb3_peripheral_bridge.sv
-../../../../rtl/verilog/wb/mpsoc_wb_peripheral_bridge.sv
-../../../../rtl/verilog/apb/mpsoc_apb_gpio.sv
+../../../../rtl/verilog/ahb3/mpsoc_apb_gpio.sv
+../../../../rtl/verilog/wb/mpsoc_wb_gpio.v
 
 ../../../../bench/verilog/regression/mpsoc_msi_testbench.sv
