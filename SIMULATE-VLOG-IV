@@ -1,0 +1,4 @@
+rm -rf gpio.vvp
+iverilog -g2012 -o gpio.vvp -c gpio.vtor -s wb_gpio_tb \
+-I rtl/verilog/pkg
+vvp gpio.vvp
