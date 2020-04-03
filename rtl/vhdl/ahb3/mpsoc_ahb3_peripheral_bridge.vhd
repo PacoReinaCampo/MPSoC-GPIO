@@ -48,7 +48,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-use work.mpsoc_pkg.all;
+use work.mpsoc_gpio_ahb3_pkg.all;
 
 entity mpsoc_ahb3_peripheral_bridge is
   generic (

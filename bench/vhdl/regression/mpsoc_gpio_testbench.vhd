@@ -1,4 +1,4 @@
--- Converted from bench/verilog/regression/mpsoc_msi_testbench.sv
+-- Converted from bench/verilog/regression/mpsoc_gpio_testbench.sv
 -- by verilog2vhdl - QueenField
 
 --//////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
 --                                                                            //
 --                                                                            //
 --              MPSoC-RISCV CPU                                               //
---              Master Slave Interface Tesbench                               //
+--              General Purpose Input Output Tesbench                         //
 --              AMBA3 AHB-Lite Bus Interface                                  //
 --                                                                            //
 --//////////////////////////////////////////////////////////////////////////////
@@ -47,10 +47,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity mpsoc_msi_testbench is
-end mpsoc_msi_testbench;
+entity mpsoc_gpio_testbench is
+end mpsoc_gpio_testbench;
 
-architecture RTL of mpsoc_msi_testbench is
+architecture RTL of mpsoc_gpio_testbench is
   --////////////////////////////////////////////////////////////////
   --
   -- Constants

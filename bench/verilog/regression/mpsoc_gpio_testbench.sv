@@ -10,7 +10,7 @@
 //                                                                            //
 //                                                                            //
 //              MPSoC-RISCV CPU                                               //
-//              Master Slave Interface Tesbench                               //
+//              General Purpose Input Output Tesbench                         //
 //              AMBA3 AHB-Lite Bus Interface                                  //
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@
  *   Francisco Javier Reina Campo <frareicam@gmail.com>
  */
 
-module mpsoc_msi_testbench;
+module mpsoc_gpio_testbench;
 
   //////////////////////////////////////////////////////////////////
   //

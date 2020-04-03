@@ -7,4 +7,4 @@ rm -rf synthesis
 rm -rf work-obj93.cf
 rm -rf *.vvp
 rm -rf obj_dir
-rm -rf mpsoc_msi_testbench.tree
+rm -rf *.tree

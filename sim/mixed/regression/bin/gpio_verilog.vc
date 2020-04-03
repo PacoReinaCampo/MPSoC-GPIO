@@ -10,7 +10,7 @@
 //                                                                            //
 //                                                                            //
 //              MPSoC-RISCV CPU                                               //
-//              Master Slave Interface Slave Port                             //
+//              General Purpose Input Output                                  //
 //              AMBA3 AHB-Lite Bus Interface                                  //
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
@@ -40,8 +40,4 @@
  *   Francisco Javier Reina Campo <frareicam@gmail.com>
  */
 
-../../../../rtl/verilog/ahb3/mpsoc_ahb3_peripheral_bridge.sv
-../../../../rtl/verilog/ahb3/mpsoc_apb_gpio.sv
-../../../../rtl/verilog/wb/mpsoc_wb_gpio.v
-
-../../../../bench/verilog/regression/mpsoc_msi_testbench.sv
+../../../../bench/verilog/regression/mpsoc_gpio_testbench.sv
