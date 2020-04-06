@@ -209,7 +209,7 @@ module mpsoc_wb_gpio #(
   wire [GPIO_WIDTH-1:0]  rgpio_nec;  // No register
   `endif
 
-  reg  [GPIO_WIDTH-1:0]  ext_pad_s;
+  wire [GPIO_WIDTH-1:0]  ext_pad_s;
 
   // Internal wires & regs
   wire                      rgpio_out_sel;   // RGPIO_OUT select
@@ -235,10 +235,11 @@ module mpsoc_wb_gpio #(
   wire  [GPIO_WIDTH   -1:0] out_pad;  // GPIO Outputs
 
   // synchronize inputs to system clock
-  reg   [GPIO_WIDTH-1:0]  sync, ext_pad_sync;
+  reg   [GPIO_WIDTH-1:0]  sync;
+  reg   [GPIO_WIDTH-1:0]  ext_pad_sync;
 
   // GPIO Outputs
-  reg   [GPIO_WIDTH-1:0]  ext_pad_g;
+  wire  [GPIO_WIDTH-1:0]  ext_pad_g;
 
   //////////////////////////////////////////////////////////////////
   //
