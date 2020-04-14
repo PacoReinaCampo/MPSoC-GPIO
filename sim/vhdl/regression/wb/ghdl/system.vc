@@ -1,0 +1,3 @@
+../../../../../rtl/vhdl/wb/mpsoc_wb_gpio.vhd
+
+../../../../../bench/vhdl/regression/wb/mpsoc_gpio_testbench.vhd

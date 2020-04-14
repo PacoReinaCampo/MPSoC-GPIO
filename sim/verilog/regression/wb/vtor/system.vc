@@ -1,0 +1,2 @@
+../../../../../rtl/verilog/wb/core/mpsoc_wb_gpio.v
+../../../../../bench/verilog/regression/wb/mpsoc_gpio_testbench.sv
