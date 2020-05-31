@@ -1,12 +1,12 @@
-../../../../../rtl/verilog/wb/core/mpsoc_wb_gpio.v
+../../../../../rtl/verilog/wb/core/mpsoc_wb_gpio.sv
 
-../../../../../bench/verilog/regression/wb/bfm/mpsoc_msi_wb_bfm_master.v
-../../../../../bench/verilog/regression/wb/bfm/mpsoc_msi_wb_bfm_memory.v
-../../../../../bench/verilog/regression/wb/bfm/mpsoc_msi_wb_bfm_slave.v
-../../../../../bench/verilog/regression/wb/bfm/mpsoc_msi_wb_bfm_transactor.v
+../../../../../bench/verilog/regression/wb/bfm/mpsoc_msi_wb_bfm_master.sv
+../../../../../bench/verilog/regression/wb/bfm/mpsoc_msi_wb_bfm_memory.sv
+../../../../../bench/verilog/regression/wb/bfm/mpsoc_msi_wb_bfm_slave.sv
+../../../../../bench/verilog/regression/wb/bfm/mpsoc_msi_wb_bfm_transactor.sv
 ../../../../../bench/verilog/regression/wb/mpsoc_gpio_testbench.sv
-../../../../../bench/verilog/regression/wb/vlog_tap_generator.v
-../../../../../bench/verilog/regression/wb/vlog_tb_utils.v
-../../../../../bench/verilog/regression/wb/wb_gpio_tb.v
+../../../../../bench/verilog/regression/wb/vlog_tap_generator.sv
+../../../../../bench/verilog/regression/wb/vlog_tb_utils.sv
+../../../../../bench/verilog/regression/wb/wb_gpio_tb.sv
 
 
