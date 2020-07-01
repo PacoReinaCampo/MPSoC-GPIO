@@ -11,7 +11,7 @@
 //                                                                            //
 //              MPSoC-RISCV CPU                                               //
 //              General Purpose Input Output Bridge                           //
-//              AMBA4 ABB-Lite Bus Interface                                  //
+//              AMBA4 APB-Lite Bus Interface                                  //
 //              Universal Verification Methodology                            //
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
