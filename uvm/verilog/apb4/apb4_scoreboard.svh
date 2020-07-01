@@ -41,30 +41,41 @@
  *   Francisco Javier Reina Campo <frareicam@gmail.com>
  */
 
-class apb_agent extends uvm_agent;
-  `uvm_component_utils(apb_agent)
+`uvm_analysis_imp_decl(_expdata)
+`uvm_analysis_imp_decl(_actdata)
 
-   apb_monitor monitor;
-   apb_driver driver;
-   uvm_sequencer#(apb_transaction) sequencer;
+class apb4_scoreboard extends uvm_scoreboard;
+  `uvm_component_utils(apb4_scoreboard)
+
+  uvm_analysis_imp_expdata#(apb4_transaction, apb4_scoreboard) mon_export;
+  uvm_analysis_imp_actdata#(apb4_transaction, apb4_scoreboard) sb_export;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
+    mon_export = new("mon_export", this);
+    sb_export = new("sb_export", this);
   endfunction
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    if(get_is_active == UVM_ACTIVE) begin
-      driver = apb_driver::type_id::create("driver",this);
-      sequencer = uvm_sequencer#(apb_transaction)::type_id::create("sequencer", this);
-    end
-    monitor = apb_monitor::type_id::create("monitor",this);
   endfunction
 
-  function void connect_phase(uvm_phase phase);
-    super.build_phase(phase);
-    if(get_is_active == UVM_ACTIVE) begin
-      driver.seq_item_port.connect(sequencer.seq_item_export);
+  apb4_transaction exp_queue[$];
+
+  function write_actdata(input apb4_transaction tr);
+    apb4_transaction expdata;
+    if(exp_queue.size()) begin
+      expdata =exp_queue.pop_front();
+      if(tr.compare(expdata))begin
+        `uvm_info("",$sformatf("MATCHED"),UVM_LOW)
+      end
+      else begin
+        `uvm_info("",$sformatf("MISMATCHED"),UVM_LOW)
+      end
     end
   endfunction
+
+  function write_expdata(input apb4_transaction tr);
+    exp_queue.push_back(tr);
+  endfunction              
 endclass

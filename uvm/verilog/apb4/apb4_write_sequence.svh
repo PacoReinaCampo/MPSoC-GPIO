@@ -41,19 +41,21 @@
  *   Francisco Javier Reina Campo <frareicam@gmail.com>
  */
 
-class apb_transaction extends uvm_sequence_item;
-  `uvm_object_utils(apb_transaction)
-  rand bit [7:0]paddr;
-  rand bit pwrite;
-  rand bit [31:0] pwdata;
-  rand bit [31:0] prdata;
-  rand bit psel;
-  rand bit penable;
-  constraint c1{paddr[1:0] ==2'b00;};
-  //constraint c2{$countones(pwdata) inside {15,25,16,21};};
-  constraint c3 {psel == 1'b1;};
+class apb4_write_sequence extends uvm_sequence#(apb4_transaction);  
+  `uvm_object_utils(apb4_write_sequence)
 
   function new(string name = "");
     super.new(name);
   endfunction
+
+  task body();
+    begin
+      `uvm_do_with(req,{req.penable == 1'b0;req.pwrite == 1'b1;})
+      `uvm_do_with(req,{req.paddr == 8'h00;req.pwdata == 32'hffffeeee;req.penable == 1'b1;req.pwrite == 1'b1;})
+      `uvm_do_with(req,{req.penable == 1'b0;req.pwrite == 1'b1;})
+      `uvm_do_with(req,{req.paddr == 8'h04;req.pwdata == 32'hffff1111;req.penable == 1'b1;req.pwrite == 1'b1;})
+      `uvm_do_with(req,{req.penable == 1'b0;req.pwrite == 1'b1;})
+      `uvm_do_with(req,{req.paddr == 8'h08;req.pwdata == 32'hffff2222;req.penable == 1'b1;req.pwrite == 1'b1;})
+    end
+  endtask
 endclass

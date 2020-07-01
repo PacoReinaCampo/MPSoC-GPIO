@@ -41,39 +41,27 @@
  *   Francisco Javier Reina Campo <frareicam@gmail.com>
  */
 
-class apb_monitor extends uvm_monitor;  
-  `uvm_component_utils(apb_monitor)
+class apb4_env extends uvm_env;
+  `uvm_component_utils(apb4_env)
 
-  uvm_analysis_port#(apb_transaction) mon_port;
-
-  virtual dutintf vintf;
-
-  apb_transaction apb_trans;
+  apb4_agent agent;
+  apb4_scoreboard scoreboard;
+  apb4_bus_monitor bus_monitor;
 
   function new(string name, uvm_component parent);
-    super.new(name,parent);
-    apb_trans=new();
-    mon_port = new("mon_port", this);
+    super.new(name, parent);
   endfunction
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    if(!uvm_config_db#(virtual dutintf)::get(this, "*", "vintf", vintf)) begin
-      `uvm_error("","failed virtual interface")
-    end
+    agent = apb4_agent::type_id::create("agent",this);
+    scoreboard = apb4_scoreboard::type_id::create("scoreboard",this);
+    bus_monitor = apb4_bus_monitor::type_id::create("bus_monitor", this);
   endfunction
 
-  task run_phase(uvm_phase phase);
-    super.run_phase(phase);
-    begin
-      forever begin
-      @(posedge vintf.clk);
-      apb_trans.paddr= vintf.paddr;
-      apb_trans.pwdata = vintf.pwdata;
-      apb_trans.prdata = vintf.prdata;
-      mon_port.write(apb_trans);
-      `uvm_info("",$sformatf("Agent monitor paddr is %x, pwdata is %x, prdata is %x ", vintf.paddr, vintf.pwdata, vintf.prdata), UVM_LOW);
-      end
-    end
-  endtask
+  function void connect_phase(uvm_phase phase);
+    super.connect_phase(phase);
+    agent.monitor.mon_port.connect(scoreboard.mon_export);
+    bus_monitor.bus_mon_port.connect(scoreboard.sb_export);
+  endfunction
 endclass

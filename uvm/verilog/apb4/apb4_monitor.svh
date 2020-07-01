@@ -41,21 +41,39 @@
  *   Francisco Javier Reina Campo <frareicam@gmail.com>
  */
 
-class apb_write_sequence extends uvm_sequence#(apb_transaction);  
-  `uvm_object_utils(apb_write_sequence)
+class apb4_monitor extends uvm_monitor;  
+  `uvm_component_utils(apb4_monitor)
 
-  function new(string name = "");
-    super.new(name);
+  uvm_analysis_port#(apb4_transaction) mon_port;
+
+  virtual dutintf vintf;
+
+  apb4_transaction apb4_trans;
+
+  function new(string name, uvm_component parent);
+    super.new(name,parent);
+    apb4_trans=new();
+    mon_port = new("mon_port", this);
   endfunction
 
-  task body();
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    if(!uvm_config_db#(virtual dutintf)::get(this, "*", "vintf", vintf)) begin
+      `uvm_error("","failed virtual interface")
+    end
+  endfunction
+
+  task run_phase(uvm_phase phase);
+    super.run_phase(phase);
     begin
-      `uvm_do_with(req,{req.penable == 1'b0;req.pwrite == 1'b1;})
-      `uvm_do_with(req,{req.paddr == 8'h00;req.pwdata == 32'hffffeeee;req.penable == 1'b1;req.pwrite == 1'b1;})
-      `uvm_do_with(req,{req.penable == 1'b0;req.pwrite == 1'b1;})
-      `uvm_do_with(req,{req.paddr == 8'h04;req.pwdata == 32'hffff1111;req.penable == 1'b1;req.pwrite == 1'b1;})
-      `uvm_do_with(req,{req.penable == 1'b0;req.pwrite == 1'b1;})
-      `uvm_do_with(req,{req.paddr == 8'h08;req.pwdata == 32'hffff2222;req.penable == 1'b1;req.pwrite == 1'b1;})
+      forever begin
+      @(posedge vintf.clk);
+      apb4_trans.paddr= vintf.paddr;
+      apb4_trans.pwdata = vintf.pwdata;
+      apb4_trans.prdata = vintf.prdata;
+      mon_port.write(apb4_trans);
+      `uvm_info("",$sformatf("Agent monitor paddr is %x, pwdata is %x, prdata is %x ", vintf.paddr, vintf.pwdata, vintf.prdata), UVM_LOW);
+      end
     end
   endtask
 endclass

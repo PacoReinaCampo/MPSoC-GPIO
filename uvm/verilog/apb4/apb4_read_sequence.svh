@@ -41,41 +41,21 @@
  *   Francisco Javier Reina Campo <frareicam@gmail.com>
  */
 
-`uvm_analysis_imp_decl(_expdata)
-`uvm_analysis_imp_decl(_actdata)
+class apb4_read_sequence extends uvm_sequence#(apb4_transaction);
+  `uvm_object_utils(apb4_read_sequence)
 
-class apb_scoreboard extends uvm_scoreboard;
-  `uvm_component_utils(apb_scoreboard)
-
-  uvm_analysis_imp_expdata#(apb_transaction, apb_scoreboard) mon_export;
-  uvm_analysis_imp_actdata#(apb_transaction, apb_scoreboard) sb_export;
-
-  function new(string name, uvm_component parent);
-    super.new(name, parent);
-    mon_export = new("mon_export", this);
-    sb_export = new("sb_export", this);
+  function new(string name = "");
+    super.new(name);
   endfunction
 
-  function void build_phase(uvm_phase phase);
-    super.build_phase(phase);
-  endfunction
-
-  apb_transaction exp_queue[$];
-
-  function write_actdata(input apb_transaction tr);
-    apb_transaction expdata;
-    if(exp_queue.size()) begin
-      expdata =exp_queue.pop_front();
-      if(tr.compare(expdata))begin
-        `uvm_info("",$sformatf("MATCHED"),UVM_LOW)
-      end
-      else begin
-        `uvm_info("",$sformatf("MISMATCHED"),UVM_LOW)
-      end
+  task body();
+    begin
+      `uvm_do_with(req,{req.pwrite == 1'b0; req.penable == 1'b0;})
+      `uvm_do_with(req,{req.pwrite == 1'b0; req.penable == 1'b1; req.paddr == 8'h00;})
+      `uvm_do_with(req,{req.pwrite == 1'b0; req.penable == 1'b0;})
+      `uvm_do_with(req,{req.pwrite == 1'b0; req.penable == 1'b1; req.paddr == 8'h04;})
+      `uvm_do_with(req,{req.pwrite == 1'b0; req.penable == 1'b0;})
+      `uvm_do_with(req,{req.pwrite == 1'b0; req.penable == 1'b1; req.paddr == 8'h08;})
     end
-  endfunction
-
-  function write_expdata(input apb_transaction tr);
-    exp_queue.push_back(tr);
-  endfunction              
+  endtask
 endclass

@@ -52,30 +52,30 @@ interface dutintf;
   logic [31:0] pwdata;
 endinterface
 
-module apb_slave(dutintf dif);
+module apb4_slave(dutintf dif);
   logic [31:0] mem [256];
-  logic [1:0] apb_st;
+  logic [1:0] apb4_st;
   const logic [1:0] SETUP = 0;
   const logic [1:0] W_ENABLE = 1;
   const logic [1:0] R_ENABLE = 2;
   // SETUP -> ENABLE
   always @(negedge dif.rst_n or posedge dif.clk) begin
     if (dif.rst_n == 0) begin
-      apb_st <= 0;
+      apb4_st <= 0;
       dif.prdata <= 0;
     end
     else begin
-      case (apb_st)
+      case (apb4_st)
         SETUP : begin
           // clear the prdata
           dif.prdata <= 0;
           // Move to ENABLE when the psel is asserted
           if (dif.psel && !dif.penable) begin
             if (dif.pwrite) begin
-              apb_st <= W_ENABLE;
+              apb4_st <= W_ENABLE;
             end
             else begin
-              apb_st <= R_ENABLE;
+              apb4_st <= R_ENABLE;
             end
           end
         end
@@ -85,7 +85,7 @@ module apb_slave(dutintf dif);
             mem[dif.paddr] <= dif.pwdata;
           end
           // return to SETUP
-          apb_st <= SETUP;
+          apb4_st <= SETUP;
         end
         R_ENABLE : begin
           // read prdata from memory
@@ -93,7 +93,7 @@ module apb_slave(dutintf dif);
             dif.prdata <= mem[dif.paddr];
           end
           // return to SETUP
-          apb_st <= SETUP;
+          apb4_st <= SETUP;
         end
       endcase
     end

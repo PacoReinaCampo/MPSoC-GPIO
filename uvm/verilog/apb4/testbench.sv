@@ -42,21 +42,22 @@
  */
 
 `include "uvm_macros.svh"
+
 module top;
  import uvm_pkg::*;
-  `include "apb_transaction.svh"
-  `include "apb_sequence.svh"
-  `include "apb_monitor.svh"
-  `include "apb_driver.svh"
-  `include "apb_agent.svh"
-  `include "apb_bus_monitor.svh"  
-  `include "apb_scoreboard.svh"
-  `include "apb_env.svh"
-  `include "apb_test.svh"
+  `include "apb4_transaction.svh"
+  `include "apb4_sequence.svh"
+  `include "apb4_monitor.svh"
+  `include "apb4_driver.svh"
+  `include "apb4_agent.svh"
+  `include "apb4_bus_monitor.svh"  
+  `include "apb4_scoreboard.svh"
+  `include "apb4_env.svh"
+  `include "apb4_test.svh"
 
   dutintf intf();
 
-  apb_slave dut(.dif(intf));
+  apb4_slave dut(.dif(intf));
 
   initial begin
     intf.clk =0;
@@ -66,7 +67,7 @@ module top;
 
   initial begin
     uvm_config_db#(virtual dutintf)::set(null,"*","vintf", intf);
-    run_test("apb_test");
+    run_test("apb4_test");
   end
 
   initial begin

@@ -41,37 +41,40 @@
  *   Francisco Javier Reina Campo <frareicam@gmail.com>
  */
 
-class apb_bus_monitor extends uvm_monitor;
-  `uvm_component_utils(apb_bus_monitor)
+class apb4_driver extends uvm_driver#(apb4_transaction);
+  `uvm_component_utils(apb4_driver)
 
-   virtual dutintf vintf;
+  virtual dutintf vintf;
 
-   apb_transaction apb_trans;
-
-  uvm_analysis_port#(apb_transaction) bus_mon_port;
-
+  apb4_transaction apb4_trans;
   function new(string name, uvm_component parent);
-    super.new(name,parent);
-    apb_trans = new();
-    bus_mon_port=new("bus_mon_port",this);
+    super.new(name, parent);
+    apb4_trans = new();
   endfunction
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    if(!uvm_config_db#(virtual dutintf)::get(this, "*", "vintf", vintf))begin
-      `uvm_error("","bus monitor interface failed")
+    if(!uvm_config_db#(virtual dutintf)::get(this, "*", "vintf", vintf)) begin
+      `uvm_error("","driver virtual interface failed")
     end
   endfunction
 
   virtual task run_phase(uvm_phase phase);
     super.run_phase(phase);
-    forever begin
+    vintf.rst_n = 0;
+    #5;
     @(posedge vintf.clk);
-    apb_trans.paddr = vintf.paddr;
-    apb_trans.pwdata = vintf.pwdata;
-    apb_trans.prdata = vintf.prdata;
-    bus_mon_port.write(apb_trans);
-    `uvm_info("",$sformatf("Bus MOnitor Paddr %x, pwdata %x, prdata %x", vintf.paddr, vintf.pwdata, vintf.prdata), UVM_LOW)
+    vintf.rst_n = 1;
+    forever begin
+    seq_item_port.get_next_item(req);
+    vintf.paddr = req.paddr;
+    vintf.pwrite = req.pwrite;
+    vintf.psel = req.psel;
+    vintf.pwdata = req.pwdata;
+    vintf.penable = req.penable;
+    //`uvm_info("",$sformatf("paddr is %x, pwdata is %x, psel is %x, penable is %x, pwrite is %x", vintf.paddr, vintf.pwdata, vintf.psel, vintf.penable, vintf.pwrite), UVM_LOW)
+    @(posedge vintf.clk);
+    seq_item_port.item_done();
     end
   endtask
 endclass

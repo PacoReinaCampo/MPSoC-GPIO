@@ -41,12 +41,12 @@
  *   Francisco Javier Reina Campo <frareicam@gmail.com>
  */
 
-class apb_env extends uvm_env;
-  `uvm_component_utils(apb_env)
+class apb4_agent extends uvm_agent;
+  `uvm_component_utils(apb4_agent)
 
-  apb_agent agent;
-  apb_scoreboard scoreboard;
-  apb_bus_monitor bus_monitor;
+   apb4_monitor monitor;
+   apb4_driver driver;
+   uvm_sequencer#(apb4_transaction) sequencer;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -54,14 +54,17 @@ class apb_env extends uvm_env;
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    agent = apb_agent::type_id::create("agent",this);
-    scoreboard = apb_scoreboard::type_id::create("scoreboard",this);
-    bus_monitor = apb_bus_monitor::type_id::create("bus_monitor", this);
+    if(get_is_active == UVM_ACTIVE) begin
+      driver = apb4_driver::type_id::create("driver",this);
+      sequencer = uvm_sequencer#(apb4_transaction)::type_id::create("sequencer", this);
+    end
+    monitor = apb4_monitor::type_id::create("monitor",this);
   endfunction
 
   function void connect_phase(uvm_phase phase);
-    super.connect_phase(phase);
-    agent.monitor.mon_port.connect(scoreboard.mon_export);
-    bus_monitor.bus_mon_port.connect(scoreboard.sb_export);
+    super.build_phase(phase);
+    if(get_is_active == UVM_ACTIVE) begin
+      driver.seq_item_port.connect(sequencer.seq_item_export);
+    end
   endfunction
 endclass

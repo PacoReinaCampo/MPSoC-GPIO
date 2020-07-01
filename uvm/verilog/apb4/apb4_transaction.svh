@@ -41,26 +41,19 @@
  *   Francisco Javier Reina Campo <frareicam@gmail.com>
  */
 
-`include "apb_write_sequence.svh"
-`include "apb_read_sequence.svh"
-
-class apb_sequence extends uvm_sequence#(apb_transaction);
-  `uvm_object_utils(apb_sequence)
+class apb4_transaction extends uvm_sequence_item;
+  `uvm_object_utils(apb4_transaction)
+  rand bit [7:0]paddr;
+  rand bit pwrite;
+  rand bit [31:0] pwdata;
+  rand bit [31:0] prdata;
+  rand bit psel;
+  rand bit penable;
+  constraint c1{paddr[1:0] ==2'b00;};
+  //constraint c2{$countones(pwdata) inside {15,25,16,21};};
+  constraint c3 {psel == 1'b1;};
 
   function new(string name = "");
     super.new(name);
   endfunction
-
-  task body();
-    apb_write_sequence write;
-    apb_read_sequence read;
-    begin
-      repeat (8) begin
-      `uvm_do(write)
-      end
-      repeat (8) begin
-      `uvm_do(read)
-      end
-    end
-  endtask
 endclass
