@@ -41,36 +41,61 @@
  *   Francisco Javier Reina Campo <frareicam@gmail.com>
  */
 
-`include "uvm_macros.svh"
+interface dutintf;
+  logic clk;
+  logic rst_n;
+  logic [7:0] paddr;
+  logic pwrite;
+  logic penable;
+  logic psel;
+  logic [31:0] prdata;
+  logic [31:0] pwdata;
+endinterface
 
-module top;
- import uvm_pkg::*;
-  `include "apb4_transaction.svh"
-  `include "apb4_sequence.svh"
-  `include "apb4_monitor.svh"
-  `include "apb4_driver.svh"
-  `include "apb4_agent.svh"
-  `include "apb4_bus_monitor.svh"  
-  `include "apb4_scoreboard.svh"
-  `include "apb4_env.svh"
-  `include "apb4_test.svh"
-
-  dutintf intf();
-
-  apb4_slave dut(.dif(intf));
-
-  initial begin
-    intf.clk = 0;
-    forever 
-      #5 intf.clk = ~intf.clk;
-  end
-
-  initial begin
-    uvm_config_db#(virtual dutintf)::set(null,"*","vintf", intf);
-    run_test("apb4_test");
-  end
-
-  initial begin
-     $dumpvars(0, top);
+module ahb3_slave(dutintf dif);
+  logic [31:0] mem [256];
+  logic [1:0] ahb3_st;
+  const logic [1:0] SETUP = 0;
+  const logic [1:0] W_ENABLE = 1;
+  const logic [1:0] R_ENABLE = 2;
+  // SETUP -> ENABLE
+  always @(negedge dif.rst_n or posedge dif.clk) begin
+    if (dif.rst_n == 0) begin
+      ahb3_st <= 0;
+      dif.prdata <= 0;
+    end
+    else begin
+      case (ahb3_st)
+        SETUP : begin
+          // clear the prdata
+          dif.prdata <= 0;
+          // Move to ENABLE when the psel is asserted
+          if (dif.psel && !dif.penable) begin
+            if (dif.pwrite) begin
+              ahb3_st <= W_ENABLE;
+            end
+            else begin
+              ahb3_st <= R_ENABLE;
+            end
+          end
+        end
+        W_ENABLE : begin
+          // write pwdata to memory
+          if (dif.psel && dif.penable && dif.pwrite) begin
+            mem[dif.paddr] <= dif.pwdata;
+          end
+          // return to SETUP
+          ahb3_st <= SETUP;
+        end
+        R_ENABLE : begin
+          // read prdata from memory
+          if (dif.psel && dif.penable && !dif.pwrite) begin
+            dif.prdata <= mem[dif.paddr];
+          end
+          // return to SETUP
+          ahb3_st <= SETUP;
+        end
+      endcase
+    end
   end
 endmodule

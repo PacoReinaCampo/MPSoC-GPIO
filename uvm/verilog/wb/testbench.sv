@@ -60,7 +60,7 @@ module top;
   wb_slave dut(.dif(intf));
 
   initial begin
-    intf.clk =0;
+    intf.clk = 0;
     forever 
       #5 intf.clk = ~intf.clk;
   end

@@ -45,19 +45,19 @@
 
 module top;
  import uvm_pkg::*;
-  `include "apb4_transaction.svh"
-  `include "apb4_sequence.svh"
-  `include "apb4_monitor.svh"
-  `include "apb4_driver.svh"
-  `include "apb4_agent.svh"
-  `include "apb4_bus_monitor.svh"  
-  `include "apb4_scoreboard.svh"
-  `include "apb4_env.svh"
-  `include "apb4_test.svh"
+  `include "ahb3_transaction.svh"
+  `include "ahb3_sequence.svh"
+  `include "ahb3_monitor.svh"
+  `include "ahb3_driver.svh"
+  `include "ahb3_agent.svh"
+  `include "ahb3_bus_monitor.svh"  
+  `include "ahb3_scoreboard.svh"
+  `include "ahb3_env.svh"
+  `include "ahb3_test.svh"
 
   dutintf intf();
 
-  apb4_slave dut(.dif(intf));
+  ahb3_slave dut(.dif(intf));
 
   initial begin
     intf.clk = 0;
@@ -67,7 +67,7 @@ module top;
 
   initial begin
     uvm_config_db#(virtual dutintf)::set(null,"*","vintf", intf);
-    run_test("apb4_test");
+    run_test("ahb3_test");
   end
 
   initial begin
