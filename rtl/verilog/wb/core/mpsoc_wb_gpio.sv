@@ -37,6 +37,7 @@
  *
  * =============================================================================
  * Author(s):
+ *   Damjan Lampret <lampret@opencores.org>
  *   Francisco Javier Reina Campo <frareicam@gmail.com>
  */
 
