@@ -328,9 +328,9 @@ A General Purpose Input Output (GPIO) is an uncommitted digital signal pin on an
 | --------------- | ----------------------------------------- |
 | `mpsoc_wb_gpio` | General Purpose Input Output for WishBone |
 
-#### 2.1.1.1. Organization
+#### 2.1.1.1. Structure
 
-#### 2.1.1.2. Pipeline
+#### 2.1.1.2. Behavior
 
 ### 2.1.2. Interface
 
@@ -346,9 +346,9 @@ A General Purpose Input Output (GPIO) is an uncommitted digital signal pin on an
 
 ### 2.2.1. Functionality
 
-#### 2.2.1.1. Organization
+#### 2.2.1.1. Structure
 
-#### 2.2.1.2. Pipeline
+#### 2.2.1.2. Behavior
 
 ### 2.2.2. Interface
 
@@ -364,9 +364,9 @@ A General Purpose Input Output (GPIO) is an uncommitted digital signal pin on an
 
 ### 2.3.1. Functionality
 
-#### 2.3.1.1. Organization
+#### 2.3.1.1. Structure
 
-#### 2.3.1.2. Pipeline
+#### 2.3.1.2. Behavior
 
 ### 2.3.2. Interface
 
