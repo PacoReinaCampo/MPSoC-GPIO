@@ -1,5 +1,0 @@
-#read_verilog -I rtl/verilog/ahb3/pkg -sv rtl/verilog/gpio/mpsoc_ahb3_peripheral_bridge.sv
-#read_verilog -I rtl/verilog/wb/pkg -sv rtl/verilog/gpio/mpsoc_wb_peripheral_bridge.sv
-#read_verilog -I rtl/verilog/core/pkg -sv rtl/verilog/gpio/mpsoc_gpio.sv
-
-#read_verilog -I rtl/verilog/pkg -sv bench/verilog/regression/mpsoc_msi_testbench.sv
