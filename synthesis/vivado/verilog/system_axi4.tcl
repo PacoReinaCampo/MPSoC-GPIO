@@ -42,21 +42,18 @@
 ##                                                                               ##
 ###################################################################################
 
-implementation_axi4:
-	vivado -nojournal -log system_axi4.log -mode batch -source system_axi4.tcl
-	rm -rf .Xil usage_statistics_webtalk.*
+read_verilog -sv ../../../rtl/verilog/axi4/mpsoc_axi4_spram.sv
 
-implementation_ahb3:
-	vivado -nojournal -log system_ahb3.log -mode batch -source system_ahb3.tcl
-	rm -rf .Xil usage_statistics_webtalk.*
+read_xdc system_axi4.xdc
 
-implementation_wb:
-	vivado -nojournal -log system_wb.log -mode batch -source system_wb.tcl
-	rm -rf .Xil usage_statistics_webtalk.*
+synth_design -part xc7z020-clg484-1 -top mpsoc_axi4_spram
 
-implementation_bb:
-	vivado -nojournal -log system_bb.log -mode batch -source system_bb.tcl
-	rm -rf .Xil usage_statistics_webtalk.*
+opt_design
+place_design
+route_design
 
-clean:
-	rm -rf .Xil/ *.log *.v *.bit
+report_utilization
+report_timing
+
+write_verilog -force system_axi4.v
+write_bitstream -force system_axi4.bit

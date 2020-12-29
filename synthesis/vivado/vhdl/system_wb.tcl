@@ -42,21 +42,21 @@
 ##                                                                               ##
 ###################################################################################
 
-implementation_axi4:
-	vivado -nojournal -log system_axi4.log -mode batch -source system_axi4.tcl
-	rm -rf .Xil usage_statistics_webtalk.*
+read_vhdl -vhdl2008 ../../../rtl/vhdl/wb/core/mpsoc_wb_ram_generic.vhd
+read_vhdl -vhdl2008 ../../../rtl/vhdl/wb/core/mpsoc_wb_spram.vhd
 
-implementation_ahb3:
-	vivado -nojournal -log system_ahb3.log -mode batch -source system_ahb3.tcl
-	rm -rf .Xil usage_statistics_webtalk.*
+read_vhdl -vhdl2008 ../../../rtl/vhdl/wb/pkg/mpsoc_spram_wb_pkg.vhd
 
-implementation_wb:
-	vivado -nojournal -log system_wb.log -mode batch -source system_wb.tcl
-	rm -rf .Xil usage_statistics_webtalk.*
+read_xdc system_wb.xdc
 
-implementation_bb:
-	vivado -nojournal -log system_bb.log -mode batch -source system_bb.tcl
-	rm -rf .Xil usage_statistics_webtalk.*
+synth_design -part xc7z020-clg484-1 -top mpsoc_wb_spram
 
-clean:
-	rm -rf .Xil/ *.log *.v *.bit
+opt_design
+place_design
+route_design
+
+report_utilization
+report_timing
+
+write_vhdl -force system_wb.vhd
+write_bitstream -force system_wb.bit

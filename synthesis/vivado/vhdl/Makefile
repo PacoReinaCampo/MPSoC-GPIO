@@ -43,20 +43,20 @@
 ###################################################################################
 
 implementation_axi4:
-	vivado -nojournal -log system_axi4.log -mode batch -source system_axi4.tcl
+	$(VIVADO) -nojournal -log system_axi4.log -mode batch -source system_axi4.tcl
 	rm -rf .Xil usage_statistics_webtalk.*
 
 implementation_ahb3:
-	vivado -nojournal -log system_ahb3.log -mode batch -source system_ahb3.tcl
+	$(VIVADO) -nojournal -log system_ahb3.log -mode batch -source system_ahb3.tcl
 	rm -rf .Xil usage_statistics_webtalk.*
 
 implementation_wb:
-	vivado -nojournal -log system_wb.log -mode batch -source system_wb.tcl
+	$(VIVADO) -nojournal -log system_wb.log -mode batch -source system_wb.tcl
 	rm -rf .Xil usage_statistics_webtalk.*
 
 implementation_bb:
-	vivado -nojournal -log system_bb.log -mode batch -source system_bb.tcl
+	$(VIVADO) -nojournal -log system_bb.log -mode batch -source system_bb.tcl
 	rm -rf .Xil usage_statistics_webtalk.*
 
 clean:
-	rm -rf .Xil/ *.log *.v *.bit
+	rm -rf .Xil/ *.log *.vhd *.bit
