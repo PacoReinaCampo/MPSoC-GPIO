@@ -122,12 +122,12 @@ architecture RTL of mpsoc_apb_gpio is
   -- Is this a valid write to address 0x...?
   -- Take 'address' as an argument
   function is_write_to_adr (
-    PSEL    : std_logic;
-    PENABLE : std_logic;
-    PWRITE  : std_logic;
-    PADDR   : std_logic_vector(PADDR_SIZE-1 downto 0);
-    bits    : integer;
-    address : std_logic_vector(PADDR_SIZE-1 downto 0)
+    PSEL_S    : std_logic;
+    PENABLE_S : std_logic;
+    PWRITE_S  : std_logic;
+    PADDR_S   : std_logic_vector(PADDR_SIZE-1 downto 0);
+    bits      : integer;
+    address   : std_logic_vector(PADDR_SIZE-1 downto 0)
 
     ) return std_logic is
     variable is_write : std_logic;
@@ -136,23 +136,23 @@ architecture RTL of mpsoc_apb_gpio is
     variable is_write_to_adr_return : std_logic;
   begin
     --only 'bits' LSBs should be '1'
-    is_write := PSEL and PENABLE and PWRITE;
+    is_write := PSEL_S and PENABLE_S and PWRITE_S;
     mask := std_logic_vector(to_unsigned(2**bits-1, PADDR_SIZE));
-    is_write_to_adr_return := is_write and to_stdlogic((PADDR and mask) = (address and mask));
+    is_write_to_adr_return := is_write and to_stdlogic((PADDR_S and mask) = (address and mask));
     return is_write_to_adr_return;
   end function is_write_to_adr;
 
   -- What data is written?
   -- Handles PSTRB, takes previous register/data value as an argument
   function get_write_value (
-    PSTRB    : std_logic;
-    PWDATA   : std_logic_vector(PDATA_SIZE-1 downto 0);
+    PSTRB_S  : std_logic;
+    PWDATA_S : std_logic_vector(PDATA_SIZE-1 downto 0);
     orig_val : std_logic_vector(PDATA_SIZE-1 downto 0)
     ) return std_logic_vector is
     variable get_write_value_return : std_logic_vector (PDATA_SIZE-1 downto 0);
   begin
-    if (PSTRB = '1') then
-      get_write_value_return := PWDATA;
+    if (PSTRB_S = '1') then
+      get_write_value_return := PWDATA_S;
     else
       get_write_value_return := orig_val;
     end if;
