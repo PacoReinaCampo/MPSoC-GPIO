@@ -98,14 +98,14 @@ module mpsoc_gpio_testbench;
   //
 
   //DUT AHB3
-  mpsoc_ahb3_peripheral_bridge #(
+  mpsoc_apb42ahb3 #(
     .HADDR_SIZE ( HADDR_SIZE ) ,
     .HDATA_SIZE ( HDATA_SIZE ),
     .PADDR_SIZE ( PADDR_SIZE ),
     .PDATA_SIZE ( PDATA_SIZE ),
     .SYNC_DEPTH ( SYNC_DEPTH )
   )
-  gpio_ahb3_bridge (
+  apb42ahb3 (
     //AHB Slave Interface
     .HRESETn   ( HRESETn ),
     .HCLK      ( HCLK    ),
@@ -140,7 +140,7 @@ module mpsoc_gpio_testbench;
     .PSLVERR ( gpio_PSLVERR )
   );
 
-  mpsoc_apb_gpio #(
+  mpsoc_apb4_gpio #(
     .PADDR_SIZE ( PADDR_SIZE ),
     .PDATA_SIZE ( PDATA_SIZE )
   )

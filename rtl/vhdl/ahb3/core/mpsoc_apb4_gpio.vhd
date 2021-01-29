@@ -1,4 +1,4 @@
--- Converted from verilog/mpsoc_apb_gpio/mpsoc_apb_gpio.sv
+-- Converted from verilog/mpsoc_apb4_gpio/mpsoc_apb4_gpio.sv
 -- by verilog2vhdl - QueenField
 
 --//////////////////////////////////////////////////////////////////////////////
@@ -47,7 +47,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity mpsoc_apb_gpio is
+entity mpsoc_apb4_gpio is
   generic (
     PADDR_SIZE : integer := 64;
     PDATA_SIZE : integer := 64
@@ -70,9 +70,9 @@ entity mpsoc_apb_gpio is
     gpio_o  : out std_logic_vector(PDATA_SIZE-1 downto 0);
     gpio_oe : out std_logic_vector(PDATA_SIZE-1 downto 0)
   );
-end mpsoc_apb_gpio;
+end mpsoc_apb4_gpio;
 
-architecture RTL of mpsoc_apb_gpio is
+architecture RTL of mpsoc_apb4_gpio is
   --////////////////////////////////////////////////////////////////
   --
   -- Constants

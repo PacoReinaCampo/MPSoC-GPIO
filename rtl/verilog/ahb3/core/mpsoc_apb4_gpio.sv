@@ -11,7 +11,7 @@
 //                                                                            //
 //              MPSoC-RISCV CPU                                               //
 //              General Purpose Input Output                                  //
-//              AMBA3 APB-Lite Bus Interface                                  //
+//              AMBA4 APB-Lite Bus Interface                                  //
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -40,7 +40,7 @@
  *   Paco Reina Campo <pacoreinacampo@queenfield.tech>
  */
 
-module mpsoc_apb_gpio #(
+module mpsoc_apb4_gpio #(
   parameter PADDR_SIZE = 64,
   parameter PDATA_SIZE = 64
 )

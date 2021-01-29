@@ -2,8 +2,8 @@ all: build simulate
 
 build:
 	ghdl -a --std=08 ../../../../../../rtl/vhdl/ahb3/pkg/mpsoc_gpio_ahb3_pkg.vhd
-	ghdl -a --std=08 ../../../../../../rtl/vhdl/ahb3/core/mpsoc_ahb3_peripheral_bridge.vhd
-	ghdl -a --std=08 ../../../../../../rtl/vhdl/ahb3/core/mpsoc_apb_gpio.vhd
+	ghdl -a --std=08 ../../../../../../rtl/vhdl/ahb3/core/mpsoc_apb42ahb3.vhd
+	ghdl -a --std=08 ../../../../../../rtl/vhdl/ahb3/core/mpsoc_apb4_gpio.vhd
 	ghdl -a --std=08 ../../../../../../bench/vhdl/tests/core/ahb3/mpsoc_gpio_testbench.vhd
 
 simulate:

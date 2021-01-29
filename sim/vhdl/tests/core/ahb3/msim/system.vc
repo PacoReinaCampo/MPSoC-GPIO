@@ -1,6 +1,6 @@
 ../../../../../../rtl/vhdl/ahb3/pkg/mpsoc_gpio_ahb3_pkg.vhd
 
-../../../../../../rtl/vhdl/ahb3/core/mpsoc_ahb3_peripheral_bridge.vhd
-../../../../../../rtl/vhdl/ahb3/core/mpsoc_apb_gpio.vhd
+../../../../../../rtl/vhdl/ahb3/core/mpsoc_apb42ahb3.vhd
+../../../../../../rtl/vhdl/ahb3/core/mpsoc_apb4_gpio.vhd
 
 ../../../../../../bench/vhdl/tests/core/ahb3/mpsoc_gpio_testbench.vhd

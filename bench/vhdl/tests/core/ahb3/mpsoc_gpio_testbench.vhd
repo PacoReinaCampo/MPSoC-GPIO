@@ -105,7 +105,7 @@ architecture RTL of mpsoc_gpio_testbench is
   --
   -- Components
   --
-  component mpsoc_ahb3_peripheral_bridge
+  component mpsoc_apb42ahb3
     generic (
       HADDR_SIZE : integer := 32;
       HDATA_SIZE : integer := 32;
@@ -147,7 +147,7 @@ architecture RTL of mpsoc_gpio_testbench is
       );
   end component;
 
-  component mpsoc_apb_gpio
+  component mpsoc_apb4_gpio
     generic (
       PADDR_SIZE : integer := 64;
       PDATA_SIZE : integer := 64
@@ -180,7 +180,7 @@ begin
   --
 
   --DUT AHB3
-  gpio_ahb3_bridge : mpsoc_ahb3_peripheral_bridge
+  apb42ahb3 : mpsoc_apb42ahb3
     generic map (
       HADDR_SIZE => HADDR_SIZE,
       HDATA_SIZE => HDATA_SIZE,
@@ -223,7 +223,7 @@ begin
       PSLVERR => gpio_PSLVERR
       );
 
-  gpio : mpsoc_apb_gpio
+  gpio : mpsoc_apb4_gpio
     generic map (
       PADDR_SIZE => PADDR_SIZE,
       PDATA_SIZE => PDATA_SIZE

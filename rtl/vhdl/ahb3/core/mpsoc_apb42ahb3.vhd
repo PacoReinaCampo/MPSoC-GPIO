@@ -1,4 +1,4 @@
--- Converted from verilog/mpsoc_gpio/mpsoc_ahb3_peripheral_bridge.sv
+-- Converted from verilog/mpsoc_gpio/mpsoc_apb42ahb3.sv
 -- by verilog2vhdl - QueenField
 
 --//////////////////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ use ieee.numeric_std.all;
 
 use work.mpsoc_gpio_ahb3_pkg.all;
 
-entity mpsoc_ahb3_peripheral_bridge is
+entity mpsoc_apb42ahb3 is
   generic (
     HADDR_SIZE : integer := 32;
     HDATA_SIZE : integer := 32;
@@ -89,9 +89,9 @@ entity mpsoc_ahb3_peripheral_bridge is
     PREADY        : in  std_logic;
     PSLVERR       : in  std_logic
   );
-end mpsoc_ahb3_peripheral_bridge;
+end mpsoc_apb42ahb3;
 
-architecture RTL of mpsoc_ahb3_peripheral_bridge is
+architecture RTL of mpsoc_apb42ahb3 is
   --////////////////////////////////////////////////////////////////
   --
   -- Constants
@@ -122,7 +122,7 @@ architecture RTL of mpsoc_ahb3_peripheral_bridge is
   --
 
   signal ahb_treq      : std_logic;  --transfer request from AHB Statemachine
-  signal treq_toggle   : std_logic;    --toggle-signal-version
+  signal treq_toggle   : std_logic;  --toggle-signal-version
   signal treq_sync     : std_logic_vector(SYNC_DEPTH_CHK-1 downto 0);  --synchronized transfer request
   signal apb_treq_strb : std_logic;  --transfer request strobe to APB Statemachine
 
