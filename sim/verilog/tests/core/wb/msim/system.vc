@@ -1,12 +1,10 @@
-../../../../../rtl/verilog/wb/core/mpsoc_wb_gpio.sv
+../../../../../../rtl/verilog/wb/core/mpsoc_wb_gpio.sv
 
-../../../../../bench/verilog/tests/wb/bfm/mpsoc_msi_wb_bfm_master.sv
-../../../../../bench/verilog/tests/wb/bfm/mpsoc_msi_wb_bfm_memory.sv
-../../../../../bench/verilog/tests/wb/bfm/mpsoc_msi_wb_bfm_slave.sv
-../../../../../bench/verilog/tests/wb/bfm/mpsoc_msi_wb_bfm_transactor.sv
-../../../../../bench/verilog/tests/wb/mpsoc_gpio_testbench.sv
-../../../../../bench/verilog/tests/wb/vlog_tap_generator.sv
-../../../../../bench/verilog/tests/wb/vlog_tb_utils.sv
-../../../../../bench/verilog/tests/wb/wb_gpio_tb.sv
-
-
+../../../../../../bench/verilog/tests/core/wb/bus/mpsoc_msi_wb_bfm_master.sv
+../../../../../../bench/verilog/tests/core/wb/bus/mpsoc_msi_wb_bfm_memory.sv
+../../../../../../bench/verilog/tests/core/wb/bus/mpsoc_msi_wb_bfm_slave.sv
+../../../../../../bench/verilog/tests/core/wb/bus/mpsoc_msi_wb_bfm_transactor.sv
+../../../../../../bench/verilog/tests/core/wb/main/mpsoc_gpio_testbench.sv
+../../../../../../bench/verilog/tests/core/wb/main/vlog_tap_generator.sv
+../../../../../../bench/verilog/tests/core/wb/main/vlog_tb_utils.sv
+../../../../../../bench/verilog/tests/core/wb/main/wb_gpio_tb.sv

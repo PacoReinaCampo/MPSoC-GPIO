@@ -8,5 +8,3 @@
 ../../../../../../bench/verilog/tests/core/wb/main/vlog_tap_generator.sv
 ../../../../../../bench/verilog/tests/core/wb/main/vlog_tb_utils.sv
 ../../../../../../bench/verilog/tests/core/wb/main/wb_gpio_tb.sv
-
-

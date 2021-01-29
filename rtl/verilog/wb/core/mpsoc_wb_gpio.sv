@@ -210,7 +210,7 @@ module mpsoc_wb_gpio #(
   wire [GPIO_WIDTH-1:0]  rgpio_nec;  // No register
   `endif
 
-  wire [GPIO_WIDTH-1:0]  ext_pad_s;
+  reg  [GPIO_WIDTH-1:0]  ext_pad_s;
 
   // Internal wires & regs
   wire                      rgpio_out_sel;   // RGPIO_OUT select
@@ -240,7 +240,7 @@ module mpsoc_wb_gpio #(
   reg   [GPIO_WIDTH-1:0]  ext_pad_sync;
 
   // GPIO Outputs
-  wire  [GPIO_WIDTH-1:0]  ext_pad_g;
+  reg   [GPIO_WIDTH-1:0]  ext_pad_g;
 
   //////////////////////////////////////////////////////////////////
   //

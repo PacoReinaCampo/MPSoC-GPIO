@@ -116,20 +116,20 @@ module wb_gpio_tb;
   )
   dut (
     // WISHBONE Interface
-    .wb_clk_i (wb_clk),   // Clock
-    .wb_rst_i (wb_rst),   // Reset
+    .wb_clk_i (wb_clk),  // Clock
+    .wb_rst_i (wb_rst),  // Reset
 
-    .wb_cyc_i (wb_cyc),   // cycle valid input
-    .wb_adr_i (wb_adr[$clog2(MEMORY_SIZE)-1:0]),   // address bus inputs
-    .wb_dat_i (wb_sel),   // input data bus
-    .wb_sel_i (wb_sel),   // byte select inputs
+    .wb_cyc_i (wb_cyc),  // cycle valid input
+    .wb_adr_i (wb_adr),  // address bus inputs
+    .wb_dat_i (wb_dat),  // input data bus
+    .wb_sel_i (wb_sel),  // byte select inputs
     .wb_we_i  (wb_we),   // indicates write transfer
-    .wb_stb_i (wb_stb),   // strobe input
-    .wb_dat_o (wb_rdt),   // output data bus
-    .wb_ack_o (wb_ack),   // normal termination
-    .wb_err_o (),   // termination w/ error
+    .wb_stb_i (wb_stb),  // strobe input
+    .wb_dat_o (wb_rdt),  // output data bus
+    .wb_ack_o (wb_ack),  // normal termination
+    .wb_err_o (),        // termination w/ error
 
-    .wb_inta_o (),  // Interrupt request output
+    .wb_inta_o (),       // Interrupt request output
 
     // Auxiliary Inputs Interface
     .aux_i (),  // Auxiliary inputs
@@ -138,6 +138,6 @@ module wb_gpio_tb;
     .ext_pad_i (),  // GPIO Inputs
 
     .ext_pad_o   (),  // GPIO Outputs
-    .ext_padoe_o ()  // GPIO output drivers enables
+    .ext_padoe_o ()   // GPIO output drivers enables
   ); 
 endmodule
