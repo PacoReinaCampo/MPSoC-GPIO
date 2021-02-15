@@ -1,3 +1,5 @@
++incdir+../../../../../../rtl/verilog/ahb3/pkg
+
 ../../../../../../rtl/verilog/ahb3/core/mpsoc_apb42ahb3.sv
 ../../../../../../rtl/verilog/ahb3/core/mpsoc_apb4_gpio.sv
 

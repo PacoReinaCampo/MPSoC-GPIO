@@ -1,3 +1,5 @@
++incdir+../../../../../../rtl/verilog/wb/pkg
+
 ../../../../../../rtl/verilog/wb/core/mpsoc_wb_gpio.sv
 
 ../../../../../../bench/verilog/tests/core/wb/bus/mpsoc_msi_wb_bfm_master.sv
