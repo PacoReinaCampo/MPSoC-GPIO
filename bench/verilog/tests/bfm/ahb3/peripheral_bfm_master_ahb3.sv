@@ -40,6 +40,8 @@
  *   Paco Reina Campo <pacoreinacampo@queenfield.tech>
  */
 
+import peripheral_ahb3_pkg::*;
+
 module ahb3lite_master_bfm #(
   parameter HADDR_SIZE = 16,
   parameter HDATA_SIZE = 32
@@ -65,18 +67,16 @@ module ahb3lite_master_bfm #(
 
   always @(negedge HRESETn) reset();
 
-
   //////////////////////////////////////////////////////////////////
   //
   // Constants
   //
-  import ahb3lite_pkg::*;
 
-
-  /////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////
   //
   // Tasks
   //
+
   task reset();
     //Reset AHB Bus
     HSEL      = 1'b0;
@@ -92,7 +92,6 @@ module ahb3lite_master_bfm #(
     @(posedge HRESETn);
   endtask
 
-
   task idle ();
     //Put AHB Bus in IDLE state
     //Call after write or read sequence
@@ -100,7 +99,6 @@ module ahb3lite_master_bfm #(
     HSEL      <= 1'b0;
     HTRANS    <= HTRANS_IDLE;
   endtask
-
 
   task automatic write (
     input     [HADDR_SIZE-1:0] address,
@@ -119,7 +117,6 @@ module ahb3lite_master_bfm #(
     join_any
   endtask
 
-
   task automatic read (
     input [HADDR_SIZE-1:0] address,
     ref   [HDATA_SIZE-1:0] data[],
@@ -137,17 +134,16 @@ module ahb3lite_master_bfm #(
     join_any
   endtask
 
+  //////////////////////////////////////////////////////////////////
+  //
+  // Tasks
+  //
 
-  /////////////////////////////////////////////////////////
-  //
-  // Sub-Tasks
-  //
   task wait4hready;
     do
       @(posedge HCLK);
     while (!HREADY);
   endtask : wait4hready
-
 
   task automatic ahb_cmd (
     input [HADDR_SIZE-1:0] addr,
@@ -166,14 +162,12 @@ module ahb3lite_master_bfm #(
     HTRANS    <= HTRANS_NONSEQ;
     HMASTLOCK <= 1'b0;
 
-    repeat (beats -1)
-      begin
-        wait4hready();
-        HADDR  <= next_address(size,burst);
-        HTRANS <= HTRANS_SEQ;
-      end
+    repeat (beats-1) begin
+      wait4hready();
+      HADDR  <= next_address(size,burst);
+      HTRANS <= HTRANS_SEQ;
+    end
   endtask : ahb_cmd
-
 
   task automatic ahb_data (
     input [HADDR_SIZE-1:0] address,
@@ -187,19 +181,17 @@ module ahb3lite_master_bfm #(
     logic [HDATA_SIZE       -1:0] data_copy[],
     tmp_var;
 
-    if (!rw)
-      begin
-        HWDATA <= 'hx;
+    if (!rw) begin
+      HWDATA <= 'hx;
 
-        //extra cycle for reading
-        //read at the end of the cycle
-        wait4hready();
-      end
-    else
-      begin
-        //copy data, prevent it being overwritten by caller
-        data_copy = data;
-      end
+      //extra cycle for reading
+      //read at the end of the cycle
+      wait4hready();
+    end
+    else begin
+      //copy data, prevent it being overwritten by caller
+      data_copy = data;
+    end
 
     wait4hready();
 
@@ -207,43 +199,41 @@ module ahb3lite_master_bfm #(
     byte_offset = address % (HDATA_SIZE/8);
 
     //transfer beats
-    for (int nbeat = 0; nbeat < beats; nbeat++)
-      begin
-        wait4hready();
+    for (int nbeat = 0; nbeat < beats; nbeat++) begin
+      wait4hready();
 
-        if (rw)
-          begin
-            //writing ... transfer from data-buffer to AHB-HWDATA
-            HWDATA <= 'hx;
+      if (rw) begin
+        //writing ... transfer from data-buffer to AHB-HWDATA
+        HWDATA <= 'hx;
 
-            //'byte' is reserved, so use nbyte
-            for (int nbyte = 0; nbyte < get_bytes_per_beat(size); nbyte++)
-              HWDATA[(nbyte + byte_offset)*8 +: 8] <= data_copy[nbeat][nbyte*8 +: 8];
-          end
-        else
-          begin
-            //reading ... transfer from AHB-HRDATA to data-buffer
-
-            //'byte' is reserved, so use nbyte
-            //Store in temporary variable.
-            //  Using data[nbeat] directly fails when calling with a multi-dimensional dynamic array. Why????
-            for (int nbyte = 0; nbyte < get_bytes_per_beat(size); nbyte++)
-              tmp_var[nbyte*8 +: 8] = HRDATA[(nbyte+byte_offset)*8 +: 8];
-
-            //copy read-data
-            data[nbeat] = tmp_var;
-          end
-
-        byte_offset += get_bytes_per_beat(size) % (HDATA_SIZE/8);
+        //'byte' is reserved, so use nbyte
+        for (int nbyte = 0; nbyte < get_bytes_per_beat(size); nbyte++) begin
+          HWDATA[(nbyte + byte_offset)*8 +: 8] <= data_copy[nbeat][nbyte*8 +: 8];
+        end
       end
+      else begin
+        //reading ... transfer from AHB-HRDATA to data-buffer
+
+        //'byte' is reserved, so use nbyte
+        //Store in temporary variable.
+        //  Using data[nbeat] directly fails when calling with a multi-dimensional dynamic array. Why????
+        for (int nbyte = 0; nbyte < get_bytes_per_beat(size); nbyte++) begin
+          tmp_var[nbyte*8 +: 8] = HRDATA[(nbyte+byte_offset)*8 +: 8];
+        end
+
+        //copy read-data
+        data[nbeat] = tmp_var;
+      end
+
+      byte_offset += get_bytes_per_beat(size) % (HDATA_SIZE/8);
+    end
   endtask : ahb_data
-
-
 
   /////////////////////////////////////////////////////////
   //
   // Functions
   //
+
   function int get_bytes_per_beat(input [2:0] hsize);
     case (hsize)
       HSIZE_B8   : get_bytes_per_beat =   1;
@@ -257,7 +247,6 @@ module ahb3lite_master_bfm #(
     endcase
   endfunction : get_bytes_per_beat
 
-
   function int get_beats_per_burst(input [2:0] hburst);
     case (hburst)
       HBURST_SINGLE: get_beats_per_burst =  1;
@@ -270,7 +259,6 @@ module ahb3lite_master_bfm #(
       HBURST_WRAP16: get_beats_per_burst = 16;
     endcase
   endfunction : get_beats_per_burst
-
 
   function [HADDR_SIZE-1:0] next_address(input [2:0] hsize, hburst);
     //generate address mask
@@ -288,5 +276,4 @@ module ahb3lite_master_bfm #(
       default      : next_address = HADDR + get_bytes_per_beat(hsize);
     endcase
   endfunction : next_address
-
 endmodule : ahb3lite_master_bfm

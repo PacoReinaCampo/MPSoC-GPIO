@@ -41,13 +41,13 @@
  */
 
 module testbench_top;
-  parameter PDATA_SIZE        = 8;
-
+  parameter PDATA_SIZE = 8;
 
   /////////////////////////////////////////////////////////
   //
   // Variables
   //
+
   //APB signals
   logic                    PSEL;
   logic                    PENABLE;
@@ -65,12 +65,13 @@ module testbench_top;
   //IRQ
   logic irq_o;
 
-
   /////////////////////////////////////////////////////////
   //
   // Clock & Reset
   //
+
   bit PCLK, PRESETn;
+
   initial begin : gen_PCLK
     PCLK <= 1'b0;
     forever #10 PCLK = ~PCLK;
@@ -85,16 +86,13 @@ module testbench_top;
     PRESETn = 1'b1;
   end : gen_PRESETn;
 
-
   /////////////////////////////////////////////////////////
   //
-  // Instantiate the TB and DUT
+  // TB and DUT
   //
   test #( .PDATA_SIZE ( PDATA_SIZE ))
   tb ( .* );
 
-
   apb_gpio #( .PDATA_SIZE ( PDATA_SIZE ))
   dut ( .* );
-
 endmodule : testbench_top

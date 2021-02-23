@@ -46,11 +46,11 @@ module testbench_top;
   parameter HADDR_SIZE = 16;
   parameter HDATA_SIZE = 32;
 
-
   /////////////////////////////////////////////////////////
   //
   // Variables
   //
+
   //AHB signals
   logic                   HSEL;
   logic [HADDR_SIZE -1:0] HADDR;
@@ -69,11 +69,11 @@ module testbench_top;
   //Timer Interrupt
   logic                   tint;
 
-
   /////////////////////////////////////////////////////////
   //
   // Clock & Reset
   //
+
   bit HCLK, HRESETn;
   initial begin : gen_HCLK
     HCLK <= 1'b0;
@@ -89,11 +89,11 @@ module testbench_top;
     HRESETn = 1'b1;
   end : gen_HRESETn;
 
-
   /////////////////////////////////////////////////////////
   //
-  // Instantiate the TB and DUT
+  // TB and DUT
   //
+
   test #(
     .TIMERS     ( TIMERS     ),
     .HADDR_SIZE ( HADDR_SIZE ),
@@ -113,5 +113,4 @@ module testbench_top;
   );
 
   assign HREADY = HREADYOUT;
-
 endmodule : testbench_top
