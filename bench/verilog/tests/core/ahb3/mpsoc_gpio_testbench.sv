@@ -158,6 +158,8 @@ module mpsoc_gpio_testbench;
     .PREADY  ( gpio_PREADY  ),
     .PSLVERR ( gpio_PSLVERR ),
 
+    .irq_o   ( irq_o        ),
+
     .gpio_i  ( gpio_i       ),
     .gpio_o  ( gpio_o       ),
     .gpio_oe ( gpio_oe      )

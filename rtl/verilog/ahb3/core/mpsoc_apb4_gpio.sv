@@ -41,41 +41,45 @@
  */
 
 module mpsoc_apb4_gpio #(
-  parameter PADDR_SIZE = 64,
-  parameter PDATA_SIZE = 64
+  PDATA_SIZE = 8,  //must be a multiple of 8
+  PADDR_SIZE = 4
 )
   (
     input                         PRESETn,
     input                         PCLK,
     input                         PSEL,
     input                         PENABLE,
-    input                         PWRITE,
-    input                         PSTRB,
     input      [PADDR_SIZE  -1:0] PADDR,
+    input                         PWRITE,
+    input      [PDATA_SIZE/8-1:0] PSTRB,
     input      [PDATA_SIZE  -1:0] PWDATA,
     output reg [PDATA_SIZE  -1:0] PRDATA,
     output                        PREADY,
     output                        PSLVERR,
 
+    output reg                    irq_o,
+
     input      [PDATA_SIZE  -1:0] gpio_i,
     output reg [PDATA_SIZE  -1:0] gpio_o,
     output reg [PDATA_SIZE  -1:0] gpio_oe
   );
-
   //////////////////////////////////////////////////////////////////
   //
   // Constants
   //
 
-  localparam MODE      = 0,
-             DIRECTION = 1,
-             OUTPUTS   = 2,
-             INPUTS    = 3,
-             IOC       = 4, //Interrupt-on-change
-             IPENDING  = 5; //Interrupt-pending
+  localparam MODE      = 0;
+  localparam DIRECTION = 1;
+  localparam OUTPUT    = 2;
+  localparam INPUT     = 3;
+  localparam TR_TYPE   = 4;
+  localparam TR_LVL0   = 5;
+  localparam TR_LVL1   = 6;
+  localparam TR_STAT   = 7;
+  localparam IRQ_ENA   = 8;
 
-  //number of synchronisation flipflop stages on GPIO inputs
-  localparam INPUT_STAGES = 3;
+  //Number of synchronisation flipflop stages on GPIO inputs
+  localparam INPUT_STAGES = 2;
 
   //////////////////////////////////////////////////////////////////
   //
@@ -87,85 +91,148 @@ module mpsoc_apb4_gpio #(
   logic [PDATA_SIZE-1:0] dir_reg;
   logic [PDATA_SIZE-1:0] out_reg;
   logic [PDATA_SIZE-1:0] in_reg;
+  logic [PDATA_SIZE-1:0] tr_type_reg;
+  logic [PDATA_SIZE-1:0] tr_lvl0_reg;
+  logic [PDATA_SIZE-1:0] tr_lvl1_reg;
+  logic [PDATA_SIZE-1:0] tr_stat_reg;
+  logic [PDATA_SIZE-1:0] irq_ena_reg;
+
+  //Trigger registers
+  logic [PDATA_SIZE-1:0] tr_in_dly_reg;
+  logic [PDATA_SIZE-1:0] tr_rising_edge_reg;
+  logic [PDATA_SIZE-1:0] tr_falling_edge_reg;
+  logic [PDATA_SIZE-1:0] tr_status;
 
   //Input register, to prevent metastability
   logic [PDATA_SIZE-1:0] input_regs [INPUT_STAGES];
 
-  genvar n;
 
   //////////////////////////////////////////////////////////////////
   //
   // Functions
   //
 
+  // Is this a valid read access?
+  function automatic is_read();
+    return PSEL & PENABLE & ~PWRITE;
+  endfunction : is_read
+
+  // Is this a valid write access?
+  function automatic is_write();
+    return PSEL & PENABLE & PWRITE;
+  endfunction : is_write
+
   //Is this a valid write to address 0x...?
   //Take 'address' as an argument
-  function automatic is_write_to_adr(input integer bits, input [PADDR_SIZE-1:0] address);
-    logic [$bits(PADDR)-1:0] mask;
-
-    mask = (1 << bits) - 1; //only 'bits' LSBs should be '1'
-    is_write_to_adr = PSEL & PENABLE & PWRITE & ( (PADDR & mask) == (address & mask) );
-  endfunction
+  function automatic is_write_to_adr(input [PADDR_SIZE-1:0] address);
+    return is_write() & (PADDR == address);
+  endfunction : is_write_to_adr
 
   //What data is written?
   //- Handles PSTRB, takes previous register/data value as an argument
   function automatic [PDATA_SIZE-1:0] get_write_value (input [PDATA_SIZE-1:0] orig_val);
-    get_write_value[0*8 +: 8] = PSTRB ? PWDATA[0*8 +: 8] : orig_val[0*8 +: 8];
-  endfunction
+    for (int n=0; n < PDATA_SIZE/8; n++) begin
+      get_write_value[n*8 +: 8] = PSTRB[n] ? PWDATA[n*8 +: 8] : orig_val[n*8 +: 8];
+    end
+  endfunction : get_write_value
+
+  //Clear bits on write
+  //- Handles PSTRB
+  function automatic [PDATA_SIZE-1:0] get_clearonwrite_value (input [PDATA_SIZE-1:0] orig_val);
+    for (int n=0; n < PDATA_SIZE/8; n++) begin
+      get_clearonwrite_value[n*8 +: 8] = PSTRB[n] ? orig_val[n*8 +: 8] & ~PWDATA[n*8 +: 8] : orig_val[n*8 +: 8];
+    end
+  endfunction : get_clearonwrite_value
 
   //////////////////////////////////////////////////////////////////
   //
   // Module Body
   //
 
-  //APB accesses
+  // APB accesses
 
   //The core supports zero-wait state accesses on all transfers.
-  //It is allowed to driver PREADY with a steady signal
+  //It is allowed to drive PREADY with a hard wired signal
   assign PREADY  = 1'b1; //always ready
   assign PSLVERR = 1'b0; //Never an error
 
-  //APB Writes
+  // APB Writes
 
   //APB write to Mode register
   always @(posedge PCLK,negedge PRESETn) begin
-    if      (!PRESETn                ) mode_reg <= 'h0;
-    else if ( is_write_to_adr(2,MODE)) mode_reg <= get_write_value(mode_reg);
+    if      (!PRESETn              ) mode_reg <= {PDATA_SIZE{1'b0}};
+    else if ( is_write_to_adr(MODE)) mode_reg <= get_write_value(mode_reg);
   end
 
   //APB write to Direction register
   always @(posedge PCLK,negedge PRESETn) begin
-    if      (!PRESETn                     ) dir_reg <= 'h0;
-    else if ( is_write_to_adr(2,DIRECTION)) dir_reg <= get_write_value(dir_reg);
+    if      (!PRESETn                   ) dir_reg <= {PDATA_SIZE{1'b0}};
+    else if ( is_write_to_adr(DIRECTION)) dir_reg <= get_write_value(dir_reg);
   end
 
   //APB write to Output register
   //treat writes to Input register same
   always @(posedge PCLK,negedge PRESETn) begin
-    if      (!PRESETn                    ) out_reg <= 'h0;
-    else if ( is_write_to_adr(2,OUTPUTS) ||
-              is_write_to_adr(2,INPUTS)  ) out_reg <= get_write_value(out_reg);
+    if      (!PRESETn                  ) out_reg <= {PDATA_SIZE{1'b0}};
+    else if ( is_write_to_adr(OUTPUT) ||
+             is_write_to_adr(INPUT )  ) out_reg <= get_write_value(out_reg);
   end
 
-  //APB Reads
+  //APB write to Trigger Type register
+  always @(posedge PCLK,negedge PRESETn) begin
+    if      (!PRESETn                 ) tr_type_reg <= {PDATA_SIZE{1'b0}};
+    else if ( is_write_to_adr(TR_TYPE)) tr_type_reg <= get_write_value(tr_type_reg);
+  end
+
+  //APB write to Trigger Level/Edge0 register
+  always @(posedge PCLK,negedge PRESETn) begin
+    if      (!PRESETn                 ) tr_lvl0_reg <= {PDATA_SIZE{1'b0}};
+    else if ( is_write_to_adr(TR_LVL0)) tr_lvl0_reg <= get_write_value(tr_lvl0_reg);
+  end
+
+  //APB write to Trigger Level/Edge1 register
+  always @(posedge PCLK,negedge PRESETn) begin
+    if      (!PRESETn                 ) tr_lvl1_reg <= {PDATA_SIZE{1'b0}};
+    else if ( is_write_to_adr(TR_LVL1)) tr_lvl1_reg <= get_write_value(tr_lvl1_reg);
+  end
+
+  //APB write to Trigger Status register
+  //Writing a '1' clears the status register
+  always @(posedge PCLK,negedge PRESETn) begin
+    if      (!PRESETn                 ) tr_stat_reg <= {PDATA_SIZE{1'b0}};
+    else if ( is_write_to_adr(TR_STAT)) tr_stat_reg <= get_clearonwrite_value(tr_stat_reg) | tr_status;
+    else                                tr_stat_reg <= tr_stat_reg | tr_status;
+  end
+
+  //APB write to Interrupt Enable register
+  always @(posedge PCLK,negedge PRESETn) begin
+    if      (!PRESETn                 ) irq_ena_reg <= {PDATA_SIZE{1'b0}};
+    else if ( is_write_to_adr(IRQ_ENA)) irq_ena_reg <= get_write_value(irq_ena_reg);
+  end
+
+  // APB Reads
   always @(posedge PCLK) begin
-    case (PADDR[1:0])
+    case (PADDR)
       MODE     : PRDATA <= mode_reg;
       DIRECTION: PRDATA <= dir_reg;
-      OUTPUTS  : PRDATA <= out_reg;
-      INPUTS   : PRDATA <= in_reg;
+      OUTPUT   : PRDATA <= out_reg;
+      INPUT    : PRDATA <= in_reg;
+      TR_TYPE  : PRDATA <= tr_type_reg;
+      TR_LVL0  : PRDATA <= tr_lvl0_reg;
+      TR_LVL1  : PRDATA <= tr_lvl1_reg;
+      TR_STAT  : PRDATA <= tr_stat_reg;
+      IRQ_ENA  : PRDATA <= irq_ena_reg;
+      default  : PRDATA <= {PDATA_SIZE{1'b0}};
     endcase
   end
 
-  //Internals INPUT_STAGES*PDATA_SIZE
-  generate
-    for (n=0; n<INPUT_STAGES; n=n+1) begin
-      always @(posedge PCLK) begin
-        if (n==0) input_regs[n] <= gpio_i;
-        else      input_regs[n] <= input_regs[n-1];
-      end
+  // Internals
+  always @(posedge PCLK) begin
+    for (int n=0; n<INPUT_STAGES; n++) begin
+      if (n==0) input_regs[n] <= gpio_i;
+      else      input_regs[n] <= input_regs[n-1];
     end
-  endgenerate
+  end
 
   always @(posedge PCLK) begin
     in_reg <= input_regs[INPUT_STAGES-1];
@@ -174,9 +241,10 @@ module mpsoc_apb4_gpio #(
   // mode
   // 0=push-pull    drive out_reg value onto transmitter input
   // 1=open-drain   always drive '0' onto transmitter
-
   always @(posedge PCLK) begin
-    gpio_o <= mode_reg ? 'h0 : out_reg;
+    for (int n=0; n<PDATA_SIZE; n++) begin
+      gpio_o[n] <= mode_reg[n] ? 1'b0 : out_reg[n];
+    end
   end
 
   // direction  mode          out_reg
@@ -184,8 +252,46 @@ module mpsoc_apb4_gpio #(
   // 1=output   0=push-pull            always enable transmitter
   //            1=open-drain  1=Hi-Z   disable transmitter
   //                          0=low    enable transmitter
-
   always @(posedge PCLK) begin
-    gpio_oe <= dir_reg & ~(mode_reg ? out_reg : 'h0);
+    for (int n=0; n<PDATA_SIZE; n++) begin
+      gpio_oe[n] <= dir_reg[n] & ~(mode_reg[n] ? out_reg[n] : 1'b0);
+    end
+  end
+
+  // Triggers
+
+  //delay input register
+  always @(posedge PCLK) begin
+    tr_in_dly_reg <= in_reg;
+  end
+
+  //detect rising edge
+  always @(posedge PCLK, negedge PRESETn) begin
+    if (!PRESETn) tr_rising_edge_reg <= {PDATA_SIZE{1'b0}};
+    else          tr_rising_edge_reg <= in_reg & ~tr_in_dly_reg;
+  end
+
+  //detect falling edge
+  always @(posedge PCLK, negedge PRESETn) begin
+    if (!PRESETn) tr_falling_edge_reg <= {PDATA_SIZE{1'b0}};
+    else          tr_falling_edge_reg <= tr_in_dly_reg & ~in_reg;
+  end
+
+  //trigger status
+  always_comb begin
+    for (int n=0; n<PDATA_SIZE; n++) begin
+      case (tr_type_reg[n])
+        0: tr_status[n] = (tr_lvl0_reg[n] & ~in_reg[n]) |
+          (tr_lvl1_reg[n] &  in_reg[n]);
+        1: tr_status[n] = (tr_lvl0_reg[n] & tr_falling_edge_reg[n]) |
+          (tr_lvl1_reg[n] & tr_rising_edge_reg [n]);
+      endcase
+    end
+  end
+
+  // Interrupt
+  always @(posedge PCLK, negedge PRESETn) begin
+    if (!PRESETn) irq_o <= 1'b0;
+    else          irq_o <= |(irq_ena_reg & tr_stat_reg);
   end
 endmodule
