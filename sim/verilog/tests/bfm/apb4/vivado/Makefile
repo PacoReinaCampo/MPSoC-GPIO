@@ -45,7 +45,7 @@
 all: build simulate
 
 build:
-	xvlog -i ../../../../../../rtl/verilog/wb/pkg -prj system.prj
+	xvlog -prj system.prj
 
 simulate:
 	xelab peripheral_bfm_testbench

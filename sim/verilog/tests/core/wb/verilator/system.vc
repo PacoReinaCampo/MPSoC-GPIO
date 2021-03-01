@@ -1,5 +1,5 @@
-+incdir+../../../../../../rtl/verilog/wb/pkg
+../../../../../../rtl/verilog/wb/pkg/peripheral_wb_pkg.sv
 
-../../../../../../rtl/verilog/wb/core/mpsoc_wb_gpio.sv
+../../../../../../rtl/verilog/wb/core/peripheral_gpio_wb.sv
 
-../../../../../../bench/verilog/tests/core/wb/main/mpsoc_gpio_testbench.sv
+../../../../../../bench/verilog/tests/core/wb/main/peripheral_gpio_testbench.sv

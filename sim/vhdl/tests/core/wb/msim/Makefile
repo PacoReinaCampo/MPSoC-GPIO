@@ -5,7 +5,7 @@ build:
 	vcom -2008 -f system.vc
 
 simulate:
-	vsim -c -do run.do work.mpsoc_gpio_testbench
+	vsim -c -do run.do work.peripheral_gpio_testbench
 
 clean:
 	rm -rf work transcript

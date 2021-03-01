@@ -2,5 +2,5 @@
 ../../../../../../bench/verilog/tests/bfm/apb4/peripheral_bfm_master_apb4.sv
 ../../../../../../bench/verilog/tests/bfm/apb4/peripheral_bfm_testbench.sv
 
-../../../../../../rtl/verilog/ahb3/core/mpsoc_apb4_gpio.sv
+../../../../../../rtl/verilog/ahb3/core/peripheral_gpio_apb4.sv
 
