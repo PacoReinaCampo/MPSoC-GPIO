@@ -60,21 +60,21 @@ module peripheral_bfm_transactor_wb # (
   parameter                SEED_PARAM            = 0
 )
   (
-    input 	      wb_clk_i,
-    input 	      wb_rst_i,
-    output [AW-1:0]   wb_adr_o,
-    output [DW-1:0]   wb_dat_o,
+    input             wb_clk_i,
+    input             wb_rst_i,
+    output [AW  -1:0] wb_adr_o,
+    output [DW  -1:0] wb_dat_o,
     output [DW/8-1:0] wb_sel_o,
-    output 	      wb_we_o,
-    output 	      wb_cyc_o,
-    output 	      wb_stb_o,
-    output [2:0]      wb_cti_o,
-    output [1:0]      wb_bte_o,
-    input [DW-1:0]    wb_dat_i,
-    input 	      wb_ack_i,
-    input 	      wb_err_i,
-    input 	      wb_rty_i,
-    output reg 	      done
+    output            wb_we_o,
+    output            wb_cyc_o,
+    output            wb_stb_o,
+    output [     2:0] wb_cti_o,
+    output [     1:0] wb_bte_o,
+    input  [DW  -1:0] wb_dat_i,
+    input             wb_ack_i,
+    input             wb_err_i,
+    input             wb_rty_i,
+    output reg        done
   );
 
   //////////////////////////////////////////////////////////////////

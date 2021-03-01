@@ -223,7 +223,7 @@ begin
       PSLVERR => gpio_PSLVERR
       );
 
-  gpio : peripheral_apb4_gpio
+  gpio_apb4 : peripheral_gpio_apb4
     generic map (
       PADDR_SIZE => PADDR_SIZE,
       PDATA_SIZE => PDATA_SIZE

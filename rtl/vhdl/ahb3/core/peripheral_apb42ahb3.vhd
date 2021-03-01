@@ -47,7 +47,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-use work.peripheral_gpio_ahb3_pkg.all;
+use work.vhdl_pkg.all;
+use work.peripheral_ahb3_pkg.all;
 
 entity peripheral_apb42ahb3 is
   generic (
@@ -165,27 +166,6 @@ architecture RTL of peripheral_apb42ahb3 is
   --
   -- Functions
   --
-  function reduce_nor (
-    reduce_nor_in : std_logic_vector
-  ) return std_logic is
-    variable reduce_nor_out : std_logic := '0';
-  begin
-    for i in reduce_nor_in'range loop
-      reduce_nor_out := reduce_nor_out nor reduce_nor_in(i);
-    end loop;
-    return reduce_nor_out;
-  end reduce_nor;
-
-  function to_stdlogic (
-    input : boolean
-  ) return std_logic is
-  begin
-    if input then
-      return('1');
-    else
-      return('0');
-    end if;
-  end function to_stdlogic;
 
   function apb_beats (
     hsize_s : std_logic_vector(2 downto 0)
