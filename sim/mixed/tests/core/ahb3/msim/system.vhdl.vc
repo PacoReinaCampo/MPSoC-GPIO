@@ -1,4 +1,5 @@
-../../../../../../rtl/vhdl/ahb3/pkg/peripheral_gpio_ahb3_pkg.vhd
+../../../../../../rtl/vhdl/ahb3/pkg/vhdl_pkg.vhd
+../../../../../../rtl/vhdl/ahb3/pkg/peripheral_ahb3_pkg.vhd
 
 ../../../../../../rtl/vhdl/ahb3/core/peripheral_apb42ahb3.vhd
 ../../../../../../rtl/vhdl/ahb3/core/peripheral_gpio_apb4.vhd
