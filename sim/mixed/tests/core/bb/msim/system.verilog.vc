@@ -1,0 +1,3 @@
+../../../../../../rtl/verilog/wb/pkg/peripheral_wb_pkg.sv
+
+../../../../../../bench/verilog/tests/core/wb/main/peripheral_gpio_testbench.sv

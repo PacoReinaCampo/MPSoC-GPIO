@@ -2,5 +2,7 @@
     └── core
         ├── ahb3
         │   └── peripheral_gpio_testbench.vhd
+        ├── bb
+        │   └── peripheral_gpio_testbench.vhd
         └── wb
             └── peripheral_gpio_testbench.vhd
