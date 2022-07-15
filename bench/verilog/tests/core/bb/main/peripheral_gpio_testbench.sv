@@ -80,11 +80,11 @@ module peripheral_gpio_testbench;
   initial #200 wb_rst <= 1'b0;
   always #100 wb_clk <= !wb_clk;
 
-  peripheral_bfm_transactor_wb #(
+  peripheral_bfm_transactor_bb #(
     .MEM_HIGH (MEMORY_SIZE-1),
     .VERBOSE  (0)
   )
-  bfm_transactor_wb (
+  bfm_transactor_bb (
     .wb_clk_i (wb_clk),
     .wb_rst_i (wbm_rst),
     .wb_adr_o (wb_adr),
@@ -110,11 +110,11 @@ module peripheral_gpio_testbench;
     end
   end
 
-  peripheral_gpio_wb #(
+  peripheral_gpio_bb #(
     .WB_DATA_WIDTH (32),
     .WB_ADDR_WIDTH (32)
   )
-  gpio_wb (
+  gpio_bb (
     // WISHBONE Interface
     .wb_clk_i (wb_clk),  // Clock
     .wb_rst_i (wb_rst),  // Reset

@@ -97,7 +97,7 @@ architecture RTL of peripheral_gpio_testbench is
   --
   -- Components
   --
-  component peripheral_gpio_wb
+  component peripheral_gpio_bb
     generic (
       WB_DATA_WIDTH         : integer := 32;
       WB_ADDR_WIDTH         : integer := 8;
@@ -140,7 +140,7 @@ begin
   --
 
   --DUT WB
-  gpio_wb : peripheral_gpio_wb
+  gpio_bb : peripheral_gpio_bb
     generic map (
       WB_DATA_WIDTH         => WB_DATA_WIDTH,
       WB_ADDR_WIDTH         => WB_ADDR_WIDTH,

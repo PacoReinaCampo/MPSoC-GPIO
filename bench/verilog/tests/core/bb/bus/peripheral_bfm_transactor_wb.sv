@@ -41,7 +41,7 @@
  *   Paco Reina Campo <pacoreinacampo@queenfield.tech>
  */
 
-module peripheral_bfm_transactor_wb # (
+module peripheral_bfm_transactor_bb # (
   parameter                AW                    = 32,
   parameter                DW                    = 32,
   parameter                AUTORUN               = 1,
@@ -350,7 +350,7 @@ module peripheral_bfm_transactor_wb # (
     begin
       // Fill write data array
       for(word = 0; word <= burst_length-1; word = word + 1) begin
-        bfm_master_wb.write_data[word] = $random;
+        bfm_master_bb.write_data[word] = $random;
       end
     end
   endtask
@@ -394,7 +394,7 @@ module peripheral_bfm_transactor_wb # (
         $display("%0d transactions requested. Number of transactions must be set to > 0", TRANSACTIONS);
         $finish;
       end
-      bfm_master_wb.reset;
+      bfm_master_bb.reset;
       done    = 0;
       st_type = 0;
       err     = 0;
@@ -407,9 +407,9 @@ module peripheral_bfm_transactor_wb # (
 
         // Generate the random value for the number of wait states. This will
         // be used for all of this transaction
-        bfm_master_wb.wait_states                 = {$random(SEED)} % (MAX_WAIT_STATES+1);
+        bfm_master_bb.wait_states                 = {$random(SEED)} % (MAX_WAIT_STATES+1);
         if (VERBOSE>2)
-          $display("  Number of Wait States for Transaction %0d is %0d", transaction, bfm_master_wb.wait_states);
+          $display("  Number of Wait States for Transaction %0d is %0d", transaction, bfm_master_bb.wait_states);
 
         //If running in segment mode, cap mem_high/mem_low to a segment
         if (NUM_SEGMENTS > 0) begin
@@ -436,13 +436,13 @@ module peripheral_bfm_transactor_wb # (
 
         // Fill Write Array then Send the Write Transaction
         fill_wdata_array(MAX_BURST_LEN);
-        bfm_master_wb.write_burst(t_address, t_address, {DW/8{1'b1}}, CTI_INC_BURST, BTE_LINEAR, MAX_BURST_LEN, err);
+        bfm_master_bb.write_burst(t_address, t_address, {DW/8{1'b1}}, CTI_INC_BURST, BTE_LINEAR, MAX_BURST_LEN, err);
         update_stats(cycle_type, burst_type, burst_length);
 
         // Read data can be read back from wishbone memory.
         if (VERBOSE>0)
           $display("  Transaction %0d Initialisation (Read): Start Address: %h, Burst Length: %0d", transaction, t_address, MAX_BURST_LEN);
-        bfm_master_wb.read_burst_comp(t_address, t_address, {DW/8{1'b1}}, CTI_INC_BURST, BTE_LINEAR, MAX_BURST_LEN, err);
+        bfm_master_bb.read_burst_comp(t_address, t_address, {DW/8{1'b1}}, CTI_INC_BURST, BTE_LINEAR, MAX_BURST_LEN, err);
         update_stats(cycle_type, burst_type, burst_length);
 
         if (VERBOSE>0)
@@ -461,13 +461,13 @@ module peripheral_bfm_transactor_wb # (
           if (~st_type) begin
 
             // Send Read Transaction
-            bfm_master_wb.read_burst_comp(t_address, st_address, {DW/8{1'b1}}, cycle_type, burst_type, burst_length, err);
+            bfm_master_bb.read_burst_comp(t_address, st_address, {DW/8{1'b1}}, cycle_type, burst_type, burst_length, err);
 
           end else begin
 
             // Fill Write Array then Send the Write Transaction
             fill_wdata_array(burst_length);
-            bfm_master_wb.write_burst(t_address, st_address, {DW/8{1'b1}}, cycle_type, burst_type, burst_length, err);
+            bfm_master_bb.write_burst(t_address, st_address, {DW/8{1'b1}}, cycle_type, burst_type, burst_length, err);
 
           end // if (st_type)
           update_stats(cycle_type, burst_type, burst_length);
@@ -476,13 +476,13 @@ module peripheral_bfm_transactor_wb # (
         // Final consistency check...
         if (VERBOSE>0)
           $display("Transaction %0d Buffer Consistency Check: Start Address: %h, Burst Length: %0d", transaction, t_address, MAX_BURST_LEN);
-        bfm_master_wb.read_burst_comp(t_address, t_address, 4'hf, CTI_INC_BURST, BTE_LINEAR, MAX_BURST_LEN, err);
+        bfm_master_bb.read_burst_comp(t_address, t_address, 4'hf, CTI_INC_BURST, BTE_LINEAR, MAX_BURST_LEN, err);
 
         if (VERBOSE>0)
           $display("Transaction %0d Completed Successfully", transaction);
 
         // Clear Buffer Data before next transaction
-        bfm_master_wb.clear_buffer_data;
+        bfm_master_bb.clear_buffer_data;
       end // for (transaction=0;...
       done = 1;
     end
@@ -510,13 +510,13 @@ module peripheral_bfm_transactor_wb # (
     end
   end
 
-  peripheral_bfm_master_wb #(
+  peripheral_bfm_master_bb #(
     .DW (DW),
     .MAX_BURST_LEN           (MAX_BURST_LEN),
     .MAX_WAIT_STATES         (MAX_WAIT_STATES),
     .VERBOSE                 (VERBOSE)
   )
-  bfm_master_wb (
+  bfm_master_bb (
     .wb_clk_i                (wb_clk_i),
     .wb_rst_i                (wb_rst_i),
     .wb_adr_o                (wb_adr_o),

@@ -91,7 +91,7 @@ module peripheral_gpio_testbench;
   //
 
   //DUT WB
-  peripheral_gpio_wb #(
+  peripheral_gpio_bb #(
     .WB_DATA_WIDTH         ( WB_DATA_WIDTH         ),
     .WB_ADDR_WIDTH         ( WB_ADDR_WIDTH         ),
     .GPIO_WIDTH            ( GPIO_WIDTH            ),
@@ -99,7 +99,7 @@ module peripheral_gpio_testbench;
     .REGISTER_GPIO_OUTPUTS ( REGISTER_GPIO_OUTPUTS ),
     .REGISTER_GPIO_INPUTS  ( REGISTER_GPIO_INPUTS  )
   )
-  gpio_wb (
+  gpio_bb (
     // WISHBONE Interface
     .wb_clk_i  ( clk ),  // Clock
     .wb_rst_i  ( rst ),  // Reset

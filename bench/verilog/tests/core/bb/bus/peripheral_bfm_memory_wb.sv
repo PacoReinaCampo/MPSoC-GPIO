@@ -41,9 +41,9 @@
  *   Paco Reina Campo <pacoreinacampo@queenfield.tech>
  */
 
-import peripheral_wb_pkg::*;
+import peripheral_bb_pkg::*;
 
-module peripheral_bfm_memory_wb #(
+module peripheral_bfm_memory_bb #(
   //Wishbone parameters
   parameter DW = 32,
   parameter AW = 32,
@@ -106,12 +106,12 @@ module peripheral_bfm_memory_wb #(
   //
   // Module Body
   //
-  peripheral_bfm_slave_wb #(
+  peripheral_bfm_slave_bb #(
     .AW    (AW),
     .DW    (DW),
     .DEBUG (DEBUG)
   )
-  bfm_slave_wb (
+  bfm_slave_bb (
     .wb_clk   (wb_clk_i),
     .wb_rst   (wb_rst_i),
     .wb_adr_i (wb_adr_i),
@@ -129,40 +129,40 @@ module peripheral_bfm_memory_wb #(
   );
 
   always begin
-    bfm_slave_wb.init();
-    address = bfm_slave_wb.address; //Fetch start address
+    bfm_slave_bb.init();
+    address = bfm_slave_bb.address; //Fetch start address
 
-    if(bfm_slave_wb.op === WRITE)
+    if(bfm_slave_bb.op === WRITE)
       writes = writes + 1;
     else
       reads = reads + 1;
-    while(bfm_slave_wb.has_next) begin
+    while(bfm_slave_bb.has_next) begin
       //Set error on out of range accesses
       if(address[31:ADR_LSB] > mem_words) begin
         $display("%0d : Error : Attempt to access %x, which is outside of memory", $time, address);
-        bfm_slave_wb.error_response();
+        bfm_slave_bb.error_response();
       end
       else begin
-        if(bfm_slave_wb.op === WRITE) begin
-          bfm_slave_wb.write_ack(data);
-          if(DEBUG) $display("%d : ram Write 0x%h = 0x%h %b", $time, address, data, bfm_slave_wb.mask);
+        if(bfm_slave_bb.op === WRITE) begin
+          bfm_slave_bb.write_ack(data);
+          if(DEBUG) $display("%d : ram Write 0x%h = 0x%h %b", $time, address, data, bfm_slave_bb.mask);
           for(i=0;i < DW/8; i=i+1)
-            if(bfm_slave_wb.mask[i])
+            if(bfm_slave_bb.mask[i])
               mem[address[31:ADR_LSB]][i*8+:8] = data[i*8+:8];
         end
         else begin
           data = {AW{1'b0}};
           for(i=0;i < DW/8; i=i+1)
-            if(bfm_slave_wb.mask[i])
+            if(bfm_slave_bb.mask[i])
               data[i*8+:8] = mem[address[31:ADR_LSB]][i*8+:8];
-          if(DEBUG) $display("%d : ram Read  0x%h = 0x%h %b", $time, address, data, bfm_slave_wb.mask);
+          if(DEBUG) $display("%d : ram Read  0x%h = 0x%h %b", $time, address, data, bfm_slave_bb.mask);
           delay = $dist_uniform(seed, RD_MIN_DELAY, RD_MAX_DELAY);
           repeat(delay) @(posedge wb_clk_i);
-          bfm_slave_wb.read_ack(data);
+          bfm_slave_bb.read_ack(data);
         end
       end
-      if(bfm_slave_wb.cycle_type === BURST_CYCLE)
+      if(bfm_slave_bb.cycle_type === BURST_CYCLE)
         address = wb_next_adr(address, wb_cti_i, wb_bte_i, DW);
     end
   end
-endmodule // peripheral_bfm_memory_wb
+endmodule // peripheral_bfm_memory_bb
