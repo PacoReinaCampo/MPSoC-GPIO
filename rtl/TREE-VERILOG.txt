@@ -1,3 +1,4 @@
+verilog
 ├── ahb3
 │   ├── core
 │   │   ├── peripheral_apb42ahb3.sv
@@ -15,3 +16,5 @@
     │   └── peripheral_gpio_wb.sv
     └── pkg
         └── peripheral_wb_pkg.sv
+
+10 directories, 7 files
