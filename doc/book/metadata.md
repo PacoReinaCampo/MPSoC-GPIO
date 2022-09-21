@@ -1,8 +1,8 @@
 ---
-title: 'SoC-NTM (T-DNC/NTM-SoC)'
+title: 'MPSoC-GPIO'
 subtitle: 'QueenField ![](../../icon.jpg)'
 
 author: Paco Reina Campo
 
-abstract: Neural Turing Machine for a MPSoC verified with UVM/OSVVM/FV.
+abstract: General Purpose Input Output for a Multi-Processor System on Chip.
 ---
