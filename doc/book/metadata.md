@@ -1,6 +1,6 @@
 ---
 title: 'MPSoC-GPIO'
-subtitle: 'QueenField ![](../../icon.jpg)'
+subtitle: 'QueenField ![](../../mpsoc-gpio.svg){width=17cm}'
 
 author: Paco Reina Campo
 
