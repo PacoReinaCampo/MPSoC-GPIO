@@ -38,7 +38,7 @@
  * =============================================================================
  * Author(s):
  *   Damjan Lampret <lampret@opencores.org>
- *   Francisco Javier Reina Campo <frareicam@gmail.com>
+ *    Javier Reina Campo <frareicam@gmail.com>
  */
 
 module peripheral_gpio_wb #(
@@ -74,7 +74,7 @@ module peripheral_gpio_wb #(
     output  [GPIO_WIDTH-1:0]  ext_padoe_o  // GPIO output drivers enables
   );
 
-  //////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   //
   // Constants
   //
@@ -135,7 +135,7 @@ module peripheral_gpio_wb #(
   `define GPIO_RGPIO_CTRL_INTE 0
   `define GPIO_RGPIO_CTRL_INTS 1
 
-  //////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   //
   // Variables
   //
@@ -242,7 +242,7 @@ module peripheral_gpio_wb #(
   // GPIO Outputs
   reg   [GPIO_WIDTH-1:0]  ext_pad_g;
 
-  //////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   //
   // Module Body
   //

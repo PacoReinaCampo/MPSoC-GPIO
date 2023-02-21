@@ -1,21 +1,20 @@
 vhdl
-├── ahb3
-│   ├── core
+├── peripheral
+│   ├── ahb3
 │   │   ├── peripheral_apb42ahb3.vhd
 │   │   └── peripheral_gpio_apb4.vhd
-│   └── pkg
-│       ├── peripheral_ahb3_pkg.vhd
-│       └── vhdl_pkg.vhd
-├── bb
-│   ├── core
+│   ├── bb
 │   │   ├── fuse
 │   │   │   └── peripheral_sync_cell_bb.vhd
 │   │   └── main
 │   │       └── peripheral_gpio_bb.vhd
-│   └── pkg
-│       └── vhdl_pkg.vhd
-└── wb
-    └── core
-        └── peripheral_gpio_wb.vhd
+│   └── wb
+│       └── peripheral_gpio_wb.vhd
+└── pkg
+    ├── core
+    │   └── vhdl_pkg.vhd
+    └── peripheral
+        └── ahb3
+            └── peripheral_ahb3_pkg.vhd
 
-10 directories, 8 files
+10 directories, 7 files

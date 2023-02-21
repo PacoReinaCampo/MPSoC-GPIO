@@ -1,20 +1,19 @@
 verilog
-├── ahb3
-│   ├── core
+├── peripheral
+│   ├── ahb3
 │   │   ├── peripheral_apb42ahb3.sv
 │   │   └── peripheral_gpio_apb4.sv
-│   └── pkg
-│       └── peripheral_ahb3_pkg.sv
-├── bb
-│   └── core
-│       ├── fuse
-│       │   └── peripheral_sync_cell_bb.sv
-│       └── main
-│           └── peripheral_gpio_bb.sv
-└── wb
-    ├── core
-    │   └── peripheral_gpio_wb.sv
-    └── pkg
+│   ├── bb
+│   │   ├── fuse
+│   │   │   └── peripheral_sync_cell_bb.sv
+│   │   └── main
+│   │       └── peripheral_gpio_bb.sv
+│   └── wb
+│       └── peripheral_gpio_wb.sv
+└── pkg
+    ├── ahb3
+    │   └── peripheral_ahb3_pkg.sv
+    └── wb
         └── peripheral_wb_pkg.sv
 
-10 directories, 7 files
+9 directories, 7 files
