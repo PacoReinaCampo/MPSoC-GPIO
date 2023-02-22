@@ -1,6 +1,6 @@
-../../../../../../rtl/verilog/ahb3/pkg/peripheral_ahb3_pkg.sv
+../../../../../../rtl/verilog/pkg/peripheral/ahb3/peripheral_ahb3_pkg.sv
 
-../../../../../../rtl/verilog/ahb3/core/peripheral_apb42ahb3.sv
-../../../../../../rtl/verilog/ahb3/core/peripheral_gpio_apb4.sv
+../../../../../../rtl/verilog/peripheral/ahb3/peripheral_apb42ahb3.sv
+../../../../../../rtl/verilog/peripheral/ahb3/peripheral_gpio_apb4.sv
 
-../../../../../../bench/verilog/tests/core/ahb3/peripheral_gpio_testbench.sv
+../../../../../../bench/verilog/tests/peripheral/ahb3/peripheral_gpio_testbench.sv

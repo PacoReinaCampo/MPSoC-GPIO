@@ -1,5 +1,5 @@
-../../../../../../rtl/verilog/wb/pkg/peripheral_wb_pkg.sv
+../../../../../../rtl/verilog/pkg/peripheral/wb/peripheral_wb_pkg.sv
 
-../../../../../../rtl/verilog/wb/core/peripheral_gpio_wb.sv
+../../../../../../rtl/verilog/peripheral/wb/peripheral_gpio_wb.sv
 
-../../../../../../bench/verilog/tests/core/wb/peripheral_gpio_testbench.sv
+../../../../../../bench/verilog/tests/peripheral/wb/peripheral_gpio_testbench.sv

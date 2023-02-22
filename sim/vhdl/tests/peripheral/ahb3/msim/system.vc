@@ -1,7 +1,7 @@
-../../../../../../rtl/vhdl/ahb3/pkg/vhdl_pkg.vhd
-../../../../../../rtl/vhdl/ahb3/pkg/peripheral_ahb3_pkg.vhd
+../../../../../../rtl/vhdl/pkg/core/vhdl_pkg.vhd
+../../../../../../rtl/vhdl/pkg/peripheral/ahb3/peripheral_ahb3_pkg.vhd
 
-../../../../../../rtl/vhdl/ahb3/core/peripheral_apb42ahb3.vhd
-../../../../../../rtl/vhdl/ahb3/core/peripheral_gpio_apb4.vhd
+../../../../../../rtl/vhdl/peripheral/ahb3/peripheral_apb42ahb3.vhd
+../../../../../../rtl/vhdl/peripheral/ahb3/peripheral_gpio_apb4.vhd
 
-../../../../../../bench/vhdl/tests/core/ahb3/peripheral_gpio_testbench.vhd
+../../../../../../bench/vhdl/tests/peripheral/ahb3/peripheral_gpio_testbench.vhd

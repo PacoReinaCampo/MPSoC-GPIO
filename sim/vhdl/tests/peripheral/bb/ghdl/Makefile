@@ -1,8 +1,8 @@
 all: build simulate
 
 build:
-	ghdl -a --std=08 ../../../../../../rtl/vhdl/wb/core/peripheral_gpio_wb.vhd
-	ghdl -a --std=08 ../../../../../../bench/vhdl/tests/core/wb/peripheral_gpio_testbench.vhd
+	ghdl -a --std=08 ../../../../../../rtl/vhdl/peripheral/wb/peripheral_gpio_wb.vhd
+	ghdl -a --std=08 ../../../../../../bench/vhdl/tests/peripheral/wb/peripheral_gpio_testbench.vhd
 
 simulate:
 	ghdl -m --std=08 peripheral_gpio_testbench
