@@ -11,9 +11,10 @@ verilog
 │   └── wb
 │       └── peripheral_gpio_wb.sv
 └── pkg
-    ├── ahb3
-    │   └── peripheral_ahb3_pkg.sv
-    └── wb
-        └── peripheral_wb_pkg.sv
+    └── peripheral
+        ├── ahb3
+        │   └── peripheral_ahb3_pkg.sv
+        └── wb
+            └── peripheral_wb_pkg.sv
 
-9 directories, 7 files
+10 directories, 7 files
