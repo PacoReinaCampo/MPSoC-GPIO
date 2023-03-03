@@ -40,7 +40,7 @@
  *   Paco Reina Campo <pacoreinacampo@queenfield.tech>
  */
 
-module peripheral_bfm_testbench;
+module peripheral_gpio_testbench;
   parameter PDATA_SIZE = 8;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -95,4 +95,4 @@ module peripheral_bfm_testbench;
 
   peripheral_gpio_apb4 #( .PDATA_SIZE ( PDATA_SIZE ))
   dut ( .* );
-endmodule : peripheral_bfm_testbench
+endmodule : peripheral_gpio_testbench

@@ -43,10 +43,9 @@
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 @echo off
-source ../../../../../../settings64_msim.sh
+call ../../../../../../settings64_msim.bat
 
 vlib work
-vlog -sv -f system.verilog.vc
-vcom -2008 -f system.vhdl.vc
+vlog -sv -f system.vc
 vsim -c -do run.do work.peripheral_gpio_testbench
 pause

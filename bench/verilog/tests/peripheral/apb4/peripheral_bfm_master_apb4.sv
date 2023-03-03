@@ -40,59 +40,91 @@
  *   Paco Reina Campo <pacoreinacampo@queenfield.tech>
  */
 
-module peripheral_bfm_testbench;
-  parameter PDATA_SIZE = 8;
+module peripheral_bfm_master_apb4 #(
+  parameter PADDR_SIZE = 16,
+  parameter PDATA_SIZE = 32
+)
+  (
+    input                         PRESETn,
+    input                         PCLK,
+
+    //APB Master Interface
+    output reg                    PSEL,
+    output reg                    PENABLE,
+    output reg [PADDR_SIZE  -1:0] PADDR,
+    output reg [PDATA_SIZE/8-1:0] PSTRB,
+    output reg [PDATA_SIZE  -1:0] PWDATA,
+    input      [PDATA_SIZE  -1:0] PRDATA,
+    output reg                    PWRITE,
+    input                         PREADY,
+    input                         PSLVERR
+  );
+
+  always @(negedge PRESETn) reset();
 
   //////////////////////////////////////////////////////////////////////////////
   //
-  // Variables
+  // Tasks
   //
 
-  //APB signals
-  logic                    PSEL;
-  logic                    PENABLE;
-  logic [             3:0] PADDR;
-  logic [PDATA_SIZE/8-1:0] PSTRB;
-  logic [PDATA_SIZE  -1:0] PWDATA;
-  logic [PDATA_SIZE  -1:0] PRDATA;
-  logic                    PWRITE;
-  logic                    PREADY;
-  logic                    PSLVERR;
+  task automatic reset();
+    //Reset AHB Bus
+    PSEL      = 1'b0;
+    PENABLE   = 1'b0;
+    PADDR     = 'hx;
+    PSTRB     = 'hx;
+    PWDATA    = 'hx;
+    PWRITE    = 'hx;
 
-  //GPIOs
-  logic [PDATA_SIZE -1:0] gpio_o, gpio_i, gpio_oe;
+    @(posedge PRESETn);
+  endtask
 
-  //IRQ
-  logic irq_o;
+  task automatic write (
+    input [PADDR_SIZE  -1:0] address,
+    input [PDATA_SIZE/8-1:0] strb,
+    input [PDATA_SIZE  -1:0] data
+  );
+    PSEL    = 1'b1;
+    PADDR   = address;
+    PSTRB   = strb;
+    PWDATA  = data;
+    PWRITE  = 1'b1;
+    @(posedge PCLK);
 
-  //////////////////////////////////////////////////////////////////////////////
-  //
-  // Clock & Reset
-  //
+    PENABLE = 1'b1;
+    @(posedge PCLK);
 
-  bit PCLK, PRESETn;
+    while (!PREADY) @(posedge PCLK);
 
-  initial begin : gen_PCLK
-    PCLK <= 1'b0;
-    forever #10 PCLK = ~PCLK;
-  end : gen_PCLK
+    PSEL    = 1'b0;
+    PADDR   = {PADDR_SIZE{1'bx}};
+    PSTRB   = {PDATA_SIZE/8{1'bx}};
+    PWDATA  = {PDATA_SIZE{1'bx}};
+    PWRITE  = 1'bx;
+    PENABLE = 1'b0;
+  endtask
 
-  initial begin : gen_PRESETn;
-    PRESETn = 1'b1;
-    //ensure falling edge of PRESETn
-    #10;
-    PRESETn = 1'b0;
-    #32;
-    PRESETn = 1'b1;
-  end : gen_PRESETn;
+  task automatic read (
+    input  [PADDR_SIZE -1:0] address,
+    output [PDATA_SIZE -1:0] data
+  );
+    PSEL    = 1'b1;
+    PADDR   = address;
+    PSTRB   = {PDATA_SIZE/8{1'bx}};
+    PWDATA  = {PDATA_SIZE{1'bx}};
+    PWRITE  = 1'b0;
+    @(posedge PCLK);
 
-  //////////////////////////////////////////////////////////////////////////////
-  //
-  // TB and DUT
-  //
-  peripheral_bfm_apb4 #( .PDATA_SIZE ( PDATA_SIZE ))
-  bfm_apb4 ( .* );
+    PENABLE = 1'b1;
+    @(posedge PCLK);
 
-  peripheral_gpio_apb4 #( .PDATA_SIZE ( PDATA_SIZE ))
-  dut ( .* );
-endmodule : peripheral_bfm_testbench
+    while (!PREADY) @(posedge PCLK);
+
+    data = PRDATA;
+
+    PSEL    = 1'b0;
+    PADDR   = {PADDR_SIZE{1'bx}};
+    PWRITE  = 1'bx;
+    PENABLE = 1'b0;
+  endtask
+endmodule : peripheral_bfm_master_apb4

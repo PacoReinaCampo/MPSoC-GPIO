@@ -42,5 +42,10 @@
 ::                                                                               ::
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-del transcript
-rmdir /s /q work
+@echo off
+call ../../../../../../settings64_vivado.bat
+
+xvlog -prj system.prj
+xelab peripheral_gpio_testbench
+xsim -R peripheral_gpio_testbench
+pause

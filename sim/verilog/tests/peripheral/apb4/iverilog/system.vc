@@ -42,8 +42,8 @@
 ##                                                                               ##
 ###################################################################################
 
-../../../../../../rtl/vhdl/pkg/core/vhdl_pkg.vhd
-../../../../../../rtl/vhdl/pkg/peripheral/ahb3/peripheral_ahb3_pkg.vhd
+../../../../../../rtl/verilog/peripheral/ahb3/peripheral_gpio_apb4.sv
 
-../../../../../../rtl/vhdl/peripheral/ahb3/peripheral_apb42ahb3.vhd
-../../../../../../rtl/vhdl/peripheral/ahb3/peripheral_gpio_apb4.vhd
+../../../../../../bench/verilog/tests/peripheral/apb4/peripheral_bfm_apb4.sv
+../../../../../../bench/verilog/tests/peripheral/apb4/peripheral_bfm_master_apb4.sv
+../../../../../../bench/verilog/tests/peripheral/apb4/peripheral_gpio_testbench.sv

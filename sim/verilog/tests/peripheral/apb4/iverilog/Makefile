@@ -42,6 +42,13 @@
 ##                                                                               ##
 ###################################################################################
 
-../../../../../../rtl/verilog/pkg/peripheral/wb/peripheral_wb_pkg.sv
+all: build simulate
 
-../../../../../../bench/verilog/tests/peripheral/wb/main/peripheral_gpio_testbench.sv
+build:
+	iverilog -g2012 -o system.vvp -c system.vc -s peripheral_gpio_testbench
+
+simulate:
+	vvp system.vvp
+
+clean:
+	rm -rf system.vvp

@@ -42,4 +42,14 @@
 ##                                                                               ##
 ###################################################################################
 
-../../../../../../rtl/vhdl/peripheral/wb/peripheral_gpio_wb.vhd
+all: build simulate
+
+build:
+	xvlog -prj system.prj
+
+simulate:
+	xelab peripheral_gpio_testbench
+	xsim -R peripheral_gpio_testbench
+
+clean:
+	rm -rf *.dir *.jou *.log *.pb .Xil

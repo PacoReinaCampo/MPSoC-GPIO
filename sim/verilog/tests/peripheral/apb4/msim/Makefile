@@ -42,7 +42,14 @@
 ##                                                                               ##
 ###################################################################################
 
-source ../../../../../../settings64_msim.sh
+all: build simulate
 
-make clean
-make
+build:
+	if [ ! -e work ]; then vlib work; fi
+	vlog -sv -f system.vc
+
+simulate:
+	vsim -c -do run.do work.peripheral_gpio_testbench
+
+clean:
+	rm -rf work transcript

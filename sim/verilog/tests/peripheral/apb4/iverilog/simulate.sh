@@ -42,6 +42,5 @@
 ##                                                                               ##
 ###################################################################################
 
-../../../../../../rtl/verilog/pkg/peripheral/wb/peripheral_wb_pkg.sv
-
-../../../../../../bench/verilog/tests/peripheral/wb/main/peripheral_gpio_testbench.sv
+make clean
+make
