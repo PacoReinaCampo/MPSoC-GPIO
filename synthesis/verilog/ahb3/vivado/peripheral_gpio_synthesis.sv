@@ -40,7 +40,7 @@
  *   Paco Reina Campo <pacoreinacampo@queenfield.tech>
  */
 
-module mpsoc_uart_synthesis #(
+module peripheral_gpio_synthesis #(
   parameter HADDR_SIZE =  8,
   parameter HDATA_SIZE = 32,
   parameter APB_ADDR_WIDTH =  8,
@@ -53,19 +53,19 @@ module mpsoc_uart_synthesis #(
     input                         HCLK,
 								  
     //UART AHB3
-    input                         uart_HSEL,
-    input      [HADDR_SIZE  -1:0] uart_HADDR,
-    input      [HDATA_SIZE  -1:0] uart_HWDATA,
-    output reg [HDATA_SIZE  -1:0] uart_HRDATA,
-    input                         uart_HWRITE,
-    input      [             2:0] uart_HSIZE,
-    input      [             2:0] uart_HBURST,
-    input      [             3:0] uart_HPROT,
-    input      [             1:0] uart_HTRANS,
-    input                         uart_HMASTLOCK,
-    output reg                    uart_HREADYOUT,
-    input                         uart_HREADY,
-    output reg                    uart_HRESP
+    input                         gpio_HSEL,
+    input      [HADDR_SIZE  -1:0] gpio_HADDR,
+    input      [HDATA_SIZE  -1:0] gpio_HWDATA,
+    output reg [HDATA_SIZE  -1:0] gpio_HRDATA,
+    input                         gpio_HWRITE,
+    input      [             2:0] gpio_HSIZE,
+    input      [             2:0] gpio_HBURST,
+    input      [             3:0] gpio_HPROT,
+    input      [             1:0] gpio_HTRANS,
+    input                         gpio_HMASTLOCK,
+    output reg                    gpio_HREADYOUT,
+    input                         gpio_HREADY,
+    output reg                    gpio_HRESP
   );
 
   //////////////////////////////////////////////////////////////////
@@ -74,19 +74,19 @@ module mpsoc_uart_synthesis #(
   //
 
   //Common signals
-  logic [APB_ADDR_WIDTH -1:0] uart_PADDR;
-  logic [APB_DATA_WIDTH -1:0] uart_PWDATA;
-  logic                       uart_PWRITE;
-  logic                       uart_PSEL;
-  logic                       uart_PENABLE;
-  logic [APB_DATA_WIDTH -1:0] uart_PRDATA;
-  logic                       uart_PREADY;
-  logic                       uart_PSLVERR;
+  logic [APB_ADDR_WIDTH -1:0] gpio_PADDR;
+  logic [APB_DATA_WIDTH -1:0] gpio_PWDATA;
+  logic                       gpio_PWRITE;
+  logic                       gpio_PSEL;
+  logic                       gpio_PENABLE;
+  logic [APB_DATA_WIDTH -1:0] gpio_PRDATA;
+  logic                       gpio_PREADY;
+  logic                       gpio_PSLVERR;
 
-  logic                       uart_rx_i;  // Receiver input
-  logic                       uart_tx_o;  // Transmitter output
+  logic                       gpio_rx_i;  // Receiver input
+  logic                       gpio_tx_o;  // Transmitter output
 
-  logic                       uart_event_o;
+  logic                       gpio_event_o;
 
   //////////////////////////////////////////////////////////////////
   //
@@ -94,7 +94,7 @@ module mpsoc_uart_synthesis #(
   //
 
   //DUT AHB3
-  mpsoc_bridge_apb2ahb #(
+  peripheral_bridge_apb2ahb #(
     .HADDR_SIZE ( HADDR_SIZE     ),
     .HDATA_SIZE ( HDATA_SIZE     ),
     .PADDR_SIZE ( APB_ADDR_WIDTH ),
@@ -106,56 +106,56 @@ module mpsoc_uart_synthesis #(
     .HRESETn   ( HRESETn ),
     .HCLK      ( HCLK    ),
 
-    .HSEL      ( uart_HSEL      ),
-    .HADDR     ( uart_HADDR     ),
-    .HWDATA    ( uart_HWDATA    ),
-    .HRDATA    ( uart_HRDATA    ),
-    .HWRITE    ( uart_HWRITE    ),
-    .HSIZE     ( uart_HSIZE     ),
-    .HBURST    ( uart_HBURST    ),
-    .HPROT     ( uart_HPROT     ),
-    .HTRANS    ( uart_HTRANS    ),
-    .HMASTLOCK ( uart_HMASTLOCK ),
-    .HREADYOUT ( uart_HREADYOUT ),
-    .HREADY    ( uart_HREADY    ),
-    .HRESP     ( uart_HRESP     ),
+    .HSEL      ( gpio_HSEL      ),
+    .HADDR     ( gpio_HADDR     ),
+    .HWDATA    ( gpio_HWDATA    ),
+    .HRDATA    ( gpio_HRDATA    ),
+    .HWRITE    ( gpio_HWRITE    ),
+    .HSIZE     ( gpio_HSIZE     ),
+    .HBURST    ( gpio_HBURST    ),
+    .HPROT     ( gpio_HPROT     ),
+    .HTRANS    ( gpio_HTRANS    ),
+    .HMASTLOCK ( gpio_HMASTLOCK ),
+    .HREADYOUT ( gpio_HREADYOUT ),
+    .HREADY    ( gpio_HREADY    ),
+    .HRESP     ( gpio_HRESP     ),
 
     //APB Master Interface
     .PRESETn ( HRESETn ),
     .PCLK    ( HCLK    ),
 
-    .PSEL    ( uart_PSEL    ),
-    .PENABLE ( uart_PENABLE ),
+    .PSEL    ( gpio_PSEL    ),
+    .PENABLE ( gpio_PENABLE ),
     .PPROT   (              ),
-    .PWRITE  ( uart_PWRITE  ),
+    .PWRITE  ( gpio_PWRITE  ),
     .PSTRB   (              ),
-    .PADDR   ( uart_PADDR   ),
-    .PWDATA  ( uart_PWDATA  ),
-    .PRDATA  ( uart_PRDATA  ),
-    .PREADY  ( uart_PREADY  ),
-    .PSLVERR ( uart_PSLVERR )
+    .PADDR   ( gpio_PADDR   ),
+    .PWDATA  ( gpio_PWDATA  ),
+    .PRDATA  ( gpio_PRDATA  ),
+    .PREADY  ( gpio_PREADY  ),
+    .PSLVERR ( gpio_PSLVERR )
   );
 
-  mpsoc_apb4_uart #(
+  peripheral_apb4_gpio #(
     .APB_ADDR_WIDTH ( APB_ADDR_WIDTH ),
     .APB_DATA_WIDTH ( APB_DATA_WIDTH )
   )
-  apb4_uart (
+  apb4_gpio (
     .RSTN ( HRESETn ),
     .CLK  ( HCLK    ),
 
-    .PADDR   ( uart_PADDR   ),
-    .PWDATA  ( uart_PWDATA  ),
-    .PWRITE  ( uart_PWRITE  ),
-    .PSEL    ( uart_PSEL    ),
-    .PENABLE ( uart_PENABLE ),
-    .PRDATA  ( uart_PRDATA  ),
-    .PREADY  ( uart_PREADY  ),
-    .PSLVERR ( uart_PSLVERR ),
+    .PADDR   ( gpio_PADDR   ),
+    .PWDATA  ( gpio_PWDATA  ),
+    .PWRITE  ( gpio_PWRITE  ),
+    .PSEL    ( gpio_PSEL    ),
+    .PENABLE ( gpio_PENABLE ),
+    .PRDATA  ( gpio_PRDATA  ),
+    .PREADY  ( gpio_PREADY  ),
+    .PSLVERR ( gpio_PSLVERR ),
 
-    .rx_i ( uart_rx_i ),
-    .tx_o ( uart_tx_o ),
+    .rx_i ( gpio_rx_i ),
+    .tx_o ( gpio_tx_o ),
 
-    .event_o ( uart_event_o )
+    .event_o ( gpio_event_o )
   );
 endmodule
