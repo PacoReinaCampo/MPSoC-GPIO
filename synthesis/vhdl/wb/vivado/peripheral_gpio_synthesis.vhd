@@ -85,9 +85,8 @@ end peripheral_gpio_synthesis;
 architecture rtl of peripheral_gpio_synthesis is
 
   ------------------------------------------------------------------------------
-  --
   -- Components
-  --
+  ------------------------------------------------------------------------------
   component peripheral_wb_gpio
     generic (
       SIM   : integer := 0;
@@ -125,9 +124,8 @@ architecture rtl of peripheral_gpio_synthesis is
 
 begin
   ------------------------------------------------------------------------------
-  --
   -- Module Body
-  --
+  ------------------------------------------------------------------------------
 
   --DUT WB
   wb_gpio : peripheral_wb_gpio
