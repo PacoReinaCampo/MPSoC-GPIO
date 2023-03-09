@@ -78,6 +78,11 @@ entity peripheral_gpio_synthesis is
 end peripheral_gpio_synthesis;
 
 architecture rtl of peripheral_gpio_synthesis is
+
+  ------------------------------------------------------------------------------
+  -- Components
+  ------------------------------------------------------------------------------
+
   component peripheral_bridge_apb2ahb
     generic (
       HADDR_SIZE : integer := 32;
