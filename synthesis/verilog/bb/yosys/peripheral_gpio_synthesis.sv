@@ -41,21 +41,21 @@
  */
 
 module peripheral_gpio_synthesis (
-  input              mclk, // Main system clock
-  input              puc_rst, // Main system reset
+  input mclk,    // Main system clock
+  input puc_rst, // Main system reset
 
-  input              smclk_en, // SMCLK enable (from CPU)
+  input smclk_en,  // SMCLK enable (from CPU)
 
-  input       [13:0] per_addr, // Peripheral address
-  output      [15:0] per_dout, // Peripheral data output
-  input       [15:0] per_din, // Peripheral data input
-  input              per_en, // Peripheral enable (high active)
-  input       [ 1:0] per_we, // Peripheral write enable (high active)
+  input  [13:0] per_addr,  // Peripheral address
+  output [15:0] per_dout,  // Peripheral data output
+  input  [15:0] per_din,   // Peripheral data input
+  input         per_en,    // Peripheral enable (high active)
+  input  [ 1:0] per_we,    // Peripheral write enable (high active)
 
-  output             irq_gpio_rx, // UART receive interrupt
-  output             irq_gpio_tx, // UART transmit interrupt
-  input              gpio_rxd, // UART Data Receive (RXD)
-  output             gpio_txd // UART Data Transmit (TXD)
+  output irq_gpio_rx,  // UART receive interrupt
+  output irq_gpio_tx,  // UART transmit interrupt
+  input  gpio_rxd,     // UART Data Receive (RXD)
+  output gpio_txd      // UART Data Transmit (TXD)
 );
 
   //////////////////////////////////////////////////////////////////
@@ -65,20 +65,20 @@ module peripheral_gpio_synthesis (
 
   //DUT BB
   bb_gpio gpio (
-    .mclk         (mclk), // Main system clock
-    .puc_rst      (puc_rst), // Main system reset
+    .mclk   (mclk),    // Main system clock
+    .puc_rst(puc_rst), // Main system reset
 
-    .smclk_en     (smclk_en), // SMCLK enable (from CPU)
+    .smclk_en(smclk_en),  // SMCLK enable (from CPU)
 
-    .per_addr     (per_addr), // Peripheral address
-    .per_dout     (per_dout), // Peripheral data output
-    .per_din      (per_din), // Peripheral data input
-    .per_en       (per_en), // Peripheral enable (high active)
-    .per_we       (per_we), // Peripheral write enable (high active)
+    .per_addr(per_addr),  // Peripheral address
+    .per_dout(per_dout),  // Peripheral data output
+    .per_din (per_din),   // Peripheral data input
+    .per_en  (per_en),    // Peripheral enable (high active)
+    .per_we  (per_we),    // Peripheral write enable (high active)
 
-    .irq_gpio_rx  (irq_gpio_rx), // UART receive interrupt
-    .irq_gpio_tx  (irq_gpio_tx), // UART transmit interrupt
-    .gpio_rxd     (gpio_rxd), // UART Data Receive (RXD)
-    .gpio_txd     (gpio_txd) // UART Data Transmit (TXD)
+    .irq_gpio_rx(irq_gpio_rx),  // UART receive interrupt
+    .irq_gpio_tx(irq_gpio_tx),  // UART transmit interrupt
+    .gpio_rxd   (gpio_rxd),     // UART Data Receive (RXD)
+    .gpio_txd   (gpio_txd)      // UART Data Transmit (TXD)
   );
 endmodule
