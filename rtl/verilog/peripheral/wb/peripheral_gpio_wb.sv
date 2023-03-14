@@ -50,29 +50,29 @@ module peripheral_gpio_wb #(
   parameter REGISTER_GPIO_INPUTS  = "DISABLED"
 )
   (
-    // WISHBONE Interface
-    input                        wb_clk_i,   // Clock
-    input                        wb_rst_i,   // Reset
-    input                        wb_cyc_i,   // cycle valid input
-    input   [WB_ADDR_WIDTH-1:0]  wb_adr_i,   // address bus inputs
-    input   [WB_DATA_WIDTH-1:0]  wb_dat_i,   // input data bus
-    input   [              3:0]  wb_sel_i,   // byte select inputs
-    input                        wb_we_i,    // indicates write transfer
-    input                        wb_stb_i,   // strobe input
-    output  [WB_DATA_WIDTH-1:0]  wb_dat_o,   // output data bus
-    output                       wb_ack_o,   // normal termination
-    output                       wb_err_o,   // termination w/ error
-    output                       wb_inta_o,  // Interrupt request output
+  // WISHBONE Interface
+  input                        wb_clk_i, // Clock
+  input                        wb_rst_i, // Reset
+  input                        wb_cyc_i, // cycle valid input
+  input   [WB_ADDR_WIDTH-1:0]  wb_adr_i, // address bus inputs
+  input   [WB_DATA_WIDTH-1:0]  wb_dat_i, // input data bus
+  input   [              3:0]  wb_sel_i, // byte select inputs
+  input                        wb_we_i, // indicates write transfer
+  input                        wb_stb_i, // strobe input
+  output  [WB_DATA_WIDTH-1:0]  wb_dat_o, // output data bus
+  output                       wb_ack_o, // normal termination
+  output                       wb_err_o, // termination w/ error
+  output                       wb_inta_o, // Interrupt request output
 
-    // Auxiliary Inputs Interface
-    input   [GPIO_WIDTH-1:0]  aux_i,  // Auxiliary inputs
+  // Auxiliary Inputs Interface
+  input   [GPIO_WIDTH-1:0]  aux_i, // Auxiliary inputs
 
-    // External GPIO Interface
-    input   [GPIO_WIDTH-1:0]  ext_pad_i,  // GPIO Inputs
+  // External GPIO Interface
+  input   [GPIO_WIDTH-1:0]  ext_pad_i, // GPIO Inputs
 
-    output  [GPIO_WIDTH-1:0]  ext_pad_o,   // GPIO Outputs
-    output  [GPIO_WIDTH-1:0]  ext_padoe_o  // GPIO output drivers enables
-  );
+  output  [GPIO_WIDTH-1:0]  ext_pad_o, // GPIO Outputs
+  output  [GPIO_WIDTH-1:0]  ext_padoe_o // GPIO output drivers enables
+);
 
   //////////////////////////////////////////////////////////////////////////////
   //
@@ -142,56 +142,56 @@ module peripheral_gpio_wb #(
 
   // GPIO Input Register (or no register)
   `ifdef GPIO_RGPIO_IN
-  reg  [GPIO_WIDTH-1:0]  rgpio_in;  // RGPIO_IN register
+  reg  [GPIO_WIDTH-1:0]  rgpio_in; // RGPIO_IN register
   `else
   wire [GPIO_WIDTH-1:0]  rgpio_in;  // No register
   `endif
 
   // GPIO Output Register (or no register)
   `ifdef GPIO_RGPIO_OUT
-  reg  [GPIO_WIDTH-1:0]  rgpio_out;  // RGPIO_OUT register
+  reg  [GPIO_WIDTH-1:0]  rgpio_out; // RGPIO_OUT register
   `else
   wire [GPIO_WIDTH-1:0]  rgpio_out;  // No register
   `endif
 
   // GPIO Output Driver Enable Register (or no register)
   `ifdef GPIO_RGPIO_OE
-  reg  [GPIO_WIDTH-1:0]  rgpio_oe;  // RGPIO_OE register
+  reg  [GPIO_WIDTH-1:0]  rgpio_oe; // RGPIO_OE register
   `else
   wire [GPIO_WIDTH-1:0]  rgpio_oe;  // No register
   `endif
 
   // GPIO Interrupt Enable Register (or no register)
   `ifdef GPIO_RGPIO_INTE
-  reg  [GPIO_WIDTH-1:0]  rgpio_inte;  // RGPIO_INTE register
+  reg  [GPIO_WIDTH-1:0]  rgpio_inte; // RGPIO_INTE register
   `else
   wire [GPIO_WIDTH-1:0]  rgpio_inte;  // No register
   `endif
 
   // GPIO Positive edge Triggered Register (or no register)
   `ifdef GPIO_RGPIO_PTRIG
-  reg  [GPIO_WIDTH-1:0]  rgpio_ptrig;  // RGPIO_PTRIG register
+  reg  [GPIO_WIDTH-1:0]  rgpio_ptrig; // RGPIO_PTRIG register
   `else
   wire [GPIO_WIDTH-1:0]  rgpio_ptrig;  // No register
   `endif
 
   // GPIO Auxiliary select Register (or no register)
   `ifdef GPIO_RGPIO_AUX
-  reg  [GPIO_WIDTH-1:0]  rgpio_aux;  // RGPIO_AUX register
+  reg  [GPIO_WIDTH-1:0]  rgpio_aux; // RGPIO_AUX register
   `else
   wire [GPIO_WIDTH-1:0]  rgpio_aux;  // No register
   `endif
 
   // GPIO Control Register (or no register)
   `ifdef GPIO_RGPIO_CTRL
-  reg  [1:0]    rgpio_ctrl;  // RGPIO_CTRL register
+  reg  [1:0]    rgpio_ctrl; // RGPIO_CTRL register
   `else
   wire [1:0]    rgpio_ctrl;  // No register
   `endif
 
   // GPIO Interrupt Status Register (or no register)
   `ifdef GPIO_RGPIO_INTS
-  reg  [GPIO_WIDTH-1:0]  rgpio_ints;  // RGPIO_INTS register
+  reg  [GPIO_WIDTH-1:0]  rgpio_ints; // RGPIO_INTS register
   `else
   wire [GPIO_WIDTH-1:0]  rgpio_ints;  // No register
   `endif
@@ -200,40 +200,40 @@ module peripheral_gpio_wb #(
   `ifdef GPIO_RGPIO_ECLK
   reg  [GPIO_WIDTH-1:0]  rgpio_eclk;  // RGPIO_ECLK register
   `else
-  wire [GPIO_WIDTH-1:0]  rgpio_eclk;  // No register
+  wire [GPIO_WIDTH-1:0]  rgpio_eclk; // No register
   `endif
 
   // GPIO Active Negative Edge  Register (or no register)
   `ifdef GPIO_RGPIO_NEC
   reg  [GPIO_WIDTH-1:0]  rgpio_nec;  // RGPIO_NEC register
   `else
-  wire [GPIO_WIDTH-1:0]  rgpio_nec;  // No register
+  wire [GPIO_WIDTH-1:0]  rgpio_nec; // No register
   `endif
 
   reg  [GPIO_WIDTH-1:0]  ext_pad_s;
 
   // Internal wires & regs
-  wire                      rgpio_out_sel;   // RGPIO_OUT select
-  wire                      rgpio_oe_sel;    // RGPIO_OE select
-  wire                      rgpio_inte_sel;  // RGPIO_INTE select
+  wire                      rgpio_out_sel; // RGPIO_OUT select
+  wire                      rgpio_oe_sel; // RGPIO_OE select
+  wire                      rgpio_inte_sel; // RGPIO_INTE select
   wire                      rgpio_ptrig_sel; // RGPIO_PTRIG select
-  wire                      rgpio_aux_sel;   // RGPIO_AUX select
-  wire                      rgpio_ctrl_sel;  // RGPIO_CTRL select
-  wire                      rgpio_ints_sel;  // RGPIO_INTS select
+  wire                      rgpio_aux_sel; // RGPIO_AUX select
+  wire                      rgpio_ctrl_sel; // RGPIO_CTRL select
+  wire                      rgpio_ints_sel; // RGPIO_INTS select
   wire                      rgpio_eclk_sel;
   wire                      rgpio_nec_sel;
-  wire                      full_decoding;  // Full address decoding qualification
-  wire  [GPIO_WIDTH   -1:0] in_muxed;       // Muxed inputs
-  wire                      wb_ack;         // WB Acknowledge
-  wire                      wb_err;         // WB Error
-  wire                      wb_inta;        // WB Interrupt
-  reg   [WB_DATA_WIDTH-1:0] wb_dat;         // WB Data out
-  reg                       wb_ack_s;       // WB Acknowledge
-  reg                       wb_err_s;       // WB Error
-  reg                       wb_inta_s;      // WB Interrupt
-  reg   [WB_DATA_WIDTH-1:0] wb_dat_s;       // WB Data out
+  wire                      full_decoding; // Full address decoding qualification
+  wire  [GPIO_WIDTH   -1:0] in_muxed; // Muxed inputs
+  wire                      wb_ack; // WB Acknowledge
+  wire                      wb_err; // WB Error
+  wire                      wb_inta; // WB Interrupt
+  reg   [WB_DATA_WIDTH-1:0] wb_dat; // WB Data out
+  reg                       wb_ack_s; // WB Acknowledge
+  reg                       wb_err_s; // WB Error
+  reg                       wb_inta_s; // WB Interrupt
+  reg   [WB_DATA_WIDTH-1:0] wb_dat_s; // WB Data out
 
-  wire  [GPIO_WIDTH   -1:0] out_pad;  // GPIO Outputs
+  wire  [GPIO_WIDTH   -1:0] out_pad; // GPIO Outputs
 
   // synchronize inputs to system clock
   reg   [GPIO_WIDTH-1:0]  sync;
@@ -377,8 +377,8 @@ module peripheral_gpio_wb #(
   // Write to RGPIO_OE.
   `ifdef GPIO_RGPIO_OE
   always @(posedge wb_clk_i or posedge wb_rst_i)
-    if (wb_rst_i)
-      rgpio_oe <=  {GPIO_WIDTH{1'b0}};
+  if (wb_rst_i)
+    rgpio_oe <=  {GPIO_WIDTH{1'b0}};
   else if (rgpio_oe_sel && wb_we_i) begin
       `ifdef GPIO_STRICT_32BIT_ACCESS
       rgpio_oe <=  wb_dat_i[GPIO_WIDTH-1:0];
@@ -585,7 +585,7 @@ module peripheral_gpio_wb #(
     end
   end
   `else
-  assign rgpio_eclk = `GPIO_DEF_RGPIO_ECLK;  // RGPIO_ECLK = 0x0
+  assign rgpio_eclk = `GPIO_DEF_RGPIO_ECLK; // RGPIO_ECLK = 0x0
   `endif
 
   // Write to RGPIO_NEC
@@ -628,7 +628,7 @@ module peripheral_gpio_wb #(
     end
   end
   `else
-  assign rgpio_nec = `GPIO_DEF_RGPIO_NEC;  // RGPIO_NEC = 0x0
+  assign rgpio_nec = `GPIO_DEF_RGPIO_NEC; // RGPIO_NEC = 0x0
   `endif
 
   generate
@@ -667,8 +667,8 @@ module peripheral_gpio_wb #(
 
   // Mux all registers when doing a read of GPIO registers
   always @(wb_adr_i or rgpio_in or rgpio_out or rgpio_oe or rgpio_inte or
-           rgpio_ptrig or rgpio_aux or rgpio_ctrl or rgpio_ints or rgpio_eclk or rgpio_nec) begin
-    case (wb_adr_i[`GPIO_OFS_BITS])  // synopsys full_case parallel_case
+  rgpio_ptrig or rgpio_aux or rgpio_ctrl or rgpio_ints or rgpio_eclk or rgpio_nec) begin
+    case (wb_adr_i[`GPIO_OFS_BITS]) // synopsys full_case parallel_case
       `ifdef GPIO_RGPIO_OUT
       `GPIO_RGPIO_OUT: begin
         wb_dat[WB_DATA_WIDTH-1:0] = rgpio_out;

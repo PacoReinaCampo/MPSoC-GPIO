@@ -99,11 +99,11 @@ module peripheral_gpio_testbench;
 
   //DUT AHB3
   peripheral_apb42ahb3 #(
-    .HADDR_SIZE ( HADDR_SIZE ) ,
-    .HDATA_SIZE ( HDATA_SIZE ),
-    .PADDR_SIZE ( PADDR_SIZE ),
-    .PDATA_SIZE ( PDATA_SIZE ),
-    .SYNC_DEPTH ( SYNC_DEPTH )
+  .HADDR_SIZE ( HADDR_SIZE ) ,
+  .HDATA_SIZE ( HDATA_SIZE ),
+  .PADDR_SIZE ( PADDR_SIZE ),
+  .PDATA_SIZE ( PDATA_SIZE ),
+  .SYNC_DEPTH ( SYNC_DEPTH )
   )
   apb42ahb3 (
     //AHB Slave Interface
@@ -141,8 +141,8 @@ module peripheral_gpio_testbench;
   );
 
   peripheral_gpio_apb4 #(
-    .PADDR_SIZE ( PADDR_SIZE ),
-    .PDATA_SIZE ( PDATA_SIZE )
+  .PADDR_SIZE ( PADDR_SIZE ),
+  .PDATA_SIZE ( PDATA_SIZE )
   )
   gpio_apb4 (
     .PRESETn ( HRESETn ),

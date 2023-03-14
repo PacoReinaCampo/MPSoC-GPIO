@@ -48,53 +48,53 @@
  */
 
 module peripheral_gpio_bb #(
-  parameter           P1_EN = 1'b1,   // Enable Port 1
-  parameter           P2_EN = 1'b1,   // Enable Port 2
-  parameter           P3_EN = 1'b1,   // Enable Port 3
-  parameter           P4_EN = 1'b1,   // Enable Port 4
-  parameter           P5_EN = 1'b1,   // Enable Port 5
-  parameter           P6_EN = 1'b1    // Enable Port 6
+  parameter           P1_EN = 1'b1, // Enable Port 1
+  parameter           P2_EN = 1'b1, // Enable Port 2
+  parameter           P3_EN = 1'b1, // Enable Port 3
+  parameter           P4_EN = 1'b1, // Enable Port 4
+  parameter           P5_EN = 1'b1, // Enable Port 5
+  parameter           P6_EN = 1'b1 // Enable Port 6
 )
   (
-    // OUTPUTs
-    output              irq_port1,      // Port 1 interrupt
-    output              irq_port2,      // Port 2 interrupt
-    output        [7:0] p1_dout,        // Port 1 data output
-    output        [7:0] p1_dout_en,     // Port 1 data output enable
-    output        [7:0] p1_sel,         // Port 1 function select
-    output        [7:0] p2_dout,        // Port 2 data output
-    output        [7:0] p2_dout_en,     // Port 2 data output enable
-    output        [7:0] p2_sel,         // Port 2 function select
-    output        [7:0] p3_dout,        // Port 3 data output
-    output        [7:0] p3_dout_en,     // Port 3 data output enable
-    output        [7:0] p3_sel,         // Port 3 function select
-    output        [7:0] p4_dout,        // Port 4 data output
-    output        [7:0] p4_dout_en,     // Port 4 data output enable
-    output        [7:0] p4_sel,         // Port 4 function select
-    output        [7:0] p5_dout,        // Port 5 data output
-    output        [7:0] p5_dout_en,     // Port 5 data output enable
-    output        [7:0] p5_sel,         // Port 5 function select
-    output        [7:0] p6_dout,        // Port 6 data output
-    output        [7:0] p6_dout_en,     // Port 6 data output enable
-    output        [7:0] p6_sel,         // Port 6 function select
-    output       [15:0] per_dout,       // Peripheral data output
-    output reg    [7:0] p1dir,
-    output reg    [7:0] p1ifg,
+  // OUTPUTs
+  output              irq_port1, // Port 1 interrupt
+  output              irq_port2, // Port 2 interrupt
+  output        [7:0] p1_dout, // Port 1 data output
+  output        [7:0] p1_dout_en, // Port 1 data output enable
+  output        [7:0] p1_sel, // Port 1 function select
+  output        [7:0] p2_dout, // Port 2 data output
+  output        [7:0] p2_dout_en, // Port 2 data output enable
+  output        [7:0] p2_sel, // Port 2 function select
+  output        [7:0] p3_dout, // Port 3 data output
+  output        [7:0] p3_dout_en, // Port 3 data output enable
+  output        [7:0] p3_sel, // Port 3 function select
+  output        [7:0] p4_dout, // Port 4 data output
+  output        [7:0] p4_dout_en, // Port 4 data output enable
+  output        [7:0] p4_sel, // Port 4 function select
+  output        [7:0] p5_dout, // Port 5 data output
+  output        [7:0] p5_dout_en, // Port 5 data output enable
+  output        [7:0] p5_sel, // Port 5 function select
+  output        [7:0] p6_dout, // Port 6 data output
+  output        [7:0] p6_dout_en, // Port 6 data output enable
+  output        [7:0] p6_sel, // Port 6 function select
+  output       [15:0] per_dout, // Peripheral data output
+  output reg    [7:0] p1dir,
+  output reg    [7:0] p1ifg,
 
-    // INPUTs
-    input               mclk,           // Main system clock
-    input         [7:0] p1_din,         // Port 1 data input
-    input         [7:0] p2_din,         // Port 2 data input
-    input         [7:0] p3_din,         // Port 3 data input
-    input         [7:0] p4_din,         // Port 4 data input
-    input         [7:0] p5_din,         // Port 5 data input
-    input         [7:0] p6_din,         // Port 6 data input
-    input        [13:0] per_addr,       // Peripheral address
-    input        [15:0] per_din,        // Peripheral data input
-    input               per_en,         // Peripheral enable (high active)
-    input         [1:0] per_we,         // Peripheral write enable (high active)
-    input               puc_rst         // Main system reset
-  );
+  // INPUTs
+  input               mclk, // Main system clock
+  input         [7:0] p1_din, // Port 1 data input
+  input         [7:0] p2_din, // Port 2 data input
+  input         [7:0] p3_din, // Port 3 data input
+  input         [7:0] p4_din, // Port 4 data input
+  input         [7:0] p5_din, // Port 5 data input
+  input         [7:0] p6_din, // Port 6 data input
+  input        [13:0] per_addr, // Peripheral address
+  input        [15:0] per_din, // Peripheral data input
+  input               per_en, // Peripheral enable (high active)
+  input         [1:0] per_we, // Peripheral write enable (high active)
+  input               puc_rst // Main system reset
+);
 
   //=============================================================================
   // 1)  PARAMETER DECLARATION
@@ -115,72 +115,72 @@ module peripheral_gpio_bb #(
   localparam              DEC_WD     =  6;
 
   // Register addresses offset
-  localparam [DEC_WD-1:0] P1IN       = 'h20,                    // Port 1
-                          P1OUT      = 'h21,
-                          P1DIR      = 'h22,
-                          P1IFG      = 'h23,
-                          P1IES      = 'h24,
-                          P1IE       = 'h25,
-                          P1SEL      = 'h26,
-                          P2IN       = 'h28,                    // Port 2
-                          P2OUT      = 'h29,
-                          P2DIR      = 'h2A,
-                          P2IFG      = 'h2B,
-                          P2IES      = 'h2C,
-                          P2IE       = 'h2D,
-                          P2SEL      = 'h2E,
-                          P3IN       = 'h18,                    // Port 3
-                          P3OUT      = 'h19,
-                          P3DIR      = 'h1A,
-                          P3SEL      = 'h1B,
-                          P4IN       = 'h1C,                    // Port 4
-                          P4OUT      = 'h1D,
-                          P4DIR      = 'h1E,
-                          P4SEL      = 'h1F,
-                          P5IN       = 'h30,                    // Port 5
-                          P5OUT      = 'h31,
-                          P5DIR      = 'h32,
-                          P5SEL      = 'h33,
-                          P6IN       = 'h34,                    // Port 6
-                          P6OUT      = 'h35,
-                          P6DIR      = 'h36,
-                          P6SEL      = 'h37;
+  localparam [DEC_WD-1:0] P1IN       = 'h20, // Port 1
+  P1OUT      = 'h21,
+  P1DIR      = 'h22,
+  P1IFG      = 'h23,
+  P1IES      = 'h24,
+  P1IE       = 'h25,
+  P1SEL      = 'h26,
+  P2IN       = 'h28, // Port 2
+  P2OUT      = 'h29,
+  P2DIR      = 'h2A,
+  P2IFG      = 'h2B,
+  P2IES      = 'h2C,
+  P2IE       = 'h2D,
+  P2SEL      = 'h2E,
+  P3IN       = 'h18, // Port 3
+  P3OUT      = 'h19,
+  P3DIR      = 'h1A,
+  P3SEL      = 'h1B,
+  P4IN       = 'h1C, // Port 4
+  P4OUT      = 'h1D,
+  P4DIR      = 'h1E,
+  P4SEL      = 'h1F,
+  P5IN       = 'h30, // Port 5
+  P5OUT      = 'h31,
+  P5DIR      = 'h32,
+  P5SEL      = 'h33,
+  P6IN       = 'h34, // Port 6
+  P6OUT      = 'h35,
+  P6DIR      = 'h36,
+  P6SEL      = 'h37;
 
   // Register one-hot decoder utilities
   localparam              DEC_SZ     =  (1 << DEC_WD);
   localparam [DEC_SZ-1:0] BASE_REG   =  {{DEC_SZ-1{1'b0}}, 1'b1};
 
   // Register one-hot decoder
-  localparam [DEC_SZ-1:0] P1IN_D     =  (BASE_REG << P1IN),     // Port 1
-                          P1OUT_D    =  (BASE_REG << P1OUT),
-                          P1DIR_D    =  (BASE_REG << P1DIR),
-                          P1IFG_D    =  (BASE_REG << P1IFG),
-                          P1IES_D    =  (BASE_REG << P1IES),
-                          P1IE_D     =  (BASE_REG << P1IE),
-                          P1SEL_D    =  (BASE_REG << P1SEL),
-                          P2IN_D     =  (BASE_REG << P2IN),     // Port 2
-                          P2OUT_D    =  (BASE_REG << P2OUT),
-                          P2DIR_D    =  (BASE_REG << P2DIR),
-                          P2IFG_D    =  (BASE_REG << P2IFG),
-                          P2IES_D    =  (BASE_REG << P2IES),
-                          P2IE_D     =  (BASE_REG << P2IE),
-                          P2SEL_D    =  (BASE_REG << P2SEL),
-                          P3IN_D     =  (BASE_REG << P3IN),     // Port 3
-                          P3OUT_D    =  (BASE_REG << P3OUT),
-                          P3DIR_D    =  (BASE_REG << P3DIR),
-                          P3SEL_D    =  (BASE_REG << P3SEL),
-                          P4IN_D     =  (BASE_REG << P4IN),     // Port 4
-                          P4OUT_D    =  (BASE_REG << P4OUT),
-                          P4DIR_D    =  (BASE_REG << P4DIR),
-                          P4SEL_D    =  (BASE_REG << P4SEL),
-                          P5IN_D     =  (BASE_REG << P5IN),     // Port 5
-                          P5OUT_D    =  (BASE_REG << P5OUT),
-                          P5DIR_D    =  (BASE_REG << P5DIR),
-                          P5SEL_D    =  (BASE_REG << P5SEL),
-                          P6IN_D     =  (BASE_REG << P6IN),     // Port 6
-                          P6OUT_D    =  (BASE_REG << P6OUT),
-                          P6DIR_D    =  (BASE_REG << P6DIR),
-                          P6SEL_D    =  (BASE_REG << P6SEL); 
+  localparam [DEC_SZ-1:0] P1IN_D     =  (BASE_REG << P1IN), // Port 1
+  P1OUT_D    =  (BASE_REG << P1OUT),
+  P1DIR_D    =  (BASE_REG << P1DIR),
+  P1IFG_D    =  (BASE_REG << P1IFG),
+  P1IES_D    =  (BASE_REG << P1IES),
+  P1IE_D     =  (BASE_REG << P1IE),
+  P1SEL_D    =  (BASE_REG << P1SEL),
+  P2IN_D     =  (BASE_REG << P2IN), // Port 2
+  P2OUT_D    =  (BASE_REG << P2OUT),
+  P2DIR_D    =  (BASE_REG << P2DIR),
+  P2IFG_D    =  (BASE_REG << P2IFG),
+  P2IES_D    =  (BASE_REG << P2IES),
+  P2IE_D     =  (BASE_REG << P2IE),
+  P2SEL_D    =  (BASE_REG << P2SEL),
+  P3IN_D     =  (BASE_REG << P3IN), // Port 3
+  P3OUT_D    =  (BASE_REG << P3OUT),
+  P3DIR_D    =  (BASE_REG << P3DIR),
+  P3SEL_D    =  (BASE_REG << P3SEL),
+  P4IN_D     =  (BASE_REG << P4IN), // Port 4
+  P4OUT_D    =  (BASE_REG << P4OUT),
+  P4DIR_D    =  (BASE_REG << P4DIR),
+  P4SEL_D    =  (BASE_REG << P4SEL),
+  P5IN_D     =  (BASE_REG << P5IN), // Port 5
+  P5OUT_D    =  (BASE_REG << P5OUT),
+  P5DIR_D    =  (BASE_REG << P5DIR),
+  P5SEL_D    =  (BASE_REG << P5SEL),
+  P6IN_D     =  (BASE_REG << P6IN), // Port 6
+  P6OUT_D    =  (BASE_REG << P6OUT),
+  P6DIR_D    =  (BASE_REG << P6DIR),
+  P6SEL_D    =  (BASE_REG << P6SEL);
 
   //============================================================================
   // 2)  REGISTER DECODER
@@ -194,35 +194,35 @@ module peripheral_gpio_bb #(
 
   // Register address decode
   wire [DEC_SZ-1:0] reg_dec      =  (P1IN_D   &  {DEC_SZ{(reg_addr==(P1IN  >>1))  &  P1_EN[0]}})  |
-                                    (P1OUT_D  &  {DEC_SZ{(reg_addr==(P1OUT >>1))  &  P1_EN[0]}})  |
-                                    (P1DIR_D  &  {DEC_SZ{(reg_addr==(P1DIR >>1))  &  P1_EN[0]}})  |
-                                    (P1IFG_D  &  {DEC_SZ{(reg_addr==(P1IFG >>1))  &  P1_EN[0]}})  |
-                                    (P1IES_D  &  {DEC_SZ{(reg_addr==(P1IES >>1))  &  P1_EN[0]}})  |
-                                    (P1IE_D   &  {DEC_SZ{(reg_addr==(P1IE  >>1))  &  P1_EN[0]}})  |
-                                    (P1SEL_D  &  {DEC_SZ{(reg_addr==(P1SEL >>1))  &  P1_EN[0]}})  |
-                                    (P2IN_D   &  {DEC_SZ{(reg_addr==(P2IN  >>1))  &  P2_EN[0]}})  |
-                                    (P2OUT_D  &  {DEC_SZ{(reg_addr==(P2OUT >>1))  &  P2_EN[0]}})  |
-                                    (P2DIR_D  &  {DEC_SZ{(reg_addr==(P2DIR >>1))  &  P2_EN[0]}})  |
-                                    (P2IFG_D  &  {DEC_SZ{(reg_addr==(P2IFG >>1))  &  P2_EN[0]}})  |
-                                    (P2IES_D  &  {DEC_SZ{(reg_addr==(P2IES >>1))  &  P2_EN[0]}})  |
-                                    (P2IE_D   &  {DEC_SZ{(reg_addr==(P2IE  >>1))  &  P2_EN[0]}})  |
-                                    (P2SEL_D  &  {DEC_SZ{(reg_addr==(P2SEL >>1))  &  P2_EN[0]}})  |
-                                    (P3IN_D   &  {DEC_SZ{(reg_addr==(P3IN  >>1))  &  P3_EN[0]}})  |
-                                    (P3OUT_D  &  {DEC_SZ{(reg_addr==(P3OUT >>1))  &  P3_EN[0]}})  |
-                                    (P3DIR_D  &  {DEC_SZ{(reg_addr==(P3DIR >>1))  &  P3_EN[0]}})  |
-                                    (P3SEL_D  &  {DEC_SZ{(reg_addr==(P3SEL >>1))  &  P3_EN[0]}})  |
-                                    (P4IN_D   &  {DEC_SZ{(reg_addr==(P4IN  >>1))  &  P4_EN[0]}})  |
-                                    (P4OUT_D  &  {DEC_SZ{(reg_addr==(P4OUT >>1))  &  P4_EN[0]}})  |
-                                    (P4DIR_D  &  {DEC_SZ{(reg_addr==(P4DIR >>1))  &  P4_EN[0]}})  |
-                                    (P4SEL_D  &  {DEC_SZ{(reg_addr==(P4SEL >>1))  &  P4_EN[0]}})  |
-                                    (P5IN_D   &  {DEC_SZ{(reg_addr==(P5IN  >>1))  &  P5_EN[0]}})  |
-                                    (P5OUT_D  &  {DEC_SZ{(reg_addr==(P5OUT >>1))  &  P5_EN[0]}})  |
-                                    (P5DIR_D  &  {DEC_SZ{(reg_addr==(P5DIR >>1))  &  P5_EN[0]}})  |
-                                    (P5SEL_D  &  {DEC_SZ{(reg_addr==(P5SEL >>1))  &  P5_EN[0]}})  |
-                                    (P6IN_D   &  {DEC_SZ{(reg_addr==(P6IN  >>1))  &  P6_EN[0]}})  |
-                                    (P6OUT_D  &  {DEC_SZ{(reg_addr==(P6OUT >>1))  &  P6_EN[0]}})  |
-                                    (P6DIR_D  &  {DEC_SZ{(reg_addr==(P6DIR >>1))  &  P6_EN[0]}})  |
-                                    (P6SEL_D  &  {DEC_SZ{(reg_addr==(P6SEL >>1))  &  P6_EN[0]}});
+  (P1OUT_D  &  {DEC_SZ{(reg_addr==(P1OUT >>1))  &  P1_EN[0]}})  |
+  (P1DIR_D  &  {DEC_SZ{(reg_addr==(P1DIR >>1))  &  P1_EN[0]}})  |
+  (P1IFG_D  &  {DEC_SZ{(reg_addr==(P1IFG >>1))  &  P1_EN[0]}})  |
+  (P1IES_D  &  {DEC_SZ{(reg_addr==(P1IES >>1))  &  P1_EN[0]}})  |
+  (P1IE_D   &  {DEC_SZ{(reg_addr==(P1IE  >>1))  &  P1_EN[0]}})  |
+  (P1SEL_D  &  {DEC_SZ{(reg_addr==(P1SEL >>1))  &  P1_EN[0]}})  |
+  (P2IN_D   &  {DEC_SZ{(reg_addr==(P2IN  >>1))  &  P2_EN[0]}})  |
+  (P2OUT_D  &  {DEC_SZ{(reg_addr==(P2OUT >>1))  &  P2_EN[0]}})  |
+  (P2DIR_D  &  {DEC_SZ{(reg_addr==(P2DIR >>1))  &  P2_EN[0]}})  |
+  (P2IFG_D  &  {DEC_SZ{(reg_addr==(P2IFG >>1))  &  P2_EN[0]}})  |
+  (P2IES_D  &  {DEC_SZ{(reg_addr==(P2IES >>1))  &  P2_EN[0]}})  |
+  (P2IE_D   &  {DEC_SZ{(reg_addr==(P2IE  >>1))  &  P2_EN[0]}})  |
+  (P2SEL_D  &  {DEC_SZ{(reg_addr==(P2SEL >>1))  &  P2_EN[0]}})  |
+  (P3IN_D   &  {DEC_SZ{(reg_addr==(P3IN  >>1))  &  P3_EN[0]}})  |
+  (P3OUT_D  &  {DEC_SZ{(reg_addr==(P3OUT >>1))  &  P3_EN[0]}})  |
+  (P3DIR_D  &  {DEC_SZ{(reg_addr==(P3DIR >>1))  &  P3_EN[0]}})  |
+  (P3SEL_D  &  {DEC_SZ{(reg_addr==(P3SEL >>1))  &  P3_EN[0]}})  |
+  (P4IN_D   &  {DEC_SZ{(reg_addr==(P4IN  >>1))  &  P4_EN[0]}})  |
+  (P4OUT_D  &  {DEC_SZ{(reg_addr==(P4OUT >>1))  &  P4_EN[0]}})  |
+  (P4DIR_D  &  {DEC_SZ{(reg_addr==(P4DIR >>1))  &  P4_EN[0]}})  |
+  (P4SEL_D  &  {DEC_SZ{(reg_addr==(P4SEL >>1))  &  P4_EN[0]}})  |
+  (P5IN_D   &  {DEC_SZ{(reg_addr==(P5IN  >>1))  &  P5_EN[0]}})  |
+  (P5OUT_D  &  {DEC_SZ{(reg_addr==(P5OUT >>1))  &  P5_EN[0]}})  |
+  (P5DIR_D  &  {DEC_SZ{(reg_addr==(P5DIR >>1))  &  P5_EN[0]}})  |
+  (P5SEL_D  &  {DEC_SZ{(reg_addr==(P5SEL >>1))  &  P5_EN[0]}})  |
+  (P6IN_D   &  {DEC_SZ{(reg_addr==(P6IN  >>1))  &  P6_EN[0]}})  |
+  (P6OUT_D  &  {DEC_SZ{(reg_addr==(P6OUT >>1))  &  P6_EN[0]}})  |
+  (P6DIR_D  &  {DEC_SZ{(reg_addr==(P6DIR >>1))  &  P6_EN[0]}})  |
+  (P6SEL_D  &  {DEC_SZ{(reg_addr==(P6SEL >>1))  &  P6_EN[0]}});
 
   // Read/Write probes
   wire              reg_lo_write =  per_we[0] & reg_sel;
@@ -232,7 +232,7 @@ module peripheral_gpio_bb #(
   // Read/Write vectors
   wire [DEC_SZ-1:0] reg_hi_wr    = reg_dec & {DEC_SZ{reg_hi_write}};
   wire [DEC_SZ-1:0] reg_lo_wr    = reg_dec & {DEC_SZ{reg_lo_write}};
-  wire [DEC_SZ-1:0] reg_rd       = reg_dec & {DEC_SZ{reg_read}}; 
+  wire [DEC_SZ-1:0] reg_rd       = reg_dec & {DEC_SZ{reg_read}};
 
   //============================================================================
   // 3) REGISTERS
@@ -260,7 +260,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p1out <=  8'h00;
-    else if (p1out_wr)  p1out <=  p1out_nxt & P1_EN_MSK;    
+    else if (p1out_wr)  p1out <=  p1out_nxt & P1_EN_MSK;
   end
 
   assign p1_dout = p1out;
@@ -273,7 +273,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p1dir <=  8'h00;
-    else if (p1dir_wr)  p1dir <=  p1dir_nxt & P1_EN_MSK;    
+    else if (p1dir_wr)  p1dir <=  p1dir_nxt & P1_EN_MSK;
   end
 
   assign p1_dout_en = p1dir;
@@ -288,7 +288,7 @@ module peripheral_gpio_bb #(
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p1ifg <=  8'h00;
     else if (p1ifg_wr)  p1ifg <=  (p1ifg_nxt | p1ifg_set) & P1_EN_MSK;
-    else                p1ifg <=  (p1ifg     | p1ifg_set) & P1_EN_MSK;    
+    else                p1ifg <=  (p1ifg     | p1ifg_set) & P1_EN_MSK;
   end
 
   // P1IES Register
@@ -300,7 +300,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p1ies <=  8'h00;
-    else if (p1ies_wr)  p1ies <=  p1ies_nxt & P1_EN_MSK;    
+    else if (p1ies_wr)  p1ies <=  p1ies_nxt & P1_EN_MSK;
   end
 
   // P1IE Register
@@ -312,7 +312,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)       p1ie <=  8'h00;
-    else if (p1ie_wr)  p1ie <=  p1ie_nxt & P1_EN_MSK;    
+    else if (p1ie_wr)  p1ie <=  p1ie_nxt & P1_EN_MSK;
   end
 
   // P1SEL Register
@@ -324,7 +324,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)       p1sel <=  8'h00;
-    else if (p1sel_wr) p1sel <=  p1sel_nxt & P1_EN_MSK;    
+    else if (p1sel_wr) p1sel <=  p1sel_nxt & P1_EN_MSK;
   end
 
   assign p1_sel = p1sel;
@@ -351,7 +351,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p2out <=  8'h00;
-    else if (p2out_wr)  p2out <=  p2out_nxt & P2_EN_MSK;    
+    else if (p2out_wr)  p2out <=  p2out_nxt & P2_EN_MSK;
   end
 
   assign p2_dout = p2out;
@@ -365,7 +365,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p2dir <=  8'h00;
-    else if (p2dir_wr)  p2dir <=  p2dir_nxt & P2_EN_MSK;    
+    else if (p2dir_wr)  p2dir <=  p2dir_nxt & P2_EN_MSK;
   end
 
   assign p2_dout_en = p2dir;
@@ -381,7 +381,7 @@ module peripheral_gpio_bb #(
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p2ifg <=  8'h00;
     else if (p2ifg_wr)  p2ifg <=  (p2ifg_nxt | p2ifg_set) & P2_EN_MSK;
-    else                p2ifg <=  (p2ifg     | p2ifg_set) & P2_EN_MSK;    
+    else                p2ifg <=  (p2ifg     | p2ifg_set) & P2_EN_MSK;
   end
 
   // P2IES Register
@@ -393,7 +393,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p2ies <=  8'h00;
-    else if (p2ies_wr)  p2ies <=  p2ies_nxt & P2_EN_MSK;    
+    else if (p2ies_wr)  p2ies <=  p2ies_nxt & P2_EN_MSK;
   end
 
   // P2IE Register
@@ -405,7 +405,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)       p2ie <=  8'h00;
-    else if (p2ie_wr)  p2ie <=  p2ie_nxt & P2_EN_MSK;    
+    else if (p2ie_wr)  p2ie <=  p2ie_nxt & P2_EN_MSK;
   end
 
   // P2SEL Register
@@ -417,7 +417,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)       p2sel <=  8'h00;
-    else if (p2sel_wr) p2sel <=  p2sel_nxt & P2_EN_MSK;    
+    else if (p2sel_wr) p2sel <=  p2sel_nxt & P2_EN_MSK;
   end
 
   assign p2_sel = p2sel;
@@ -444,7 +444,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p3out <=  8'h00;
-    else if (p3out_wr)  p3out <=  p3out_nxt & P3_EN_MSK;    
+    else if (p3out_wr)  p3out <=  p3out_nxt & P3_EN_MSK;
   end
 
   assign p3_dout = p3out;
@@ -458,7 +458,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p3dir <=  8'h00;
-    else if (p3dir_wr)  p3dir <=  p3dir_nxt & P3_EN_MSK;    
+    else if (p3dir_wr)  p3dir <=  p3dir_nxt & P3_EN_MSK;
   end
 
   assign p3_dout_en = p3dir;
@@ -472,7 +472,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)       p3sel <=  8'h00;
-    else if (p3sel_wr) p3sel <=  p3sel_nxt & P3_EN_MSK;    
+    else if (p3sel_wr) p3sel <=  p3sel_nxt & P3_EN_MSK;
   end
 
   assign p3_sel = p3sel;
@@ -499,7 +499,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p4out <=  8'h00;
-    else if (p4out_wr)  p4out <=  p4out_nxt & P4_EN_MSK;    
+    else if (p4out_wr)  p4out <=  p4out_nxt & P4_EN_MSK;
   end
 
   assign p4_dout = p4out;
@@ -513,7 +513,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p4dir <=  8'h00;
-    else if (p4dir_wr)  p4dir <=  p4dir_nxt & P4_EN_MSK;    
+    else if (p4dir_wr)  p4dir <=  p4dir_nxt & P4_EN_MSK;
   end
 
   assign p4_dout_en = p4dir;
@@ -527,7 +527,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)       p4sel <=  8'h00;
-    else if (p4sel_wr) p4sel <=  p4sel_nxt & P4_EN_MSK;    
+    else if (p4sel_wr) p4sel <=  p4sel_nxt & P4_EN_MSK;
   end
 
   assign p4_sel = p4sel;
@@ -554,7 +554,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p5out <=  8'h00;
-    else if (p5out_wr)  p5out <=  p5out_nxt & P5_EN_MSK;    
+    else if (p5out_wr)  p5out <=  p5out_nxt & P5_EN_MSK;
   end
 
   assign p5_dout = p5out;
@@ -568,7 +568,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p5dir <=  8'h00;
-    else if (p5dir_wr)  p5dir <=  p5dir_nxt & P5_EN_MSK;    
+    else if (p5dir_wr)  p5dir <=  p5dir_nxt & P5_EN_MSK;
   end
 
   assign p5_dout_en = p5dir;
@@ -582,7 +582,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)       p5sel <=  8'h00;
-    else if (p5sel_wr) p5sel <=  p5sel_nxt & P5_EN_MSK;    
+    else if (p5sel_wr) p5sel <=  p5sel_nxt & P5_EN_MSK;
   end
 
   assign p5_sel = p5sel;
@@ -609,7 +609,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p6out <=  8'h00;
-    else if (p6out_wr)  p6out <=  p6out_nxt & P6_EN_MSK;    
+    else if (p6out_wr)  p6out <=  p6out_nxt & P6_EN_MSK;
   end
 
   assign p6_dout = p6out;
@@ -623,7 +623,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)        p6dir <=  8'h00;
-    else if (p6dir_wr)  p6dir <=  p6dir_nxt & P6_EN_MSK;    
+    else if (p6dir_wr)  p6dir <=  p6dir_nxt & P6_EN_MSK;
   end
 
   assign p6_dout_en = p6dir;
@@ -637,7 +637,7 @@ module peripheral_gpio_bb #(
 
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)       p6sel <=  8'h00;
-    else if (p6sel_wr) p6sel <=  p6sel_nxt & P6_EN_MSK;    
+    else if (p6sel_wr) p6sel <=  p6sel_nxt & P6_EN_MSK;
   end
 
   assign p6_sel = p6sel;
@@ -653,7 +653,7 @@ module peripheral_gpio_bb #(
   reg    [7:0] p1in_dly;
   always @ (posedge mclk or posedge puc_rst) begin
     if (puc_rst)  p1in_dly <=  8'h00;
-    else          p1in_dly <=  p1in & P1_EN_MSK;    
+    else          p1in_dly <=  p1in & P1_EN_MSK;
   end
 
   // Edge detection
@@ -662,13 +662,13 @@ module peripheral_gpio_bb #(
 
   // Set interrupt flag
   assign       p1ifg_set = {p1ies[7] ? p1in_fe[7] : p1in_re[7],
-                            p1ies[6] ? p1in_fe[6] : p1in_re[6],
-                            p1ies[5] ? p1in_fe[5] : p1in_re[5],
-                            p1ies[4] ? p1in_fe[4] : p1in_re[4],
-                            p1ies[3] ? p1in_fe[3] : p1in_re[3],
-                            p1ies[2] ? p1in_fe[2] : p1in_re[2],
-                            p1ies[1] ? p1in_fe[1] : p1in_re[1],
-                            p1ies[0] ? p1in_fe[0] : p1in_re[0]} & P1_EN_MSK;
+  p1ies[6] ? p1in_fe[6] : p1in_re[6],
+  p1ies[5] ? p1in_fe[5] : p1in_re[5],
+  p1ies[4] ? p1in_fe[4] : p1in_re[4],
+  p1ies[3] ? p1in_fe[3] : p1in_re[3],
+  p1ies[2] ? p1in_fe[2] : p1in_re[2],
+  p1ies[1] ? p1in_fe[1] : p1in_re[1],
+  p1ies[0] ? p1in_fe[0] : p1in_re[0]} & P1_EN_MSK;
 
   // Generate CPU interrupt
   assign       irq_port1 = |(p1ie & p1ifg) & P1_EN[0];
@@ -689,13 +689,13 @@ module peripheral_gpio_bb #(
 
   // Set interrupt flag
   assign       p2ifg_set = {p2ies[7] ? p2in_fe[7] : p2in_re[7],
-                            p2ies[6] ? p2in_fe[6] : p2in_re[6],
-                            p2ies[5] ? p2in_fe[5] : p2in_re[5],
-                            p2ies[4] ? p2in_fe[4] : p2in_re[4],
-                            p2ies[3] ? p2in_fe[3] : p2in_re[3],
-                            p2ies[2] ? p2in_fe[2] : p2in_re[2],
-                            p2ies[1] ? p2in_fe[1] : p2in_re[1],
-                            p2ies[0] ? p2in_fe[0] : p2in_re[0]} & P2_EN_MSK;
+  p2ies[6] ? p2in_fe[6] : p2in_re[6],
+  p2ies[5] ? p2in_fe[5] : p2in_re[5],
+  p2ies[4] ? p2in_fe[4] : p2in_re[4],
+  p2ies[3] ? p2in_fe[3] : p2in_re[3],
+  p2ies[2] ? p2in_fe[2] : p2in_re[2],
+  p2ies[1] ? p2in_fe[1] : p2in_re[1],
+  p2ies[0] ? p2in_fe[0] : p2in_re[0]} & P2_EN_MSK;
 
   // Generate CPU interrupt
   assign      irq_port2 = |(p2ie & p2ifg) & P2_EN[0];
@@ -737,33 +737,33 @@ module peripheral_gpio_bb #(
   wire [15:0] p6sel_rd  = {8'h00, (p6sel & {8{reg_rd[P6SEL]}})} << (8 & {4{P6SEL[0]}});
 
   assign      per_dout  =  p1in_rd   |
-                           p1out_rd  |
-                           p1dir_rd  |
-                           p1ifg_rd  |
-                           p1ies_rd  |
-                           p1ie_rd   |
-                           p1sel_rd  |
-                           p2in_rd   |
-                           p2out_rd  |
-                           p2dir_rd  |
-                           p2ifg_rd  |
-                           p2ies_rd  |
-                           p2ie_rd   |
-                           p2sel_rd  |
-                           p3in_rd   |
-                           p3out_rd  |
-                           p3dir_rd  |
-                           p3sel_rd  |
-                           p4in_rd   |
-                           p4out_rd  |
-                           p4dir_rd  |
-                           p4sel_rd  |
-                           p5in_rd   |
-                           p5out_rd  |
-                           p5dir_rd  |
-                           p5sel_rd  |
-                           p6in_rd   |
-                           p6out_rd  |
-                           p6dir_rd  |
-                           p6sel_rd;
+  p1out_rd  |
+  p1dir_rd  |
+  p1ifg_rd  |
+  p1ies_rd  |
+  p1ie_rd   |
+  p1sel_rd  |
+  p2in_rd   |
+  p2out_rd  |
+  p2dir_rd  |
+  p2ifg_rd  |
+  p2ies_rd  |
+  p2ie_rd   |
+  p2sel_rd  |
+  p3in_rd   |
+  p3out_rd  |
+  p3dir_rd  |
+  p3sel_rd  |
+  p4in_rd   |
+  p4out_rd  |
+  p4dir_rd  |
+  p4sel_rd  |
+  p5in_rd   |
+  p5out_rd  |
+  p5dir_rd  |
+  p5sel_rd  |
+  p6in_rd   |
+  p6out_rd  |
+  p6dir_rd  |
+  p6sel_rd;
 endmodule // peripheral_gpio_bb

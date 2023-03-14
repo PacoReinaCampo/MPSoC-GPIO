@@ -81,8 +81,8 @@ module peripheral_gpio_testbench;
   always #100 wb_clk <= !wb_clk;
 
   peripheral_bfm_transactor_bb #(
-    .MEM_HIGH (MEMORY_SIZE-1),
-    .VERBOSE  (0)
+  .MEM_HIGH (MEMORY_SIZE-1),
+  .VERBOSE  (0)
   )
   bfm_transactor_bb (
     .wb_clk_i (wb_clk),
@@ -90,7 +90,7 @@ module peripheral_gpio_testbench;
     .wb_adr_o (wb_adr),
     .wb_dat_o (wb_dat),
     .wb_sel_o (wb_sel),
-    .wb_we_o  (wb_we), 
+    .wb_we_o  (wb_we),
     .wb_cyc_o (wb_cyc),
     .wb_stb_o (wb_stb),
     .wb_cti_o (wb_cti),
@@ -111,33 +111,33 @@ module peripheral_gpio_testbench;
   end
 
   peripheral_gpio_bb #(
-    .WB_DATA_WIDTH (32),
-    .WB_ADDR_WIDTH (32)
+  .WB_DATA_WIDTH (32),
+  .WB_ADDR_WIDTH (32)
   )
   gpio_bb (
     // WISHBONE Interface
-    .wb_clk_i (wb_clk),  // Clock
-    .wb_rst_i (wb_rst),  // Reset
+    .wb_clk_i (wb_clk), // Clock
+    .wb_rst_i (wb_rst), // Reset
 
-    .wb_cyc_i (wb_cyc),  // cycle valid input
-    .wb_adr_i (wb_adr),  // address bus inputs
-    .wb_dat_i (wb_dat),  // input data bus
-    .wb_sel_i (wb_sel),  // byte select inputs
-    .wb_we_i  (wb_we),   // indicates write transfer
-    .wb_stb_i (wb_stb),  // strobe input
-    .wb_dat_o (wb_rdt),  // output data bus
-    .wb_ack_o (wb_ack),  // normal termination
-    .wb_err_o (),        // termination w/ error
+    .wb_cyc_i (wb_cyc), // cycle valid input
+    .wb_adr_i (wb_adr), // address bus inputs
+    .wb_dat_i (wb_dat), // input data bus
+    .wb_sel_i (wb_sel), // byte select inputs
+    .wb_we_i  (wb_we), // indicates write transfer
+    .wb_stb_i (wb_stb), // strobe input
+    .wb_dat_o (wb_rdt), // output data bus
+    .wb_ack_o (wb_ack), // normal termination
+    .wb_err_o (), // termination w/ error
 
-    .wb_inta_o (),       // Interrupt request output
+    .wb_inta_o (), // Interrupt request output
 
     // Auxiliary Inputs Interface
-    .aux_i (),  // Auxiliary inputs
+    .aux_i (), // Auxiliary inputs
 
     // External GPIO Interface
-    .ext_pad_i (),  // GPIO Inputs
+    .ext_pad_i (), // GPIO Inputs
 
-    .ext_pad_o   (),  // GPIO Outputs
-    .ext_padoe_o ()   // GPIO output drivers enables
-  ); 
+    .ext_pad_o   (), // GPIO Outputs
+    .ext_padoe_o () // GPIO output drivers enables
+  );
 endmodule
