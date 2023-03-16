@@ -85,12 +85,21 @@ module peripheral_apb42ahb3 #(
   //
   // Constants
   //
-  localparam ST_AHB_IDLE = 2'b00, ST_AHB_TRANSFER = 2'b01, ST_AHB_ERROR = 2'b10;
+  localparam ST_AHB_IDLE = 2'b00;
+  localparam ST_AHB_TRANSFER = 2'b01;
+  localparam ST_AHB_ERROR = 2'b10;
 
-  localparam ST_APB_IDLE = 2'b00, ST_APB_SETUP = 2'b01, ST_APB_TRANSFER = 2'b10;
+  localparam ST_APB_IDLE = 2'b00;
+  localparam ST_APB_SETUP = 2'b01;
+  localparam ST_APB_TRANSFER = 2'b10;
 
   //PPROT
-  localparam [2:0] PPROT_NORMAL = 3'b000, PPROT_PRIVILEGED = 3'b001, PPROT_SECURE = 3'b000, PPROT_NONSECURE = 3'b010, PPROT_DATA = 3'b000, PPROT_INSTRUCTION = 3'b100;
+  localparam [2:0] PPROT_NORMAL = 3'b000;
+  localparam [2:0] PPROT_PRIVILEGED = 3'b001;
+  localparam [2:0] PPROT_SECURE = 3'b000;
+  localparam [2:0] PPROT_NONSECURE = 3'b010;
+  localparam [2:0] PPROT_DATA = 3'b000;
+  localparam [2:0] PPROT_INSTRUCTION = 3'b100;
 
   //SYNC_DEPTH
   localparam SYNC_DEPTH_MIN = 3;
