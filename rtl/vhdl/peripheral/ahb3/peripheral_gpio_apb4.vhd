@@ -50,7 +50,7 @@ entity peripheral_gpio_apb4 is
   generic (
     PADDR_SIZE : integer := 64;
     PDATA_SIZE : integer := 64
-  );
+    );
   port (
     PRESETn : in std_logic;
     PCLK    : in std_logic;
@@ -68,7 +68,7 @@ entity peripheral_gpio_apb4 is
     gpio_i  : in  std_logic_vector(PDATA_SIZE-1 downto 0);
     gpio_o  : out std_logic_vector(PDATA_SIZE-1 downto 0);
     gpio_oe : out std_logic_vector(PDATA_SIZE-1 downto 0)
-  );
+    );
 end peripheral_gpio_apb4;
 
 architecture rtl of peripheral_gpio_apb4 is
@@ -106,7 +106,7 @@ architecture rtl of peripheral_gpio_apb4 is
 
   function to_stdlogic (
     input : boolean
-  ) return std_logic is
+    ) return std_logic is
   begin
     if input then
       return('1');
@@ -132,8 +132,8 @@ architecture rtl of peripheral_gpio_apb4 is
     variable is_write_to_adr_return : std_logic;
   begin
     --only 'bits' LSBs should be '1'
-    is_write := PSEL_S and PENABLE_S and PWRITE_S;
-    mask := std_logic_vector(to_unsigned(2**bits-1, PADDR_SIZE));
+    is_write               := PSEL_S and PENABLE_S and PWRITE_S;
+    mask                   := std_logic_vector(to_unsigned(2**bits-1, PADDR_SIZE));
     is_write_to_adr_return := is_write and to_stdlogic((PADDR_S and mask) = (address and mask));
     return is_write_to_adr_return;
   end function is_write_to_adr;
@@ -164,8 +164,8 @@ begin
 
   --The core supports zero-wait state accesses on all transfers.
   --It is allowed to driver PREADY with a steady signal
-  PREADY  <= '1';  --always ready
-  PSLVERR <= '0';  --Never an error
+  PREADY  <= '1';                       --always ready
+  PSLVERR <= '0';                       --Never an error
 
   --APB Writes
 

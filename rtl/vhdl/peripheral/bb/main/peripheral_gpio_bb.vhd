@@ -102,7 +102,7 @@ architecture rtl of peripheral_gpio_bb is
   constant DEC_WD_G : integer := 6;
 
   --0.3.        Register one-hot decoder utilities
-  constant DEC_SZ_G   : integer := 2**DEC_WD_G;
+  constant DEC_SZ_G : integer := 2**DEC_WD_G;
 
   constant BASE_REG_G : std_logic_vector (DEC_SZ_G - 1 downto 0) := std_logic_vector(to_unsigned(1, DEC_SZ_G));
 
@@ -500,29 +500,29 @@ begin
     --4.1.      Data output mux
     data_output_mux_1 : for i in DEC_WD_G - 1 downto 0 generate
       p_in_rd (i) <= std_logic_vector((X"00" & (unsigned(pin(i)) and
-                                                 (0 to 7 => reg_rd_g(to_integer(unsigned(P_IN (i)))))))
-                                       sll to_integer((0 to 3 => P_IN (i)(0)) and to_unsigned(8, 4)));
+                                                (0 to 7 => reg_rd_g(to_integer(unsigned(P_IN (i)))))))
+                                      sll to_integer((0 to 3 => P_IN (i)(0)) and to_unsigned(8, 4)));
       p_out_rd (i) <= std_logic_vector((X"00" & (unsigned(pout(i)) and
-                                                  (0 to 7 => reg_rd_g(to_integer(unsigned(P_OUT (i)))))))
-                                        sll to_integer((0 to 3 => P_OUT (i)(0)) and to_unsigned(8, 4)));
+                                                 (0 to 7 => reg_rd_g(to_integer(unsigned(P_OUT (i)))))))
+                                       sll to_integer((0 to 3 => P_OUT (i)(0)) and to_unsigned(8, 4)));
       p_dir_rd (i) <= std_logic_vector((X"00" & (unsigned(pdir(i)) and
-                                                  (0 to 7 => reg_rd_g(to_integer(unsigned(P_DIR (i)))))))
-                                        sll to_integer((0 to 3 => P_DIR (i)(0)) and to_unsigned(8, 4)));
+                                                 (0 to 7 => reg_rd_g(to_integer(unsigned(P_DIR (i)))))))
+                                       sll to_integer((0 to 3 => P_DIR (i)(0)) and to_unsigned(8, 4)));
       p_sel_rd (i) <= std_logic_vector((X"00" & (unsigned(psel(i)) and
-                                                  (0 to 7 => reg_rd_g(to_integer(unsigned(P_SELC (i)))))))
-                                        sll to_integer((0 to 3 => P_SELC (i)(0)) and to_unsigned(8, 4)));
+                                                 (0 to 7 => reg_rd_g(to_integer(unsigned(P_SELC (i)))))))
+                                       sll to_integer((0 to 3 => P_SELC (i)(0)) and to_unsigned(8, 4)));
     end generate data_output_mux_1;
 
     data_output_mux_5 : for i in DEC_WD_G - 5 downto 0 generate
       p_ifg_rd (i) <= std_logic_vector((X"00" & (unsigned(pifg(i)) and
-                                                  (0 to 7 => reg_rd_g(to_integer(unsigned(P_IFG (i)))))))
-                                        sll to_integer((0 to 3 => P_IFG (i)(0)) and to_unsigned(8, 4)));
+                                                 (0 to 7 => reg_rd_g(to_integer(unsigned(P_IFG (i)))))))
+                                       sll to_integer((0 to 3 => P_IFG (i)(0)) and to_unsigned(8, 4)));
       p_ies_rd (i) <= std_logic_vector((X"00" & (unsigned(pies(i)) and
-                                                  (0 to 7 => reg_rd_g(to_integer(unsigned(P_IES (i)))))))
-                                        sll to_integer((0 to 3 => P_IES (i)(0)) and to_unsigned(8, 4)));
+                                                 (0 to 7 => reg_rd_g(to_integer(unsigned(P_IES (i)))))))
+                                       sll to_integer((0 to 3 => P_IES (i)(0)) and to_unsigned(8, 4)));
       p_ie_rd (i) <= std_logic_vector((X"00" & (unsigned(pie(i)) and
-                                                 (0 to 7 => reg_rd_g(to_integer(unsigned(P_IE (i)))))))
-                                       sll to_integer((0 to 3 => P_IE (i)(0)) and to_unsigned(8, 4)));
+                                                (0 to 7 => reg_rd_g(to_integer(unsigned(P_IE (i)))))))
+                                      sll to_integer((0 to 3 => P_IE (i)(0)) and to_unsigned(8, 4)));
     end generate data_output_mux_5;
 
     per_dout <= matrixA1G_or(p_in_rd) or
