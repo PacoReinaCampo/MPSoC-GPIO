@@ -42,6 +42,4 @@
 ##                                                                               ##
 ###################################################################################
 
-../../../../../../rtl/vhdl/code/peripheral/wb/peripheral_gpio_wb.vhd
-
-../../../../../../bench/vhdl/code/tests/peripheral/wb/peripheral_gpio_testbench.vhd
+tree -P '*.sv' code > TREE-VERILOG.txt
