@@ -38,7 +38,7 @@
  * =============================================================================
  * Author(s):
  *   Damjan Lampret <lampret@opencores.org>
- *    Javier Reina Campo <frareicam@gmail.com>
+ *    Javier Reina Campo <pacoreinacampo@queenfield.tech>
  */
 
 module peripheral_gpio_wb #(
