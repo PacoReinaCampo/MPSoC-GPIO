@@ -41,72 +41,76 @@
  */
 
 module peripheral_gpio_synthesis #(
-  parameter SIM   = 0,
-  parameter DEBUG = 0
+  parameter WB_DATA_WIDTH         = 32,
+  parameter WB_ADDR_WIDTH         = 8,
+  parameter GPIO_WIDTH            = 32,
+  parameter USE_IO_PAD_CLK        = "DISABLED",
+  parameter REGISTER_GPIO_OUTPUTS = "DISABLED",
+  parameter REGISTER_GPIO_INPUTS  = "DISABLED"
 ) (
   input clk,
   input rst,
 
   // WISHBONE interface
-  input  [2:0] wb_adr_i,
-  input  [7:0] wb_dat_i,
-  output [7:0] wb_dat_o,
-  input        wb_we_i,
-  input        wb_stb_i,
-  input        wb_cyc_i,
-  input  [3:0] wb_sel_i,
-  output       wb_ack_o,
-  output       int_o,
-
-  // UART signals
-  input  srx_pad_i,
-  output stx_pad_o,
-  output rts_pad_o,
-  input  cts_pad_i,
-  output dtr_pad_o,
-  input  dsr_pad_i,
-  input  ri_pad_i,
-  input  dcd_pad_i,
-
-  // optional baudrate output
-  output baud_o
+  input                      wb_cyc_i,  // cycle valid input
+  input  [WB_ADDR_WIDTH-1:0] wb_adr_i,  // address bus inputs
+  input  [WB_DATA_WIDTH-1:0] wb_dat_i,  // input data bus
+  input  [              3:0] wb_sel_i,  // byte select inputs
+  input                      wb_we_i,   // indicates write transfer
+  input                      wb_stb_i,  // strobe input
+  output [WB_DATA_WIDTH-1:0] wb_dat_o,  // output data bus
+  output                     wb_ack_o,  // normal termination
+  output                     wb_err_o,  // termination w/ error
+  output                     wb_inta_o  // Interrupt request output
 );
 
-  //////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //
+  // Variables
+  //
+
+  // Auxiliary Inputs Interface
+  wire [GPIO_WIDTH-1:0] aux_i;  // Auxiliary inputs
+
+  // External GPIO Interface
+  wire [GPIO_WIDTH-1:0] ext_pad_i;  // GPIO Inputs
+
+  wire [GPIO_WIDTH-1:0] ext_pad_o;    // GPIO Outputs
+  wire [GPIO_WIDTH-1:0] ext_padoe_o;  // GPIO output drivers enables
+
+  //////////////////////////////////////////////////////////////////////////////
   //
   // Module Body
   //
 
-  //DUT WB
-  peripheral_wb_gpio #(
-    .SIM  (SIM),
-    .DEBUG(DEBUG)
-  ) wb_gpio (
-    .wb_clk_i(clk),
-    .wb_rst_i(rst),
+  // DUT WB
+  peripheral_gpio_wb #(
+    .WB_DATA_WIDTH(WB_DATA_WIDTH),
+    .WB_ADDR_WIDTH(WB_ADDR_WIDTH)
+  ) gpio_wb (
+    // WISHBONE Interface
+    .wb_clk_i(clk),  // Clock
+    .wb_rst_i(rst),  // Reset
 
-    // WISHBONE interface
-    .wb_adr_i(wb_adr_i),
-    .wb_dat_i(wb_dat_i),
-    .wb_dat_o(wb_dat_o),
-    .wb_we_i (wb_we_i),
-    .wb_stb_i(wb_stb_i),
-    .wb_cyc_i(wb_cyc_i),
-    .wb_sel_i(wb_sel_i),
-    .wb_ack_o(wb_ack_o),
-    .int_o   (int_o),
+    .wb_cyc_i(wb_cyc_i),  // cycle valid input
+    .wb_adr_i(wb_adr_i),  // address bus inputs
+    .wb_dat_i(wb_dat_i),  // input data bus
+    .wb_sel_i(wb_sel_i),  // byte select inputs
+    .wb_we_i (wb_we_i),   // indicates write transfer
+    .wb_stb_i(wb_stb_i),  // strobe input
+    .wb_dat_o(wb_rdt_o),  // output data bus
+    .wb_ack_o(wb_ack_o),  // normal termination
+    .wb_err_o(wb_err_o),  // termination w/ error
 
-    // UART  signals
-    .srx_pad_i(srx_pad_i),
-    .stx_pad_o(stx_pad_o),
-    .rts_pad_o(rts_pad_o),
-    .cts_pad_i(cts_pad_i),
-    .dtr_pad_o(dtr_pad_o),
-    .dsr_pad_i(dsr_pad_i),
-    .ri_pad_i (ri_pad_i),
-    .dcd_pad_i(dcd_pad_i),
+    .wb_inta_o(wb_inta_o),  // Interrupt request output
 
-    // optional baudrate output
-    .baud_o(baud_o)
+    // Auxiliary Inputs Interface
+    .aux_i(aux_i),  // Auxiliary inputs
+
+    // External GPIO Interface
+    .ext_pad_i(ext_pad_i),  // GPIO Inputs
+
+    .ext_pad_o  (ext_pad_o),    // GPIO Outputs
+    .ext_padoe_o(ext_padoe_o)   // GPIO output drivers enables
   );
 endmodule

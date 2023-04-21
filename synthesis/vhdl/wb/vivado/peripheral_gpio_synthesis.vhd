@@ -49,36 +49,28 @@ use ieee.numeric_std.all;
 
 entity peripheral_gpio_synthesis is
   generic (
-    SIM   : integer := 0;
-    DEBUG : integer := 0
+    WB_DATA_WIDTH         : integer := 32;
+    WB_ADDR_WIDTH         : integer := 8;
+    GPIO_WIDTH            : integer := 32;
+    USE_IO_PAD_CLK        : string  := "DISABLED";
+    REGISTER_GPIO_OUTPUTS : string  := "DISABLED";
+    REGISTER_GPIO_INPUTS  : string  := "DISABLED"
   );
   port (
     clk : in std_logic;
     rst : in std_logic;
 
-    -- WISHBONE interface
-    wb_adr_i : in  std_logic_vector(2 downto 0);
-    wb_dat_i : in  std_logic_vector(7 downto 0);
-    wb_dat_o : out std_logic_vector(7 downto 0);
-    wb_we_i  : in  std_logic;
-    wb_stb_i : in  std_logic;
-    wb_cyc_i : in  std_logic;
-    wb_sel_i : in  std_logic_vector(3 downto 0);
-    wb_ack_o : out std_logic;
-    int_o    : out std_logic;
-
-    -- UART signals
-    srx_pad_i : in  std_logic;
-    stx_pad_o : out std_logic;
-    rts_pad_o : out std_logic;
-    cts_pad_i : in  std_logic;
-    dtr_pad_o : out std_logic;
-    dsr_pad_i : in  std_logic;
-    ri_pad_i  : in  std_logic;
-    dcd_pad_i : in  std_logic;
-
-    -- optional baudrate output
-    baud_o : out std_logic
+    -- WISHBONE Interface
+    wb_cyc_i  : in  std_logic;          -- cycle valid input
+    wb_adr_i  : in  std_logic_vector(WB_ADDR_WIDTH-1 downto 0);  -- address bus inputs
+    wb_dat_i  : in  std_logic_vector(WB_DATA_WIDTH-1 downto 0);  -- input data bus
+    wb_sel_i  : in  std_logic_vector(3 downto 0);  -- byte select inputs
+    wb_we_i   : in  std_logic;          -- indicates write transfer
+    wb_stb_i  : in  std_logic;          -- strobe input
+    wb_dat_o  : out std_logic_vector(WB_DATA_WIDTH-1 downto 0);  -- output data bus
+    wb_ack_o  : out std_logic;          -- normal termination
+    wb_err_o  : out std_logic;          -- termination w/ error
+    wb_inta_o : out std_logic           -- Interrupt request output
   );
 end peripheral_gpio_synthesis;
 
@@ -87,78 +79,93 @@ architecture rtl of peripheral_gpio_synthesis is
   ------------------------------------------------------------------------------
   -- Components
   ------------------------------------------------------------------------------
-  component peripheral_wb_gpio
+
+  component peripheral_gpio_wb
     generic (
-      SIM   : integer := 0;
-      DEBUG : integer := 0
+      WB_DATA_WIDTH         : integer := 32;
+      WB_ADDR_WIDTH         : integer := 8;
+      GPIO_WIDTH            : integer := 32;
+      USE_IO_PAD_CLK        : string  := "DISABLED";
+      REGISTER_GPIO_OUTPUTS : string  := "DISABLED";
+      REGISTER_GPIO_INPUTS  : string  := "DISABLED"
     );
     port (
-      wb_clk_i : in std_logic;
-      wb_rst_i : in std_logic;
+      -- WISHBONE Interface
+      wb_clk_i  : in  std_logic;          -- Clock
+      wb_rst_i  : in  std_logic;          -- Reset
+      wb_cyc_i  : in  std_logic;          -- cycle valid input
+      wb_adr_i  : in  std_logic_vector(WB_ADDR_WIDTH-1 downto 0);  -- address bus inputs
+      wb_dat_i  : in  std_logic_vector(WB_DATA_WIDTH-1 downto 0);  -- input data bus
+      wb_sel_i  : in  std_logic_vector(3 downto 0);  -- byte select inputs
+      wb_we_i   : in  std_logic;          -- indicates write transfer
+      wb_stb_i  : in  std_logic;          -- strobe input
+      wb_dat_o  : out std_logic_vector(WB_DATA_WIDTH-1 downto 0);  -- output data bus
+      wb_ack_o  : out std_logic;          -- normal termination
+      wb_err_o  : out std_logic;          -- termination w/ error
+      wb_inta_o : out std_logic;          -- Interrupt request output
 
-      -- WISHBONE interface
-      wb_adr_i : in  std_logic_vector(2 downto 0);
-      wb_dat_i : in  std_logic_vector(7 downto 0);
-      wb_dat_o : out std_logic_vector(7 downto 0);
-      wb_we_i  : in  std_logic;
-      wb_stb_i : in  std_logic;
-      wb_cyc_i : in  std_logic;
-      wb_sel_i : in  std_logic_vector(3 downto 0);
-      wb_ack_o : out std_logic;
-      int_o    : out std_logic;
+      -- Auxiliary Inputs Interface
+      aux_i : in std_logic_vector(GPIO_WIDTH-1 downto 0);  -- Auxiliary inputs
 
-      -- UART  signals
-      srx_pad_i : in  std_logic;
-      stx_pad_o : out std_logic;
-      rts_pad_o : out std_logic;
-      cts_pad_i : in  std_logic;
-      dtr_pad_o : out std_logic;
-      dsr_pad_i : in  std_logic;
-      ri_pad_i  : in  std_logic;
-      dcd_pad_i : in  std_logic;
+      -- External GPIO Interface
+      ext_pad_i : in std_logic_vector(GPIO_WIDTH-1 downto 0);  -- GPIO Inputs
 
-      -- optional baudrate output
-      baud_o : out std_logic
+      ext_pad_o   : out std_logic_vector(GPIO_WIDTH-1 downto 0);  -- GPIO Outputs
+      ext_padoe_o : out std_logic_vector(GPIO_WIDTH-1 downto 0)  -- GPIO output drivers enables
     );
   end component;
+
+  ------------------------------------------------------------------------------
+  -- Variables
+  ------------------------------------------------------------------------------
+
+  -- Auxiliary Inputs Interface
+  signal aux_i : std_logic_vector(GPIO_WIDTH-1 downto 0);  -- Auxiliary inputs
+
+  -- External GPIO Interface
+  signal ext_pad_i : std_logic_vector(GPIO_WIDTH-1 downto 0);  -- GPIO Inputs
+
+  signal ext_pad_o   : std_logic_vector(GPIO_WIDTH-1 downto 0);  -- GPIO Outputs
+  signal ext_padoe_o : std_logic_vector(GPIO_WIDTH-1 downto 0);  -- GPIO output drivers enables
 
 begin
   ------------------------------------------------------------------------------
   -- Module Body
   ------------------------------------------------------------------------------
 
-  --DUT WB
-  wb_gpio : peripheral_wb_gpio
+  -- DUT WB
+  gpio_wb : peripheral_gpio_wb
     generic map (
-      SIM   => SIM,
-      DEBUG => DEBUG
+      WB_DATA_WIDTH         => WB_DATA_WIDTH,
+      WB_ADDR_WIDTH         => WB_ADDR_WIDTH,
+      GPIO_WIDTH            => GPIO_WIDTH,
+      USE_IO_PAD_CLK        => USE_IO_PAD_CLK,
+      REGISTER_GPIO_OUTPUTS => REGISTER_GPIO_OUTPUTS,
+      REGISTER_GPIO_INPUTS  => REGISTER_GPIO_INPUTS
     )
     port map (
-      wb_clk_i => clk,
-      wb_rst_i => rst,
+      -- WISHBONE Interface
+      wb_clk_i => clk,                  -- Clock
+      wb_rst_i => rst,                  -- Reset
 
-      -- WISHBONE interface
-      wb_adr_i => wb_adr_i,
-      wb_dat_i => wb_dat_i,
-      wb_dat_o => wb_dat_o,
-      wb_we_i  => wb_we_i,
-      wb_stb_i => wb_stb_i,
-      wb_cyc_i => wb_cyc_i,
-      wb_sel_i => wb_sel_i,
-      wb_ack_o => wb_ack_o,
-      int_o    => int_o,
+      wb_cyc_i  => wb_cyc_i,            -- cycle valid input
+      wb_adr_i  => wb_adr_i,            -- address bus inputs
+      wb_dat_i  => wb_dat_i,            -- input data bus
+      wb_sel_i  => wb_sel_i,            -- byte select inputs
+      wb_we_i   => wb_we_i,             -- indicates write transfer
+      wb_stb_i  => wb_stb_i,            -- strobe input
+      wb_dat_o  => wb_dat_o,            -- output data bus
+      wb_ack_o  => wb_ack_o,            -- normal termination
+      wb_err_o  => wb_err_o,            -- termination w/ error
+      wb_inta_o => wb_inta_o,           -- Interrupt request output
 
-      -- UART signals
-      srx_pad_i => srx_pad_i,
-      stx_pad_o => stx_pad_o,
-      rts_pad_o => rts_pad_o,
-      cts_pad_i => cts_pad_i,
-      dtr_pad_o => dtr_pad_o,
-      dsr_pad_i => dsr_pad_i,
-      ri_pad_i  => ri_pad_i,
-      dcd_pad_i => dcd_pad_i,
+      -- Auxiliary Inputs Interface
+      aux_i => aux_i,                   -- Auxiliary inputs
 
-      -- optional baudrate output
-      baud_o => baud_o
+      -- External GPIO Interface
+      ext_pad_i => ext_pad_i,           -- GPIO Inputs
+
+      ext_pad_o   => ext_pad_o,         -- GPIO Outputs
+      ext_padoe_o => ext_padoe_o        -- GPIO output drivers enables
     );
 end rtl;

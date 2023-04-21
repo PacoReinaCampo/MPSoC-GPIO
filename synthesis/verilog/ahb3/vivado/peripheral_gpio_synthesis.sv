@@ -41,17 +41,17 @@
  */
 
 module peripheral_gpio_synthesis #(
-  parameter HADDR_SIZE     = 8,
-  parameter HDATA_SIZE     = 32,
-  parameter APB_ADDR_WIDTH = 8,
-  parameter APB_DATA_WIDTH = 32,
-  parameter SYNC_DEPTH     = 3
+  parameter HADDR_SIZE = 8,
+  parameter HDATA_SIZE = 32,
+  parameter PADDR_SIZE = 8,
+  parameter PDATA_SIZE = 32,
+  parameter SYNC_DEPTH = 3
 ) (
-  //Common signals
+  // Common signals
   input HRESETn,
   input HCLK,
 
-  //UART AHB3
+  // UART AHB3
   input                         gpio_HSEL,
   input      [HADDR_SIZE  -1:0] gpio_HADDR,
   input      [HDATA_SIZE  -1:0] gpio_HWDATA,
@@ -67,39 +67,39 @@ module peripheral_gpio_synthesis #(
   output reg                    gpio_HRESP
 );
 
-  //////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   //
   // Variables
   //
 
-  //Common signals
-  logic [APB_ADDR_WIDTH -1:0] gpio_PADDR;
-  logic [APB_DATA_WIDTH -1:0] gpio_PWDATA;
-  logic                       gpio_PWRITE;
-  logic                       gpio_PSEL;
-  logic                       gpio_PENABLE;
-  logic [APB_DATA_WIDTH -1:0] gpio_PRDATA;
-  logic                       gpio_PREADY;
-  logic                       gpio_PSLVERR;
+  wire [PADDR_SIZE     -1:0] gpio_PADDR;
+  wire [PDATA_SIZE     -1:0] gpio_PWDATA;
+  wire                       gpio_PSEL;
+  wire                       gpio_PENABLE;
+  wire                       gpio_PWRITE;
+  wire                       gpio_PSTRB;
+  wire [PDATA_SIZE     -1:0] gpio_PRDATA;
+  wire                       gpio_PREADY;
+  wire                       gpio_PSLVERR;
 
-  logic                       gpio_rx_i;  // Receiver input
-  logic                       gpio_tx_o;  // Transmitter output
+  wire [PDATA_SIZE     -1:0] gpio_i;
+  reg  [PDATA_SIZE     -1:0] gpio_o;
 
-  logic                       gpio_event_o;
+  reg  [PDATA_SIZE     -1:0] gpio_oe;
 
-  //////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   //
   // Module Body
   //
 
-  //DUT AHB3
-  peripheral_bridge_apb2ahb #(
+  // DUT AHB3
+  peripheral_apb42ahb3 #(
     .HADDR_SIZE(HADDR_SIZE),
     .HDATA_SIZE(HDATA_SIZE),
-    .PADDR_SIZE(APB_ADDR_WIDTH),
-    .PDATA_SIZE(APB_DATA_WIDTH),
+    .PADDR_SIZE(PADDR_SIZE),
+    .PDATA_SIZE(PDATA_SIZE),
     .SYNC_DEPTH(SYNC_DEPTH)
-  ) bridge_apb2ahb (
+  ) apb42ahb3 (
     //AHB Slave Interface
     .HRESETn(HRESETn),
     .HCLK   (HCLK),
@@ -126,7 +126,7 @@ module peripheral_gpio_synthesis #(
     .PENABLE(gpio_PENABLE),
     .PPROT  (),
     .PWRITE (gpio_PWRITE),
-    .PSTRB  (),
+    .PSTRB  (gpio_PSTRB),
     .PADDR  (gpio_PADDR),
     .PWDATA (gpio_PWDATA),
     .PRDATA (gpio_PRDATA),
@@ -134,25 +134,28 @@ module peripheral_gpio_synthesis #(
     .PSLVERR(gpio_PSLVERR)
   );
 
-  peripheral_apb4_gpio #(
-    .APB_ADDR_WIDTH(APB_ADDR_WIDTH),
-    .APB_DATA_WIDTH(APB_DATA_WIDTH)
-  ) apb4_gpio (
-    .RSTN(HRESETn),
-    .CLK (HCLK),
+  peripheral_gpio_apb4 #(
+    .PADDR_SIZE(PADDR_SIZE),
+    .PDATA_SIZE(PDATA_SIZE)
+  ) gpio_apb4 (
+    .PRESETn(HRESETn),
+    .PCLK   (HCLK),
 
-    .PADDR  (gpio_PADDR),
-    .PWDATA (gpio_PWDATA),
-    .PWRITE (gpio_PWRITE),
     .PSEL   (gpio_PSEL),
     .PENABLE(gpio_PENABLE),
+    .PWRITE (gpio_PWRITE),
+    .PSTRB  (gpio_PSTRB),
+    .PADDR  (gpio_PADDR),
+    .PWDATA (gpio_PWDATA),
     .PRDATA (gpio_PRDATA),
     .PREADY (gpio_PREADY),
     .PSLVERR(gpio_PSLVERR),
 
-    .rx_i(gpio_rx_i),
-    .tx_o(gpio_tx_o),
+    .irq_o(irq_o),
 
-    .event_o(gpio_event_o)
+    .gpio_i(gpio_i),
+    .gpio_o(gpio_o),
+
+    .gpio_oe(gpio_oe)
   );
 endmodule

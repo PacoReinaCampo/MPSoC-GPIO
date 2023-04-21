@@ -51,7 +51,7 @@ module peripheral_apb42ahb3 #(
 ) (
   //AHB Slave Interface
   input                         HRESETn,
-  HCLK,
+  input                         HCLK,
   input                         HSEL,
   input      [HADDR_SIZE  -1:0] HADDR,
   input      [HDATA_SIZE  -1:0] HWDATA,

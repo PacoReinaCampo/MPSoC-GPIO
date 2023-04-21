@@ -49,11 +49,11 @@ use ieee.numeric_std.all;
 
 entity peripheral_gpio_synthesis is
   generic (
-    HADDR_SIZE     : integer := 8;
-    HDATA_SIZE     : integer := 32;
-    APB_ADDR_WIDTH : integer := 8;
-    APB_DATA_WIDTH : integer := 32;
-    SYNC_DEPTH     : integer := 3
+    HADDR_SIZE : integer := 8;
+    HDATA_SIZE : integer := 32;
+    PADDR_SIZE : integer := 8;
+    PDATA_SIZE : integer := 32;
+    SYNC_DEPTH : integer := 3
   );
   port (
 	--Common signals
@@ -83,14 +83,14 @@ architecture rtl of peripheral_gpio_synthesis is
   -- Components
   ------------------------------------------------------------------------------
 
-  component peripheral_bridge_apb2ahb
+  component peripheral_apb42ahb3
     generic (
       HADDR_SIZE : integer := 32;
       HDATA_SIZE : integer := 32;
       PADDR_SIZE : integer := 10;
       PDATA_SIZE : integer := 8;
       SYNC_DEPTH : integer := 3
-      );
+    );
     port (
       --AHB Slave Interface
       HRESETn   : in  std_logic;
@@ -122,67 +122,68 @@ architecture rtl of peripheral_gpio_synthesis is
       PRDATA  : in  std_logic_vector(PDATA_SIZE-1 downto 0);
       PREADY  : in  std_logic;
       PSLVERR : in  std_logic
-      );
+    );
   end component;
 
   component peripheral_apb4_gpio
     generic (
-      APB_ADDR_WIDTH : integer := 12;  --APB slaves are 4KB by default
-      APB_DATA_WIDTH : integer := 32  --APB slaves are 4KB by default
-      );
+      PADDR_SIZE : integer := 12;  --APB slaves are 4KB by default
+      PDATA_SIZE : integer := 32  --APB slaves are 4KB by default
+    );
     port (
       CLK     : in  std_logic;
       RSTN    : in  std_logic;
-      PADDR   : in  std_logic_vector(APB_ADDR_WIDTH-1 downto 0);
-      PWDATA  : in  std_logic_vector(APB_DATA_WIDTH-1 downto 0);
+      PADDR   : in  std_logic_vector(PADDR_SIZE-1 downto 0);
+      PWDATA  : in  std_logic_vector(PDATA_SIZE-1 downto 0);
       PWRITE  : in  std_logic;
       PSEL    : in  std_logic;
       PENABLE : in  std_logic;
-      PRDATA  : out std_logic_vector(APB_DATA_WIDTH-1 downto 0);
+      PRDATA  : out std_logic_vector(PDATA_SIZE-1 downto 0);
       PREADY  : out std_logic;
       PSLVERR : out std_logic;
 
-      rx_i : in  std_logic;  -- Receiver input
-      tx_o : out std_logic;  -- Transmitter output
+      gpio_i : in  std_logic;  -- Receiver input
+      gpio_o : out std_logic;  -- Transmitter output
 
-      event_o : out std_logic  -- interrupt/event output
-      );
+      gpio_oe : out std_logic  -- interrupt/event output
+    );
   end component;
 
   ------------------------------------------------------------------------------
   -- Variables
   ------------------------------------------------------------------------------
 
-  signal gpio_PADDR   : std_logic_vector(APB_ADDR_WIDTH-1 downto 0);
-  signal gpio_PWDATA  : std_logic_vector(APB_DATA_WIDTH-1 downto 0);
-  signal gpio_PWRITE  : std_logic;
+  signal gpio_PADDR   : std_logic_vector(PADDR_SIZE-1 downto 0);
+  signal gpio_PWDATA  : std_logic_vector(PDATA_SIZE-1 downto 0);
   signal gpio_PSEL    : std_logic;
   signal gpio_PENABLE : std_logic;
-  signal gpio_PRDATA  : std_logic_vector(APB_DATA_WIDTH-1 downto 0);
+  signal gpio_PWRITE  : std_logic;
+  signal gpio_PSTRB   : std_logic;
+  signal gpio_PRDATA  : std_logic_vector(PDATA_SIZE-1 downto 0);
   signal gpio_PREADY  : std_logic;
   signal gpio_PSLVERR : std_logic;
 
-  signal gpio_rx_i : std_logic;         -- Receiver input
-  signal gpio_tx_o : std_logic;         -- Transmitter output
+  signal gpio_i : std_logic;  -- Receiver input
+  signal gpio_o : std_logic;  -- Transmitter output
 
-  signal gpio_event_o : std_logic;
+  signal gpio_oe : std_logic;
 
 begin
   ------------------------------------------------------------------------------
   -- Module Body
   ------------------------------------------------------------------------------
 
-  --DUT AHB3
-  bridge_apb2ahb : peripheral_bridge_apb2ahb
+  -- DUT AHB3
+  apb42ahb3 : peripheral_apb42ahb3
     generic map (
       HADDR_SIZE => HADDR_SIZE,
       HDATA_SIZE => HDATA_SIZE,
-      PADDR_SIZE => APB_ADDR_WIDTH,
-      PDATA_SIZE => APB_DATA_WIDTH,
+      PADDR_SIZE => PADDR_SIZE,
+      PDATA_SIZE => PDATA_SIZE,
       SYNC_DEPTH => SYNC_DEPTH
-      )
+    )
     port map (
-      --AHB Slave Interface
+      -- AHB Slave Interface
       HRESETn => HRESETn,
       HCLK    => HCLK,
 
@@ -200,7 +201,7 @@ begin
       HREADY    => gpio_HREADY,
       HRESP     => gpio_HRESP,
 
-      --APB Master Interface
+      -- APB Master Interface
       PRESETn => HRESETn,
       PCLK    => HCLK,
 
@@ -208,34 +209,36 @@ begin
       PENABLE => gpio_PENABLE,
       PPROT   => open,
       PWRITE  => gpio_PWRITE,
-      PSTRB   => open,
+      PSTRB   => gpio_PSTRB,
       PADDR   => gpio_PADDR,
       PWDATA  => gpio_PWDATA,
       PRDATA  => gpio_PRDATA,
       PREADY  => gpio_PREADY,
       PSLVERR => gpio_PSLVERR
-      );
+    );
 
-  apb4_gpio : peripheral_apb4_gpio
+  gpio_apb4 : peripheral_gpio_apb4
     generic map (
-      APB_ADDR_WIDTH => APB_ADDR_WIDTH,
-      APB_DATA_WIDTH => APB_DATA_WIDTH
-      )
+      PADDR_SIZE => PADDR_SIZE,
+      PDATA_SIZE => PDATA_SIZE
+    )
     port map (
-      CLK     => HCLK,
-      RSTN    => HRESETn,
-      PADDR   => gpio_PADDR,
-      PWDATA  => gpio_PWDATA,
-      PWRITE  => gpio_PWRITE,
+      PRESETn => HRESETn,
+      PCLK    => HCLK,
+
       PSEL    => gpio_PSEL,
       PENABLE => gpio_PENABLE,
+      PWRITE  => gpio_PWRITE,
+      PSTRB   => gpio_PSTRB,
+      PADDR   => gpio_PADDR,
+      PWDATA  => gpio_PWDATA,
       PRDATA  => gpio_PRDATA,
       PREADY  => gpio_PREADY,
       PSLVERR => gpio_PSLVERR,
 
-      rx_i => gpio_rx_i,
-      tx_o => gpio_tx_o,
+      gpio_i => gpio_i,
+      gpio_o => gpio_o,
 
-      event_o => gpio_event_o
-      );
+      gpio_oe => gpio_oe
+    );
 end rtl;

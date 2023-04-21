@@ -9,7 +9,7 @@
 ##                  |_|                                                          ##
 ##                                                                               ##
 ##                                                                               ##
-##              MPSoC-UARRT CPU                                                  ##
+##              MPSoC-GPIO CPU                                                   ##
 ##              Synthesis Test Makefile                                          ##
 ##                                                                               ##
 ###################################################################################
@@ -42,18 +42,16 @@
 ##                                                                               ##
 ###################################################################################
 
-read_verilog -sv ../../../../rtl/verilog/ahb3/core/mpsoc_bridge_apb2ahb.sv
-read_verilog -sv ../../../../rtl/verilog/ahb3/core/mpsoc_apb4_uart.sv
-read_verilog -sv ../../../../rtl/verilog/ahb3/core/mpsoc_uart_fifo.sv
-read_verilog -sv ../../../../rtl/verilog/ahb3/core/mpsoc_uart_interrupt.sv
-read_verilog -sv ../../../../rtl/verilog/ahb3/core/mpsoc_uart_rx.sv
-read_verilog -sv ../../../../rtl/verilog/ahb3/core/mpsoc_uart_tx.sv
+read_verilog -sv ../../../../rtl/verilog/code/pkg/peripheral/ahb3/peripheral_ahb3_pkg.sv
 
-read_verilog -sv mpsoc_uart_synthesis.sv
+read_verilog -sv ../../../../rtl/verilog/code/peripheral/ahb3/peripheral_apb42ahb3.sv
+read_verilog -sv ../../../../rtl/verilog/code/peripheral/ahb3/peripheral_gpio_apb4.sv
+
+read_verilog -sv peripheral_gpio_synthesis.sv
 
 read_xdc system.xdc
 
-synth_design -part xc7z020-clg484-1 -include_dirs ../../../../rtl/verilog/ahb3/pkg -top mpsoc_uart_synthesis
+synth_design -part xc7z020-clg484-1 -top peripheral_gpio_synthesis
 
 opt_design
 place_design
