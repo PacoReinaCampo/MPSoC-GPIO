@@ -48,6 +48,11 @@ build:
 	verilator -Wno-lint -Wno-UNOPTFLAT -Wno-COMBDLY --cc -f system.vc --top-module peripheral_gpio_testbench
 
 simulate:
+	make -C obj_dir -j -f Vperipheral_gpio_testbench.mk Vperipheral_gpio_testbench
+	obj_dir/Vperipheral_gpio_testbench
+
+test:
+	gtkwave peripheral_gpio_testbench.vcd
 
 clean:
 	rm -rf obj_dir
