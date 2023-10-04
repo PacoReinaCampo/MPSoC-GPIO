@@ -44,10 +44,8 @@
 
 @echo off
 call ../../../../../../../settings64_ghdl.bat
+sh system.s
 
-ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/peripheral/wb/peripheral_gpio_wb.vhd
-
-ghdl -a --std=08 ../../../../../../../bench/vhdl/code/tests/peripheral/wb/peripheral_gpio_testbench.vhd
 	
 ghdl -e --std=08 peripheral_gpio_testbench
 ghdl -r --std=08 peripheral_gpio_testbench --ieee-asserts=disable-at-0 --vcd=peripheral_gpio_testbench.vcd --wave=system.ghw --stop-time=1ms
