@@ -44,7 +44,7 @@
 
 @echo off
 call ../../../../../../../settings64_ghdl.bat
-sh system.s
+sh system.g
 
 	
 ghdl -e --std=08 peripheral_gpio_testbench
