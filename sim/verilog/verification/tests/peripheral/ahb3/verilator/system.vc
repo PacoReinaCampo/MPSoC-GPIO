@@ -47,4 +47,6 @@
 ../../../../../../../rtl/verilog/code/peripheral/ahb3/peripheral_apb42ahb3.sv
 ../../../../../../../rtl/verilog/code/peripheral/ahb3/peripheral_gpio_apb4.sv
 
+../../../../../../../bench/verilog/code/tests/peripheral/ahb3/peripheral_bfm_ahb3.sv
+../../../../../../../bench/verilog/code/tests/peripheral/ahb3/peripheral_bfm_master_ahb3.sv
 ../../../../../../../bench/verilog/code/tests/peripheral/ahb3/peripheral_gpio_testbench.sv
