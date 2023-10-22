@@ -95,9 +95,9 @@ module peripheral_gpio_bb #(
   input        puc_rst    // Main system reset
 );
 
-  //=============================================================================
+  // =============================================================================
   // 1)  PARAMETER DECLARATION
-  //=============================================================================
+  // =============================================================================
 
   // Masks
   localparam P1_EN_MSK = {8{P1_EN[0]}};
@@ -181,9 +181,9 @@ module peripheral_gpio_bb #(
   localparam [DEC_SZ-1:0] P6DIR_D = (BASE_REG << P6DIR);
   localparam [DEC_SZ-1:0] P6SEL_D = (BASE_REG << P6SEL);
 
-  //============================================================================
+  // ============================================================================
   // 2)  REGISTER DECODER
-  //============================================================================
+  // ============================================================================
 
   // Local register selection
   wire reg_sel;
@@ -247,12 +247,12 @@ module peripheral_gpio_bb #(
   assign reg_lo_wr = reg_dec & {DEC_SZ{reg_lo_write}};
   assign reg_rd    = reg_dec & {DEC_SZ{reg_read}};
 
-  //============================================================================
+  // ============================================================================
   // 3) REGISTERS
-  //============================================================================
+  // ============================================================================
 
   // P1IN Register
-  //---------------
+  // ---------------
   wire [7:0] p1in;
 
   msp430_sync_cell sync_cell_p1in_0 (
@@ -305,7 +305,7 @@ module peripheral_gpio_bb #(
   );
 
   // P1OUT Register
-  //----------------
+  // ----------------
   reg  [7:0] p1out;
 
   wire       p1out_wr;
@@ -322,7 +322,7 @@ module peripheral_gpio_bb #(
   assign p1_dout = p1out;
 
   // P1DIR Register
-  //----------------
+  // ----------------
 
   wire       p1dir_wr;
   wire [7:0] p1dir_nxt;
@@ -338,7 +338,7 @@ module peripheral_gpio_bb #(
   assign p1_dout_en = p1dir;
 
   // P1IFG Register
-  //----------------
+  // ----------------
 
   wire       p1ifg_wr;
   wire [7:0] p1ifg_nxt;
@@ -355,7 +355,7 @@ module peripheral_gpio_bb #(
   end
 
   // P1IES Register
-  //----------------
+  // ----------------
   reg  [7:0] p1ies;
 
   wire       p1ies_wr;
@@ -370,7 +370,7 @@ module peripheral_gpio_bb #(
   end
 
   // P1IE Register
-  //----------------
+  // ----------------
   reg  [7:0] p1ie;
 
   wire       p1ie_wr;
@@ -385,7 +385,7 @@ module peripheral_gpio_bb #(
   end
 
   // P1SEL Register
-  //----------------
+  // ----------------
   reg  [7:0] p1sel;
 
   wire       p1sel_wr;
@@ -402,7 +402,7 @@ module peripheral_gpio_bb #(
   assign p1_sel = p1sel;
 
   // P2IN Register
-  //---------------
+  // ---------------
   wire [7:0] p2in;
 
   msp430_sync_cell sync_cell_p2in_0 (
@@ -455,7 +455,7 @@ module peripheral_gpio_bb #(
   );
 
   // P2OUT Register
-  //----------------
+  // ----------------
   reg  [7:0] p2out;
 
   wire       p2out_wr;
@@ -472,7 +472,7 @@ module peripheral_gpio_bb #(
   assign p2_dout = p2out;
 
   // P2DIR Register
-  //----------------
+  // ----------------
   reg  [7:0] p2dir;
 
   wire       p2dir_wr;
@@ -489,7 +489,7 @@ module peripheral_gpio_bb #(
   assign p2_dout_en = p2dir;
 
   // P2IFG Register
-  //----------------
+  // ----------------
   reg  [7:0] p2ifg;
 
   wire       p2ifg_wr;
@@ -507,7 +507,7 @@ module peripheral_gpio_bb #(
   end
 
   // P2IES Register
-  //----------------
+  // ----------------
   reg  [7:0] p2ies;
 
   wire       p2ies_wr;
@@ -522,7 +522,7 @@ module peripheral_gpio_bb #(
   end
 
   // P2IE Register
-  //----------------
+  // ----------------
   reg  [7:0] p2ie;
 
   wire       p2ie_wr;
@@ -537,7 +537,7 @@ module peripheral_gpio_bb #(
   end
 
   // P2SEL Register
-  //----------------
+  // ----------------
   reg  [7:0] p2sel;
 
   wire       p2sel_wr;
@@ -554,7 +554,7 @@ module peripheral_gpio_bb #(
   assign p2_sel = p2sel;
 
   // P3IN Register
-  //---------------
+  // ---------------
   wire [7:0] p3in;
 
   msp430_sync_cell sync_cell_p3in_0 (
@@ -607,7 +607,7 @@ module peripheral_gpio_bb #(
   );
 
   // P3OUT Register
-  //----------------
+  // ----------------
   reg  [7:0] p3out;
 
   wire       p3out_wr;
@@ -624,7 +624,7 @@ module peripheral_gpio_bb #(
   assign p3_dout = p3out;
 
   // P3DIR Register
-  //----------------
+  // ----------------
   reg  [7:0] p3dir;
 
   wire       p3dir_wr;
@@ -641,7 +641,7 @@ module peripheral_gpio_bb #(
   assign p3_dout_en = p3dir;
 
   // P3SEL Register
-  //----------------
+  // ----------------
   reg  [7:0] p3sel;
 
   wire       p3sel_wr;
@@ -658,7 +658,7 @@ module peripheral_gpio_bb #(
   assign p3_sel = p3sel;
 
   // P4IN Register
-  //---------------
+  // ---------------
   wire [7:0] p4in;
 
   msp430_sync_cell sync_cell_p4in_0 (
@@ -711,7 +711,7 @@ module peripheral_gpio_bb #(
   );
 
   // P4OUT Register
-  //----------------
+  // ----------------
   reg  [7:0] p4out;
 
   wire       p4out_wr;
@@ -728,7 +728,7 @@ module peripheral_gpio_bb #(
   assign p4_dout = p4out;
 
   // P4DIR Register
-  //----------------
+  // ----------------
   reg  [7:0] p4dir;
 
   wire       p4dir_wr;
@@ -745,7 +745,7 @@ module peripheral_gpio_bb #(
   assign p4_dout_en = p4dir;
 
   // P4SEL Register
-  //----------------
+  // ----------------
   reg  [7:0] p4sel;
 
   wire       p4sel_wr;
@@ -762,7 +762,7 @@ module peripheral_gpio_bb #(
   assign p4_sel = p4sel;
 
   // P5IN Register
-  //---------------
+  // ---------------
   wire [7:0] p5in;
 
   msp430_sync_cell sync_cell_p5in_0 (
@@ -815,7 +815,7 @@ module peripheral_gpio_bb #(
   );
 
   // P5OUT Register
-  //----------------
+  // ----------------
   reg  [7:0] p5out;
 
   wire       p5out_wr;
@@ -832,7 +832,7 @@ module peripheral_gpio_bb #(
   assign p5_dout = p5out;
 
   // P5DIR Register
-  //----------------
+  // ----------------
   reg  [7:0] p5dir;
 
   wire       p5dir_wr;
@@ -849,7 +849,7 @@ module peripheral_gpio_bb #(
   assign p5_dout_en = p5dir;
 
   // P5SEL Register
-  //----------------
+  // ----------------
   reg  [7:0] p5sel;
 
   wire       p5sel_wr;
@@ -866,7 +866,7 @@ module peripheral_gpio_bb #(
   assign p5_sel = p5sel;
 
   // P6IN Register
-  //---------------
+  // ---------------
   wire [7:0] p6in;
 
   msp430_sync_cell sync_cell_p6in_0 (
@@ -919,7 +919,7 @@ module peripheral_gpio_bb #(
   );
 
   // P6OUT Register
-  //----------------
+  // ----------------
   reg  [7:0] p6out;
 
   wire       p6out_wr;
@@ -936,7 +936,7 @@ module peripheral_gpio_bb #(
   assign p6_dout = p6out;
 
   // P6DIR Register
-  //----------------
+  // ----------------
   reg  [7:0] p6dir;
 
   wire       p6dir_wr;
@@ -953,7 +953,7 @@ module peripheral_gpio_bb #(
   assign p6_dout_en = p6dir;
 
   // P6SEL Register
-  //----------------
+  // ----------------
   reg  [7:0] p6sel;
 
   wire       p6sel_wr;
@@ -969,12 +969,12 @@ module peripheral_gpio_bb #(
 
   assign p6_sel = p6sel;
 
-  //============================================================================
+  // ============================================================================
   // 4) INTERRUPT GENERATION
-  //============================================================================
+  // ============================================================================
 
   // Port 1 interrupt
-  //------------------
+  // ------------------
 
   // Delay input
   reg [7:0] p1in_dly;
@@ -1004,7 +1004,7 @@ module peripheral_gpio_bb #(
   assign irq_port1 = |(p1ie & p1ifg) & P1_EN[0];
 
   // Port 2 interrupt
-  //------------------
+  // ------------------
 
   // Delay input
   reg [7:0] p2in_dly;
@@ -1033,9 +1033,9 @@ module peripheral_gpio_bb #(
   // Generate CPU interrupt
   assign irq_port2 = |(p2ie & p2ifg) & P2_EN[0];
 
-  //============================================================================
+  // ============================================================================
   // 5) DATA OUTPUT GENERATION
-  //============================================================================
+  // ============================================================================
 
   // Data output mux
   wire [15:0] p1in_rd;

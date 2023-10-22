@@ -49,7 +49,7 @@ module peripheral_apb42ahb3 #(
   parameter PDATA_SIZE = 8,
   parameter SYNC_DEPTH = 3
 ) (
-  //AHB Slave Interface
+  // AHB Slave Interface
   input                         HRESETn,
   input                         HCLK,
   input                         HSEL,
@@ -66,7 +66,7 @@ module peripheral_apb42ahb3 #(
   input                         HREADY,
   output reg                    HRESP,
 
-  //APB Master Interface
+  // APB Master Interface
   input                         PRESETn,
   input                         PCLK,
   output reg                    PSEL,
@@ -93,7 +93,7 @@ module peripheral_apb42ahb3 #(
   localparam ST_APB_SETUP = 2'b01;
   localparam ST_APB_TRANSFER = 2'b10;
 
-  //PPROT
+  // PPROT
   localparam [2:0] PPROT_NORMAL = 3'b000;
   localparam [2:0] PPROT_PRIVILEGED = 3'b001;
   localparam [2:0] PPROT_SECURE = 3'b000;
@@ -101,7 +101,7 @@ module peripheral_apb42ahb3 #(
   localparam [2:0] PPROT_DATA = 3'b000;
   localparam [2:0] PPROT_INSTRUCTION = 3'b100;
 
-  //SYNC_DEPTH
+  // SYNC_DEPTH
   localparam SYNC_DEPTH_MIN = 3;
   localparam SYNC_DEPTH_CHK = SYNC_DEPTH > SYNC_DEPTH_MIN ? SYNC_DEPTH : SYNC_DEPTH_MIN;
 
@@ -110,17 +110,17 @@ module peripheral_apb42ahb3 #(
   // Variables
   //
 
-  logic                      ahb_treq;  //transfer request from AHB Statemachine
-  logic                      treq_toggle;  //toggle-signal-version
-  logic [SYNC_DEPTH_CHK-1:0] treq_sync;  //synchronized transfer request
-  logic                      apb_treq_strb;  //transfer request strobe to APB Statemachine
+  logic                      ahb_treq;  // transfer request from AHB Statemachine
+  logic                      treq_toggle;  // toggle-signal-version
+  logic [SYNC_DEPTH_CHK-1:0] treq_sync;  // synchronized transfer request
+  logic                      apb_treq_strb;  // transfer request strobe to APB Statemachine
 
-  logic                      apb_tack;  //transfer acknowledge from APB Statemachine
-  logic                      tack_toggle;  //toggle-signal-version
-  logic [SYNC_DEPTH_CHK-1:0] tack_sync;  //synchronized transfer acknowledge
-  logic                      ahb_tack_strb;  //transfer acknowledge strobe to AHB Statemachine
+  logic                      apb_tack;  // transfer acknowledge from APB Statemachine
+  logic                      tack_toggle;  // toggle-signal-version
+  logic [SYNC_DEPTH_CHK-1:0] tack_sync;  // synchronized transfer acknowledge
+  logic                      ahb_tack_strb;  // transfer acknowledge strobe to AHB Statemachine
 
-  //store AHB data locally (pipelined bus)
+  // store AHB data locally (pipelined bus)
   logic [HADDR_SIZE    -1:0] ahb_haddr;
   logic [HDATA_SIZE    -1:0] ahb_hwdata;
   logic                      ahb_hwrite;
@@ -129,18 +129,18 @@ module peripheral_apb42ahb3 #(
 
   logic                      latch_ahb_hwdata;
 
-  //store APB data locally
+  // store APB data locally
   logic [HDATA_SIZE    -1:0] apb_prdata;
   logic                      apb_pslverr;
 
-  //State machines
+  // State machines
   logic [               1:0] ahb_fsm;
   logic [               1:0] apb_fsm;
 
-  //number of transfer cycles (AMBA-beats) on APB interface
+  // number of transfer cycles (AMBA-beats) on APB interface
   logic [               6:0] apb_beat_cnt;
 
-  //running offset in HWDATA
+  // running offset in HWDATA
   logic [               9:0] apb_beat_data_offset;
 
   //////////////////////////////////////////////////////////////////////////////
@@ -153,15 +153,15 @@ module peripheral_apb42ahb3 #(
 
     HREADYOUT <= 1'b1;
     HRESP     <= HRESP_OKAY;
-  endtask  //ahb_no_transfer
+  endtask  // ahb_no_transfer
 
   task ahb_prep_transfer;
     ahb_fsm   <= ST_AHB_TRANSFER;
 
-    HREADYOUT <= 1'b0;  //hold off master
+    HREADYOUT <= 1'b0;  // hold off master
     HRESP     <= HRESP_OKAY;
-    ahb_treq  <= 1'b1;  //request data transfer
-  endtask  //ahb_prep_transfer
+    ahb_treq  <= 1'b1;  // request data transfer
+  endtask  // ahb_prep_transfer
 
   //////////////////////////////////////////////////////////////////////////////
   //
@@ -181,12 +181,12 @@ module peripheral_apb42ahb3 #(
       HSIZE_HWORD: apb_beats = 15 / PDATA_SIZE;
       default:     apb_beats = 7 / PDATA_SIZE;
     endcase
-  endfunction  //apb_beats
+  endfunction  // apb_beats
 
   function [6:0] address_mask;
     input integer data_size;
 
-    //Which bits in HADDR should be taken into account?
+    // Which bits in HADDR should be taken into account?
     case (data_size)
       1024:    address_mask = 7'b111_1111;
       512:     address_mask = 7'b011_1111;
@@ -197,17 +197,17 @@ module peripheral_apb42ahb3 #(
       16:      address_mask = 7'b000_0001;
       default: address_mask = 7'b000_0000;
     endcase
-  endfunction  //address_mask
+  endfunction  // address_mask
 
   function [9:0] data_offset(input [HADDR_SIZE-1:0] haddr);
     logic [6:0] haddr_masked;
 
-    //Generate masked address
+    // Generate masked address
     haddr_masked = haddr & address_mask(HDATA_SIZE);
 
-    //calculate bit-offset
+    // calculate bit-offset
     data_offset  = 8 * haddr_masked;
-  endfunction  //data_offset
+  endfunction  // data_offset
 
   function pstrb;
     input [2:0] hsize;
@@ -218,7 +218,7 @@ module peripheral_apb42ahb3 #(
     logic [           127:0] full_pstrb;
     logic [             6:0] paddr_masked;
 
-    //get number of active lanes for a 1024bit databus (max width) for this HSIZE
+    // get number of active lanes for a 1024bit databus (max width) for this HSIZE
     case (hsize)
       HSIZE_B1024: full_pstrb = 128'hffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff;
       HSIZE_B512:  full_pstrb = 128'h0000_0000_0000_0000_ffff_ffff_ffff_ffff;
@@ -230,21 +230,21 @@ module peripheral_apb42ahb3 #(
       default:     full_pstrb = 128'h0000_0000_0000_0000_0000_0000_0000_0001;
     endcase
 
-    //generate masked address
+    // generate masked address
     paddr_masked = paddr & address_mask(PDATA_SIZE);
 
-    //create PSTRB
+    // create PSTRB
     pstrb_masked = full_pstrb[PDATA_SIZE/8-1:0] << paddr_masked;
 
     pstrb        = pstrb_masked[0];
-  endfunction  //pstrb
+  endfunction  // pstrb
 
   //////////////////////////////////////////////////////////////////////////////
   //
   // Module Body
   //
 
-  //AHB Statemachine
+  // AHB Statemachine
   always @(posedge HCLK, negedge HRESETn) begin
     if (!HRESETn) begin
       ahb_fsm    <= ST_AHB_IDLE;
@@ -258,24 +258,24 @@ module peripheral_apb42ahb3 #(
       ahb_hprot  <= 'h0;
       ahb_hsize  <= 'h0;
     end else begin
-      ahb_treq <= 1'b0;  //1 cycle strobe signal
+      ahb_treq <= 1'b0;  // 1 cycle strobe signal
 
       case (ahb_fsm)
         ST_AHB_IDLE: begin
-          //store basic parameters
+          // store basic parameters
           ahb_haddr  <= HADDR;
           ahb_hwrite <= HWRITE;
           ahb_hprot  <= HPROT;
           ahb_hsize  <= HSIZE;
 
           if (HSEL && HREADY) begin
-            //This (slave) is selected ... what kind of transfer is this?
+            // This (slave) is selected ... what kind of transfer is this?
             case (HTRANS)
               HTRANS_IDLE:   ahb_no_transfer;
               HTRANS_BUSY:   ahb_no_transfer;
               HTRANS_NONSEQ: ahb_prep_transfer;
               HTRANS_SEQ:    ahb_prep_transfer;
-            endcase  //HTRANS
+            endcase  // HTRANS
           end else ahb_no_transfer;
         end
 
@@ -287,11 +287,11 @@ module peripheral_apb42ahb3 #(
            * Check AHB bus to determine if another transfer is pending
            */
 
-          //assign read data
+          // assign read data
           HRDATA <= apb_prdata;
 
-          //indicate transfer done. Normally HREADYOUT = '1', HRESP=OKAY
-          //HRESP=ERROR requires 2 cycles
+          // indicate transfer done. Normally HREADYOUT = '1', HRESP=OKAY
+          // HRESP=ERROR requires 2 cycles
           if (apb_pslverr) begin
             HREADYOUT <= 1'b0;
             HRESP     <= HRESP_ERROR;
@@ -302,15 +302,15 @@ module peripheral_apb42ahb3 #(
             ahb_fsm   <= ST_AHB_IDLE;
           end
         end else begin
-          HREADYOUT <= 1'b0;  //transfer still in progress
+          HREADYOUT <= 1'b0;  // transfer still in progress
         end
 
         ST_AHB_ERROR: begin
-          //2nd cycle of error response
+          // 2nd cycle of error response
           ahb_fsm   <= ST_AHB_IDLE;
           HREADYOUT <= 1'b1;
         end
-      endcase  //ahb_fsm
+      endcase  // ahb_fsm
     end
   end
 
@@ -319,38 +319,52 @@ module peripheral_apb42ahb3 #(
   end
 
   always @(posedge HCLK) begin
-    if (latch_ahb_hwdata) ahb_hwdata <= HWDATA;
+    if (latch_ahb_hwdata) begin
+      ahb_hwdata <= HWDATA;
+    end
   end
 
-  //Clock domain crossing ...
+  // Clock domain crossing ...
 
-  //AHB -> APB
+  // AHB -> APB
   always @(posedge HCLK, negedge HRESETn) begin
-    if (!HRESETn) treq_toggle <= 1'b0;
-    else if (ahb_treq) treq_toggle <= ~treq_toggle;
+    if (!HRESETn) begin
+      treq_toggle <= 1'b0;
+    end else if (ahb_treq) begin
+      treq_toggle <= ~treq_toggle;
+    end
   end
 
   always @(posedge PCLK, negedge PRESETn) begin
-    if (!PRESETn) treq_sync <= 'h0;
-    else treq_sync <= {treq_sync[SYNC_DEPTH-2:0], treq_toggle};
+    if (!PRESETn) begin
+      treq_sync <= 'h0;
+    end else begin
+      treq_sync <= {treq_sync[SYNC_DEPTH-2:0], treq_toggle};
+    end
   end
 
   assign apb_treq_strb = treq_sync[SYNC_DEPTH-1] ^ treq_sync[SYNC_DEPTH-2];
 
-  //APB -> AHB
+  // APB -> AHB
   always @(posedge PCLK, negedge PRESETn) begin
-    if (!PRESETn) tack_toggle <= 1'b0;
-    else if (apb_tack) tack_toggle <= ~tack_toggle;
+    if (!PRESETn) begin
+      tack_toggle <= 1'b0;
+    end else if (apb_tack) begin
+      tack_toggle <= ~tack_toggle;
+    end
   end
 
   always @(posedge HCLK, negedge HRESETn) begin
-    if (!HRESETn) tack_sync <= 'h0;
-    else tack_sync <= {tack_sync[SYNC_DEPTH-2:0], tack_toggle};
+    if (!HRESETn) begin
+      tack_sync <= 'h0;
+    end else begin
+      tack_sync <= {tack_sync[SYNC_DEPTH-2:0], tack_toggle};
+    end
   end
 
   assign ahb_tack_strb = tack_sync[SYNC_DEPTH-1] ^ tack_sync[SYNC_DEPTH-2];
 
-  //APB Statemachine
+  // APB Statemachine
   always @(posedge PCLK, negedge PRESETn) begin
     if (!PRESETn) begin
       apb_fsm  <= ST_APB_IDLE;
@@ -377,15 +391,15 @@ module peripheral_apb42ahb3 #(
           PADDR                <= ahb_haddr[PADDR_SIZE-1:0];
           PWRITE               <= ahb_hwrite;
           PWDATA               <= ahb_hwdata >> data_offset(ahb_haddr);
-          PSTRB                <= ahb_hwrite & pstrb(ahb_hsize, ahb_haddr[PADDR_SIZE-1:0]);  //TODO: check/sim
+          PSTRB                <= ahb_hwrite & pstrb(ahb_hsize, ahb_haddr[PADDR_SIZE-1:0]);  // TO-DO: check/sim
 
-          apb_prdata           <= 'h0;  //clear prdata
+          apb_prdata           <= 'h0;  // clear prdata
           apb_beat_cnt         <= apb_beats(ahb_hsize);
-          apb_beat_data_offset <= data_offset(ahb_haddr) + PDATA_SIZE;  //for the NEXT transfer
+          apb_beat_data_offset <= data_offset(ahb_haddr) + PDATA_SIZE;  // for the NEXT transfer
         end
 
         ST_APB_SETUP: begin
-          //retain all signals and assert PENABLE
+          // retain all signals and assert PENABLE
           apb_fsm <= ST_APB_TRANSFER;
           PENABLE <= 1'b1;
         end
@@ -395,7 +409,7 @@ module peripheral_apb42ahb3 #(
           apb_beat_cnt         <= apb_beat_cnt - 1;
           apb_beat_data_offset <= apb_beat_data_offset + PDATA_SIZE;
 
-          apb_prdata           <= (apb_prdata << PDATA_SIZE) | (PRDATA << data_offset(ahb_haddr));  //TODO: check/sim
+          apb_prdata           <= (apb_prdata << PDATA_SIZE) | (PRDATA << data_offset(ahb_haddr));  // TO-DO: check/sim
           apb_pslverr          <= PSLVERR;
 
           PENABLE              <= 1'b0;
