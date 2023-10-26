@@ -9,8 +9,8 @@
 //                  |_|                                                       //
 //                                                                            //
 //                                                                            //
-//              Peripheral-GPIO for MPSoC                                     //
-//              General Purpose Input Output for MPSoC                        //
+//              Peripheral-BFM for MPSoC                                      //
+//              Bus Functional Model for MPSoC                                //
 //              AMBA4 AXI-Lite Bus Interface                                  //
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
@@ -227,4 +227,4 @@ module peripheral_bfm_master_generic_axi4 (
       end
     end
   endtask
-endmodule  // peripheral_bfm_master_axi4
+endmodule  // peripheral_bfm_master_generic_axi4
