@@ -42,14 +42,14 @@
 ##                                                                               ##
 ###################################################################################
 
-../../../../../../../rtl/verilog/code/pkg/peripheral/wb/peripheral_wb_pkg.sv
+../../../../../../../rtl/verilog/code/pkg/peripheral/wb/peripheral_bb_pkg.sv
 
-../../../../../../../rtl/verilog/code/peripheral/wb/peripheral_gpio_wb.sv
+../../../../../../../rtl/verilog/code/peripheral/wb/peripheral_gpio_bb.sv
 
-../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_master_wb.sv
-../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_memory_wb.sv
-../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_slave_wb.sv
-../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_transactor_wb.sv
+../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_master_bb.sv
+../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_memory_bb.sv
+../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_slave_bb.sv
+../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_transactor_bb.sv
 ../../../../../../../bench/verilog/code/tests/peripheral/wb/main/peripheral_tap_generator.sv
 ../../../../../../../bench/verilog/code/tests/peripheral/wb/main/peripheral_testbench_utils.sv
 ../../../../../../../bench/verilog/code/tests/peripheral/wb/main/peripheral_gpio_testbench.sv

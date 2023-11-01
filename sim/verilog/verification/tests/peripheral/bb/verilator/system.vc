@@ -42,8 +42,8 @@
 //                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////
 
-../../../../../../../rtl/verilog/code/pkg/peripheral/wb/peripheral_wb_pkg.sv
+../../../../../../../rtl/verilog/code/pkg/peripheral/wb/peripheral_bb_pkg.sv
 
-../../../../../../../rtl/verilog/code/peripheral/wb/peripheral_gpio_wb.sv
+../../../../../../../rtl/verilog/code/peripheral/wb/peripheral_gpio_bb.sv
 
 ../../../../../../../bench/verilog/code/tests/peripheral/wb/peripheral_gpio_testbench.sv

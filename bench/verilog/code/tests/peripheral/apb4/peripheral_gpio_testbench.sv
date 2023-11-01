@@ -77,16 +77,14 @@ module peripheral_gpio_testbench;
     forever #10 PCLK = ~PCLK;
   end : gen_PCLK
 
-  initial begin : gen_PRESETn
-    ;
+  initial begin : gen_PRESETn;
     PRESETn = 1'b1;
     //ensure falling edge of PRESETn
     #10;
     PRESETn = 1'b0;
     #32;
     PRESETn = 1'b1;
-  end : gen_PRESETn
-  ;
+  end : gen_PRESETn;
 
   //////////////////////////////////////////////////////////////////////////////
   //
