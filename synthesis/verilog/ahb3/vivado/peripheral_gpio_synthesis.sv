@@ -100,7 +100,7 @@ module peripheral_gpio_synthesis #(
     .PDATA_SIZE(PDATA_SIZE),
     .SYNC_DEPTH(SYNC_DEPTH)
   ) apb42ahb3 (
-    //AHB Slave Interface
+    // AHB Slave Interface
     .HRESETn(HRESETn),
     .HCLK   (HCLK),
 
@@ -118,7 +118,7 @@ module peripheral_gpio_synthesis #(
     .HREADY   (gpio_HREADY),
     .HRESP    (gpio_HRESP),
 
-    //APB Master Interface
+    // APB Master Interface
     .PRESETn(HRESETn),
     .PCLK   (HCLK),
 

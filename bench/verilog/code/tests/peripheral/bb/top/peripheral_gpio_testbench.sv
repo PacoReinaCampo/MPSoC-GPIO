@@ -90,7 +90,7 @@ module peripheral_gpio_testbench;
   // Module Body
   //
 
-  //DUT WB
+  // DUT WB
   peripheral_gpio_bb #(
     .WB_DATA_WIDTH        (WB_DATA_WIDTH),
     .WB_ADDR_WIDTH        (WB_ADDR_WIDTH),

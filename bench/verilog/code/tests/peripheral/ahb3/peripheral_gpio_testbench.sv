@@ -97,7 +97,7 @@ module peripheral_gpio_testbench;
   // Module Body
   //
 
-  //DUT AHB3
+  // DUT AHB3
   peripheral_apb42ahb3 #(
     .HADDR_SIZE(HADDR_SIZE),
     .HDATA_SIZE(HDATA_SIZE),
@@ -105,7 +105,7 @@ module peripheral_gpio_testbench;
     .PDATA_SIZE(PDATA_SIZE),
     .SYNC_DEPTH(SYNC_DEPTH)
   ) apb42ahb3 (
-    //AHB Slave Interface
+    // AHB Slave Interface
     .HRESETn(HRESETn),
     .HCLK   (HCLK),
 
@@ -123,7 +123,7 @@ module peripheral_gpio_testbench;
     .HREADY   (mst_gpio_HREADY),
     .HRESP    (mst_gpio_HRESP),
 
-    //APB Master Interface
+    // APB Master Interface
     .PRESETn(HRESETn),
     .PCLK   (HCLK),
 

@@ -63,7 +63,7 @@ module peripheral_gpio_synthesis (
   // Module Body
   //
 
-  //DUT BB
+  // DUT BB
   bb_gpio gpio (
     .mclk   (mclk),    // Main system clock
     .puc_rst(puc_rst), // Main system reset
