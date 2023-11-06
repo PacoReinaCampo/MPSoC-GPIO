@@ -252,8 +252,11 @@ module peripheral_gpio_wb #(
   assign wb_ack = wb_cyc_i & wb_stb_i & !wb_err_s;
 
   always @(posedge wb_clk_i or posedge wb_rst_i) begin
-    if (wb_rst_i) wb_ack_s <= 1'b0;
-    else wb_ack_s <= wb_ack & ~wb_ack_s & (!wb_err);
+    if (wb_rst_i) begin
+      wb_ack_s <= 1'b0;
+    end else begin
+      wb_ack_s <= wb_ack & ~wb_ack_s & (!wb_err);
+    end
   end
 
   assign wb_ack_o = wb_ack_s;
@@ -266,8 +269,11 @@ module peripheral_gpio_wb #(
 `endif
 
   always @(posedge wb_clk_i or posedge wb_rst_i) begin
-    if (wb_rst_i) wb_err_s <= 1'b0;
-    else wb_err_s <= wb_err & ~wb_err_s;
+    if (wb_rst_i) begin
+      wb_err_s <= 1'b0;
+    end else begin
+      wb_err_s <= wb_err & ~wb_err_s;
+    end
   end
 
   assign wb_err_o = wb_err_s;
@@ -311,9 +317,13 @@ module peripheral_gpio_wb #(
   // Write to RGPIO_CTRL or update of RGPIO_CTRL[INT] bit
 `ifdef GPIO_RGPIO_CTRL
   always @(posedge wb_clk_i or posedge wb_rst_i) begin
-    if (wb_rst_i) rgpio_ctrl <= 2'b0;
-    else if (rgpio_ctrl_sel && wb_we_i) rgpio_ctrl <= wb_dat_i[1:0];
-    else if (rgpio_ctrl[`GPIO_RGPIO_CTRL_INTE]) rgpio_ctrl[`GPIO_RGPIO_CTRL_INTS] <= rgpio_ctrl[`GPIO_RGPIO_CTRL_INTS] | wb_inta_s;
+    if (wb_rst_i) begin
+      rgpio_ctrl <= 2'b0;
+    end else if (rgpio_ctrl_sel && wb_we_i) begin
+      rgpio_ctrl <= wb_dat_i[1:0];
+    end else if (rgpio_ctrl[`GPIO_RGPIO_CTRL_INTE]) begin
+      rgpio_ctrl[`GPIO_RGPIO_CTRL_INTS] <= rgpio_ctrl[`GPIO_RGPIO_CTRL_INTS] | wb_inta_s;
+    end
   end
 `else
   assign rgpio_ctrl = 2'h01;  // RGPIO_CTRL[EN] = 1
@@ -322,8 +332,9 @@ module peripheral_gpio_wb #(
   // Write to RGPIO_OUT
 `ifdef GPIO_RGPIO_OUT
   always @(posedge wb_clk_i or posedge wb_rst_i) begin
-    if (wb_rst_i) rgpio_out <= {GPIO_WIDTH{1'b0}};
-    else if (rgpio_out_sel && wb_we_i) begin
+    if (wb_rst_i) begin
+      rgpio_out <= {GPIO_WIDTH{1'b0}};
+    end else if (rgpio_out_sel && wb_we_i) begin
 `ifdef GPIO_STRICT_32BIT_ACCESS
       rgpio_out <= wb_dat_i[GPIO_WIDTH-1:0];
 `endif
@@ -354,8 +365,9 @@ module peripheral_gpio_wb #(
   // Write to RGPIO_OE.
 `ifdef GPIO_RGPIO_OE
   always @(posedge wb_clk_i or posedge wb_rst_i)
-    if (wb_rst_i) rgpio_oe <= {GPIO_WIDTH{1'b0}};
-    else if (rgpio_oe_sel && wb_we_i) begin
+    if (wb_rst_i) begin
+      rgpio_oe <= {GPIO_WIDTH{1'b0}};
+    end else if (rgpio_oe_sel && wb_we_i) begin
 `ifdef GPIO_STRICT_32BIT_ACCESS
       rgpio_oe <= wb_dat_i[GPIO_WIDTH-1:0];
 `endif
@@ -385,8 +397,9 @@ module peripheral_gpio_wb #(
   // Write to RGPIO_INTE
 `ifdef GPIO_RGPIO_INTE
   always @(posedge wb_clk_i or posedge wb_rst_i) begin
-    if (wb_rst_i) rgpio_inte <= {GPIO_WIDTH{1'b0}};
-    else if (rgpio_inte_sel && wb_we_i) begin
+    if (wb_rst_i) begin
+      rgpio_inte <= {GPIO_WIDTH{1'b0}};
+    end else if (rgpio_inte_sel && wb_we_i) begin
 `ifdef GPIO_STRICT_32BIT_ACCESS
       rgpio_inte <= wb_dat_i[GPIO_WIDTH-1:0];
 `endif
@@ -417,8 +430,9 @@ module peripheral_gpio_wb #(
   // Write to RGPIO_PTRIG
 `ifdef GPIO_RGPIO_PTRIG
   always @(posedge wb_clk_i or posedge wb_rst_i) begin
-    if (wb_rst_i) rgpio_ptrig <= {GPIO_WIDTH{1'b0}};
-    else if (rgpio_ptrig_sel && wb_we_i) begin
+    if (wb_rst_i) begin
+      rgpio_ptrig <= {GPIO_WIDTH{1'b0}};
+    end else if (rgpio_ptrig_sel && wb_we_i) begin
 `ifdef GPIO_STRICT_32BIT_ACCESS
       rgpio_ptrig <= wb_dat_i[GPIO_WIDTH-1:0];
 `endif
@@ -449,8 +463,9 @@ module peripheral_gpio_wb #(
   // Write to RGPIO_AUX
 `ifdef GPIO_RGPIO_AUX
   always @(posedge wb_clk_i or posedge wb_rst_i) begin
-    if (wb_rst_i) rgpio_aux <= {GPIO_WIDTH{1'b0}};
-    else if (rgpio_aux_sel && wb_we_i) begin
+    if (wb_rst_i) begin
+      rgpio_aux <= {GPIO_WIDTH{1'b0}};
+    end else if (rgpio_aux_sel && wb_we_i) begin
 `ifdef GPIO_STRICT_32BIT_ACCESS
       rgpio_aux <= wb_dat_i[GPIO_WIDTH-1:0];
 `endif
@@ -481,8 +496,9 @@ module peripheral_gpio_wb #(
   // Write to RGPIO_ECLK
 `ifdef GPIO_RGPIO_ECLK
   always @(posedge wb_clk_i or posedge wb_rst_i) begin
-    if (wb_rst_i) rgpio_eclk <= {GPIO_WIDTH{1'b0}};
-    else if (rgpio_eclk_sel && wb_we_i) begin
+    if (wb_rst_i) begin
+      rgpio_eclk <= {GPIO_WIDTH{1'b0}};
+    end else if (rgpio_eclk_sel && wb_we_i) begin
 `ifdef GPIO_STRICT_32BIT_ACCESS
       rgpio_eclk <= wb_dat_i[GPIO_WIDTH-1:0];
 `endif
@@ -564,8 +580,11 @@ module peripheral_gpio_wb #(
   // Latch into RGPIO_IN
 `ifdef GPIO_RGPIO_IN
   always @(posedge wb_clk_i or posedge wb_rst_i) begin
-    if (wb_rst_i) rgpio_in <= {GPIO_WIDTH{1'b0}};
-    else rgpio_in <= in_muxed;
+    if (wb_rst_i) begin
+      rgpio_in <= {GPIO_WIDTH{1'b0}};
+    end else begin
+      rgpio_in <= in_muxed;
+    end
   end
 `else
   assign rgpio_in = in_muxed;
@@ -629,8 +648,11 @@ module peripheral_gpio_wb #(
   end
 
   always @(posedge wb_clk_i or posedge wb_rst_i) begin
-    if (wb_rst_i) wb_dat_s <= {WB_DATA_WIDTH{1'b0}};
-    else wb_dat_s <= wb_dat;
+    if (wb_rst_i) begin
+      wb_dat_s <= {WB_DATA_WIDTH{1'b0}};
+    end else begin
+      wb_dat_s <= wb_dat;
+    end
   end
 
   assign wb_dat_o = wb_dat_s;
@@ -638,9 +660,13 @@ module peripheral_gpio_wb #(
   // RGPIO_INTS
 `ifdef GPIO_RGPIO_INTS
   always @(posedge wb_clk_i or posedge wb_rst_i) begin
-    if (wb_rst_i) rgpio_ints <= {GPIO_WIDTH{1'b0}};
-    else if (rgpio_ints_sel && wb_we_i) rgpio_ints <= wb_dat_i[GPIO_WIDTH-1:0];
-    else if (rgpio_ctrl[`GPIO_RGPIO_CTRL_INTE]) rgpio_ints <= (rgpio_ints | ((in_muxed ^ rgpio_in) & ~(in_muxed ^ rgpio_ptrig)) & rgpio_inte);
+    if (wb_rst_i) begin
+      rgpio_ints <= {GPIO_WIDTH{1'b0}};
+    end else if (rgpio_ints_sel && wb_we_i) begin
+      rgpio_ints <= wb_dat_i[GPIO_WIDTH-1:0];
+    end else if (rgpio_ctrl[`GPIO_RGPIO_CTRL_INTE]) begin
+      rgpio_ints <= (rgpio_ints | ((in_muxed ^ rgpio_in) & ~(in_muxed ^ rgpio_ptrig)) & rgpio_inte);
+    end
   end
 `else
   assign rgpio_ints = (rgpio_ints | ((in_muxed ^ rgpio_in) & ~(in_muxed ^ rgpio_ptrig)) & rgpio_inte);
@@ -650,8 +676,11 @@ module peripheral_gpio_wb #(
   assign wb_inta = |rgpio_ints ? rgpio_ctrl[`GPIO_RGPIO_CTRL_INTE] : 1'b0;
 
   always @(posedge wb_clk_i or posedge wb_rst_i) begin
-    if (wb_rst_i) wb_inta_s <= 1'b0;
-    else wb_inta_s <= wb_inta;
+    if (wb_rst_i) begin
+      wb_inta_s <= 1'b0;
+    end else begin
+      wb_inta_s <= wb_inta;
+    end
   end
 
   assign wb_inta_o   = wb_inta_s;
@@ -666,8 +695,11 @@ module peripheral_gpio_wb #(
   generate
     if (REGISTER_GPIO_OUTPUTS == "ENABLED") begin
       always @(posedge wb_clk_i or posedge wb_rst_i) begin
-        if (wb_rst_i) ext_pad_g <= {GPIO_WIDTH{1'b0}};
-        else ext_pad_g <= out_pad;
+        if (wb_rst_i) begin
+          ext_pad_g <= {GPIO_WIDTH{1'b0}};
+        end else begin
+          ext_pad_g <= out_pad;
+        end
       end
     end else assign ext_pad_g = out_pad;
   endgenerate
