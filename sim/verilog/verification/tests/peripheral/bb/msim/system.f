@@ -42,8 +42,7 @@
 ##                                                                               ##
 ###################################################################################
 
-../../../../../../../rtl/verilog/code/pkg/peripheral/wb/peripheral_bb_pkg.sv
-
+../../../../../../../rtl/verilog/code/peripheral/bb/fuse/peripheral_sync_cell_bb.sv
 ../../../../../../../rtl/verilog/code/peripheral/wb/peripheral_gpio_bb.sv
 
 ../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_master_bb.sv
