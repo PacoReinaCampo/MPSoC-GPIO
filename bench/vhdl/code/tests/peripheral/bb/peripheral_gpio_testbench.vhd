@@ -1,6 +1,3 @@
--- Converted from bench/verilog/regression/peripheral_gpio_testbench.sv
--- by verilog2vhdl - QueenField
-
 --------------------------------------------------------------------------------
 --                                            __ _      _     _               --
 --                                           / _(_)    | |   | |              --
@@ -65,7 +62,7 @@ architecture rtl of peripheral_gpio_testbench is
   -- Variables
   ------------------------------------------------------------------------------
 
-  --Common signals
+  -- Common signals
   signal clk : std_logic;
   signal rst : std_logic;
 
@@ -134,7 +131,7 @@ begin
   -- Module Body
   ------------------------------------------------------------------------------
 
-  --DUT WB
+  -- DUT WB
   gpio_bb : peripheral_gpio_bb
     generic map (
       WB_DATA_WIDTH         => WB_DATA_WIDTH,

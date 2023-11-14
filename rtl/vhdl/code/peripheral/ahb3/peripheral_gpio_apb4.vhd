@@ -1,6 +1,3 @@
--- Converted from verilog/peripheral_gpio_apb4/peripheral_gpio_apb4.sv
--- by verilog2vhdl - QueenField
-
 --------------------------------------------------------------------------------
 --                                            __ _      _     _               --
 --                                           / _(_)    | |   | |              --
@@ -76,28 +73,28 @@ architecture rtl of peripheral_gpio_apb4 is
   -- Constants
   ------------------------------------------------------------------------------
 
-  --Interrupt-on-change
+  -- Interrupt-on-change
   constant MODE      : std_logic_vector(63 downto 0) := X"0000000000000000";
   constant DIRECTION : std_logic_vector(63 downto 0) := X"0000000000000001";
   constant OUTPUTS   : std_logic_vector(63 downto 0) := X"0000000000000002";
   constant INPUTS    : std_logic_vector(63 downto 0) := X"0000000000000003";
   constant IOC       : std_logic_vector(63 downto 0) := X"0000000000000004";
-  constant IPENDING  : std_logic_vector(63 downto 0) := X"0000000000000005";  --Interrupt-pending
+  constant IPENDING  : std_logic_vector(63 downto 0) := X"0000000000000005";  -- Interrupt-pending
 
-  --number of synchronisation flipflop stages on GPIO inputs
+  -- number of synchronisation flipflop stages on GPIO inputs
   constant INPUT_STAGES : integer := 3;
 
   ------------------------------------------------------------------------------
   -- Variables
   ------------------------------------------------------------------------------
 
-  --Control registers
+  -- Control registers
   signal mode_reg : std_logic_vector(PDATA_SIZE-1 downto 0);
   signal dir_reg  : std_logic_vector(PDATA_SIZE-1 downto 0);
   signal out_reg  : std_logic_vector(PDATA_SIZE-1 downto 0);
   signal in_reg   : std_logic_vector(PDATA_SIZE-1 downto 0);
 
-  --Input register, to prevent metastability
+  -- Input register, to prevent metastability
   signal input_regs : std_logic_vector(INPUT_STAGES*PDATA_SIZE-1 downto 0);
 
   ------------------------------------------------------------------------------
@@ -131,7 +128,7 @@ architecture rtl of peripheral_gpio_apb4 is
 
     variable is_write_to_adr_return : std_logic;
   begin
-    --only 'bits' LSBs should be '1'
+    -- only 'bits' LSBs should be '1'
     is_write               := PSEL_S and PENABLE_S and PWRITE_S;
     mask                   := std_logic_vector(to_unsigned(2**bits-1, PADDR_SIZE));
     is_write_to_adr_return := is_write and to_stdlogic((PADDR_S and mask) = (address and mask));
@@ -160,16 +157,16 @@ begin
   -- Module Body
   ------------------------------------------------------------------------------
 
-  --APB accesses
+  -- APB accesses
 
-  --The core supports zero-wait state accesses on all transfers.
-  --It is allowed to driver PREADY with a steady signal
-  PREADY  <= '1';                       --always ready
-  PSLVERR <= '0';                       --Never an error
+  -- The core supports zero-wait state accesses on all transfers.
+  -- It is allowed to driver PREADY with a steady signal
+  PREADY  <= '1';                       -- always ready
+  PSLVERR <= '0';                       -- Never an error
 
-  --APB Writes
+  -- APB Writes
 
-  --APB write to Mode register
+  -- APB write to Mode register
   processing_0 : process (PCLK, PRESETn)
   begin
     if (PRESETn = '0') then
@@ -181,7 +178,7 @@ begin
     end if;
   end process;
 
-  --APB write to Direction register
+  -- APB write to Direction register
   processing_1 : process (PCLK, PRESETn)
   begin
     if (PRESETn = '0') then
@@ -193,8 +190,8 @@ begin
     end if;
   end process;
 
-  --APB write to Output register
-  --treat writes to Input register same
+  -- APB write to Output register
+  -- treat writes to Input register same
   processing_2 : process (PCLK, PRESETn)
   begin
     if (PRESETn = '0') then
@@ -206,7 +203,7 @@ begin
     end if;
   end process;
 
-  --APB Reads
+  -- APB Reads
   processing_3 : process (PCLK)
   begin
     if (rising_edge(PCLK)) then
@@ -225,7 +222,7 @@ begin
     end if;
   end process;
 
-  --Internals INPUT_STAGES*PDATA_SIZE
+  -- Internals INPUT_STAGES*PDATA_SIZE
   generating_0 : for n in 0 to INPUT_STAGES - 1 generate
     processing_4 : process (PCLK)
     begin

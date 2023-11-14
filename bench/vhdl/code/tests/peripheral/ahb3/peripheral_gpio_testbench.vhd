@@ -1,6 +1,3 @@
--- Converted from bench/verilog/regression/peripheral_gpio_testbench.sv
--- by verilog2vhdl - QueenField
-
 --------------------------------------------------------------------------------
 --                                            __ _      _     _               --
 --                                           / _(_)    | |   | |              --
@@ -65,11 +62,11 @@ architecture rtl of peripheral_gpio_testbench is
   -- Variables
   ------------------------------------------------------------------------------
 
-  --Common signals
+  -- Common signals
   signal HRESETn : std_logic;
   signal HCLK    : std_logic;
 
-  --AHB3 GPIO Interface
+  -- AHB3 GPIO Interface
   signal mst_gpio_HSEL      : std_logic;
   signal mst_gpio_HADDR     : std_logic_vector(HADDR_SIZE-1 downto 0);
   signal mst_gpio_HWDATA    : std_logic_vector(HDATA_SIZE-1 downto 0);
@@ -110,7 +107,7 @@ architecture rtl of peripheral_gpio_testbench is
       SYNC_DEPTH : integer := 3
       );
     port (
-      --AHB Slave Interface
+      -- AHB Slave Interface
       HRESETn   : in  std_logic;
       HCLK      : in  std_logic;
       HSEL      : in  std_logic;
@@ -127,7 +124,7 @@ architecture rtl of peripheral_gpio_testbench is
       HREADY    : in  std_logic;
       HRESP     : out std_logic;
 
-      --APB Master Interface
+      -- APB Master Interface
       PRESETn : in  std_logic;
       PCLK    : in  std_logic;
       PADDR   : out std_logic_vector(PADDR_SIZE-1 downto 0);
@@ -174,7 +171,7 @@ begin
   -- Module Body
   ------------------------------------------------------------------------------
 
-  --DUT AHB3
+  -- DUT AHB3
   apb42ahb3 : peripheral_apb42ahb3
     generic map (
       HADDR_SIZE => HADDR_SIZE,
@@ -184,7 +181,7 @@ begin
       SYNC_DEPTH => SYNC_DEPTH
       )
     port map (
-      --AHB Slave Interface
+      -- AHB Slave Interface
       HRESETn => HRESETn,
       HCLK    => HCLK,
 
@@ -202,7 +199,7 @@ begin
       HREADY    => mst_gpio_HREADY,
       HRESP     => mst_gpio_HRESP,
 
-      --APB Master Interface
+      -- APB Master Interface
       PRESETn => HRESETn,
       PCLK    => HCLK,
 

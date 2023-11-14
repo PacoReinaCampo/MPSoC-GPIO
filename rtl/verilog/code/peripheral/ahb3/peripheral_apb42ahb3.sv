@@ -406,7 +406,6 @@ module peripheral_apb42ahb3 #(
           PENABLE              <= 1'b0;
 
           if (PSLVERR || ~|apb_beat_cnt) begin
-            //
             // Transfer complete
             // Go back to IDLE
             // Signal AHB fsm, transfer complete
@@ -414,7 +413,6 @@ module peripheral_apb42ahb3 #(
             apb_tack <= 1'b1;
             PSEL     <= 1'b0;
           end else begin
-            //
             // More beats in current transfer
             // Setup next address and data
             apb_fsm <= ST_APB_SETUP;
