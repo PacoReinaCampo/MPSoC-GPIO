@@ -114,7 +114,6 @@ module peripheral_bfm_slave_generic_axi4 (
       end
     end
   end
-  end
 
   // Write Burst Counting
   always @(posedge aclk) begin
