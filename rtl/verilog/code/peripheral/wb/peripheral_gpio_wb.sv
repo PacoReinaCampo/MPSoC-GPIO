@@ -527,8 +527,9 @@ module peripheral_gpio_wb #(
   // Write to RGPIO_NEC
 `ifdef GPIO_RGPIO_NEC
   always @(posedge wb_clk_i or posedge wb_rst_i) begin
-    if (wb_rst_i) rgpio_nec <= {GPIO_WIDTH{1'b0}};
-    else if (rgpio_nec_sel && wb_we_i) begin
+    if (wb_rst_i) begin
+      rgpio_nec <= {GPIO_WIDTH{1'b0}};
+    end else if (rgpio_nec_sel && wb_we_i) begin
 `ifdef GPIO_STRICT_32BIT_ACCESS
       rgpio_nec <= wb_dat_i[GPIO_WIDTH-1:0];
 `endif

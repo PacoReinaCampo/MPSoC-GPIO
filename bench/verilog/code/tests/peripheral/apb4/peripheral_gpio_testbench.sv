@@ -57,7 +57,9 @@ module peripheral_gpio_testbench;
   logic                    PSLVERR;
 
   // GPIOs
-  logic [PDATA_SIZE -1:0] gpio_o, gpio_i, gpio_oe;
+  logic [PDATA_SIZE -1:0] gpio_o;
+  logic [PDATA_SIZE -1:0] gpio_i;
+  logic [PDATA_SIZE -1:0] gpio_oe;
 
   // IRQ
   logic irq_o;
