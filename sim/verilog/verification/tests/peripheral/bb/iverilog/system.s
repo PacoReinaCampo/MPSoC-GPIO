@@ -50,5 +50,5 @@
 ../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_slave_bb.sv
 ../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_transactor_bb.sv
 ../../../../../../../bench/verilog/code/tests/peripheral/wb/main/peripheral_tap_generator.sv
-../../../../../../../bench/verilog/code/tests/peripheral/wb/main/peripheral_testbench_utils.sv
+../../../../../../../bench/verilog/code/tests/peripheral/wb/main/peripheral_utils_testbench.sv
 ../../../../../../../bench/verilog/code/tests/peripheral/wb/main/peripheral_gpio_testbench.sv
