@@ -3,4 +3,4 @@
 
 ![QueenField](../master/icon.jpg)
 
-**DGeneral Purpose Input Output for a Multi-Processor System on Chip**
+**General Purpose Input Output for a Multi-Processor System on Chip**
