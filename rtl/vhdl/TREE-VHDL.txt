@@ -3,6 +3,8 @@ code
 │   ├── ahb3
 │   │   ├── peripheral_apb42ahb3.vhd
 │   │   └── peripheral_gpio_apb4.vhd
+│   ├── apb4
+│   │   └── peripheral_gpio_apb4.vhd
 │   ├── bb
 │   │   ├── fuse
 │   │   │   └── peripheral_sync_cell_bb.vhd
@@ -21,4 +23,4 @@ code
         └── wb
             └── peripheral_wb_pkg.vhd
 
-12 directories, 9 files
+13 directories, 10 files
