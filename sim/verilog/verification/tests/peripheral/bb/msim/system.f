@@ -45,10 +45,10 @@
 ../../../../../../../rtl/verilog/code/peripheral/bb/fuse/peripheral_sync_cell_bb.sv
 ../../../../../../../rtl/verilog/code/peripheral/wb/peripheral_gpio_bb.sv
 
-../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_master_bb.sv
-../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_memory_bb.sv
-../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_slave_bb.sv
-../../../../../../../bench/verilog/code/tests/peripheral/wb/bus/peripheral_bfm_transactor_bb.sv
-../../../../../../../bench/verilog/code/tests/peripheral/wb/main/peripheral_tap_generator.sv
-../../../../../../../bench/verilog/code/tests/peripheral/wb/main/peripheral_utils_testbench.sv
-../../../../../../../bench/verilog/code/tests/peripheral/wb/main/peripheral_gpio_testbench.sv
+../../../../../../../verification/tasks/library/peripheral/wb/bus/peripheral_bfm_master_bb.sv
+../../../../../../../verification/tasks/library/peripheral/wb/bus/peripheral_bfm_memory_bb.sv
+../../../../../../../verification/tasks/library/peripheral/wb/bus/peripheral_bfm_slave_bb.sv
+../../../../../../../verification/tasks/library/peripheral/wb/bus/peripheral_bfm_transactor_bb.sv
+../../../../../../../verification/tasks/library/peripheral/wb/main/peripheral_tap_generator.sv
+../../../../../../../verification/tasks/library/peripheral/wb/main/peripheral_utils_testbench.sv
+../../../../../../../verification/tasks/library/peripheral/wb/main/peripheral_gpio_testbench.sv

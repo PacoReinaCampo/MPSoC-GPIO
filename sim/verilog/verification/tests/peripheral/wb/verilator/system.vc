@@ -46,4 +46,4 @@
 
 ../../../../../../../rtl/verilog/code/peripheral/wb/peripheral_gpio_wb.sv
 
-../../../../../../../bench/verilog/code/tests/peripheral/wb/top/peripheral_gpio_testbench.sv
+../../../../../../../verification/tasks/library/peripheral/wb/top/peripheral_gpio_testbench.sv
