@@ -5,11 +5,17 @@ code
 │   │   └── peripheral_gpio_apb4.vhd
 │   ├── apb4
 │   │   └── peripheral_gpio_apb4.vhd
+│   ├── axi4
+│   │   ├── peripheral_apb42ahb3.vhd
+│   │   └── peripheral_gpio_apb4.vhd
 │   ├── bb
 │   │   ├── fuse
 │   │   │   └── peripheral_sync_cell_bb.vhd
 │   │   └── main
 │   │       └── peripheral_gpio_bb.vhd
+│   ├── biu
+│   │   ├── peripheral_apb42ahb3.vhd
+│   │   └── peripheral_gpio_apb4.vhd
 │   └── wb
 │       └── peripheral_gpio_wb.vhd
 └── pkg
@@ -18,9 +24,15 @@ code
     └── peripheral
         ├── ahb3
         │   └── peripheral_ahb3_pkg.vhd
+        ├── apb4
+        │   └── peripheral_ahb3_pkg.vhd
         ├── axi4
         │   └── peripheral_axi4_pkg.vhd
+        ├── bb
+        │   └── peripheral_ahb3_pkg.vhd
+        ├── biu
+        │   └── peripheral_ahb3_pkg.vhd
         └── wb
             └── peripheral_wb_pkg.vhd
 
-13 directories, 10 files
+18 directories, 17 files

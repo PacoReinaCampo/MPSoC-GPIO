@@ -42,13 +42,13 @@
 ##                                                                               ##
 ###################################################################################
 
-../../../../../../../rtl/verilog/code/peripheral/biu/fuse/peripheral_sync_cell_bb.sv
-../../../../../../../rtl/verilog/code/peripheral/wb/peripheral_gpio_bb.sv
+../../../../../../../rtl/verilog/code/peripheral/biu/fuse/peripheral_sync_cell_biu.sv
+../../../../../../../rtl/verilog/code/peripheral/biu/peripheral_gpio_biu.sv
 
-../../../../../../../verification/tasks/library/peripheral/wb/bus/peripheral_bfm_master_bb.sv
-../../../../../../../verification/tasks/library/peripheral/wb/bus/peripheral_bfm_memory_bb.sv
-../../../../../../../verification/tasks/library/peripheral/wb/bus/peripheral_bfm_slave_bb.sv
-../../../../../../../verification/tasks/library/peripheral/wb/bus/peripheral_bfm_transactor_bb.sv
-../../../../../../../verification/tasks/library/peripheral/wb/main/peripheral_tap_generator.sv
-../../../../../../../verification/tasks/library/peripheral/wb/main/peripheral_utils_testbench.sv
-../../../../../../../verification/tasks/library/peripheral/wb/main/peripheral_gpio_testbench.sv
+../../../../../../../verification/tasks/library/peripheral/biu/bus/peripheral_bfm_master_biu.sv
+../../../../../../../verification/tasks/library/peripheral/biu/bus/peripheral_bfm_memory_biu.sv
+../../../../../../../verification/tasks/library/peripheral/biu/bus/peripheral_bfm_slave_biu.sv
+../../../../../../../verification/tasks/library/peripheral/biu/bus/peripheral_bfm_transactor_biu.sv
+../../../../../../../verification/tasks/library/peripheral/biu/main/peripheral_tap_generator.sv
+../../../../../../../verification/tasks/library/peripheral/biu/main/peripheral_utils_testbench.sv
+../../../../../../../verification/tasks/library/peripheral/biu/main/peripheral_gpio_testbench.sv

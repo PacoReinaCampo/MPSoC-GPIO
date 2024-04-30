@@ -42,6 +42,6 @@
 ##                                                                               ##
 ###################################################################################
 
-../../../../../../../rtl/vhdl/code/peripheral/wb/peripheral_gpio_wb.vhd
+../../../../../../../rtl/vhdl/code/peripheral/bb/peripheral_gpio_bb.vhd
 
-../../../../../../../bench/vhdl/code/tests/peripheral/wb/peripheral_gpio_testbench.vhd
+../../../../../../../bench/vhdl/code/tests/peripheral/bb/peripheral_gpio_testbench.vhd

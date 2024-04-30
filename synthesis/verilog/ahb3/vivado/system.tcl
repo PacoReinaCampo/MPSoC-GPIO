@@ -44,8 +44,8 @@
 
 read_verilog -sv ../../../../rtl/verilog/code/pkg/peripheral/ahb3/peripheral_ahb3_pkg.sv
 
-read_verilog -sv ../../../../rtl/verilog/code/peripheral/ahb3/peripheral_apb42ahb3.sv
-read_verilog -sv ../../../../rtl/verilog/code/peripheral/ahb3/peripheral_gpio_apb4.sv
+read_verilog -sv ../../../../rtl/verilog/code/peripheral/ahb3/peripheral_ahb32ahb3.sv
+read_verilog -sv ../../../../rtl/verilog/code/peripheral/ahb3/peripheral_gpio_ahb3.sv
 
 read_verilog -sv peripheral_gpio_synthesis.sv
 

@@ -42,7 +42,7 @@
 ##                                                                               ##
 ###################################################################################
 
-../../../../../../../rtl/verilog/code/peripheral/ahb3/peripheral_gpio_apb4.sv
+../../../../../../../rtl/verilog/code/peripheral/apb4/peripheral_gpio_apb4.sv
 
 ../../../../../../../verification/tasks/library/peripheral/apb4/peripheral_bfm_apb4.sv
 ../../../../../../../verification/tasks/library/peripheral/apb4/peripheral_bfm_master_apb4.sv

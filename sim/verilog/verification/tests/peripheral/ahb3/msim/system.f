@@ -44,8 +44,8 @@
 
 ../../../../../../../rtl/verilog/code/pkg/peripheral/ahb3/peripheral_ahb3_pkg.sv
 
-../../../../../../../rtl/verilog/code/peripheral/ahb3/peripheral_apb42ahb3.sv
-../../../../../../../rtl/verilog/code/peripheral/ahb3/peripheral_gpio_apb4.sv
+../../../../../../../rtl/verilog/code/peripheral/ahb3/peripheral_ahb32ahb3.sv
+../../../../../../../rtl/verilog/code/peripheral/ahb3/peripheral_gpio_ahb3.sv
 
 ../../../../../../../verification/tasks/library/peripheral/ahb3/peripheral_bfm_ahb3.sv
 ../../../../../../../verification/tasks/library/peripheral/ahb3/peripheral_bfm_master_ahb3.sv
