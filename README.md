@@ -1,6 +1,6 @@
 # MPSoC-GPIO
 ## QueenField
 
-![QueenField](../master/icon.jpg)
+![QueenField](../main/icon.jpg)
 
 **General Purpose Input Output for a Multi-Processor System on Chip**
