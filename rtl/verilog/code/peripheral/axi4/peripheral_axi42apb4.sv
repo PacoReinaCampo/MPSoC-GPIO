@@ -38,9 +38,9 @@
 // Author(s):
 //   Paco Reina Campo <pacoreinacampo@queenfield.tech>
 
-import peripheral_ahb3_pkg::*;
+import peripheral_axi4_pkg::*;
 
-module peripheral_ahb32ahb3 #(
+module peripheral_axi42apb4 #(
   parameter HADDR_SIZE = 32,
   parameter HDATA_SIZE = 32,
   parameter PADDR_SIZE = 10,

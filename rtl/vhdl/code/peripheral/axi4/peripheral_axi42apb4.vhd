@@ -44,9 +44,9 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 use work.vhdl_pkg.all;
-use work.peripheral_biu_pkg.all;
+use work.peripheral_axi4_pkg.all;
 
-entity peripheral_biu2biu is
+entity peripheral_axi42apb4 is
   generic (
     HADDR_SIZE : integer := 32;
     HDATA_SIZE : integer := 32;
@@ -86,9 +86,9 @@ entity peripheral_biu2biu is
     PREADY  : in  std_logic;
     PSLVERR : in  std_logic
     );
-end peripheral_biu2biu;
+end peripheral_axi42apb4;
 
-architecture rtl of peripheral_biu2biu is
+architecture rtl of peripheral_axi42apb4 is
   ------------------------------------------------------------------------------
   -- Constants
   ------------------------------------------------------------------------------

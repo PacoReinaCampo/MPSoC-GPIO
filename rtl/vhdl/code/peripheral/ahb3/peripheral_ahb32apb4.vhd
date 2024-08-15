@@ -44,9 +44,9 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 use work.vhdl_pkg.all;
-use work.peripheral_axi4_pkg.all;
+use work.peripheral_ahb3_pkg.all;
 
-entity peripheral_axi42axi4 is
+entity peripheral_ahb32apb4 is
   generic (
     HADDR_SIZE : integer := 32;
     HDATA_SIZE : integer := 32;
@@ -86,9 +86,9 @@ entity peripheral_axi42axi4 is
     PREADY  : in  std_logic;
     PSLVERR : in  std_logic
     );
-end peripheral_axi42axi4;
+end peripheral_ahb32apb4;
 
-architecture rtl of peripheral_axi42axi4 is
+architecture rtl of peripheral_ahb32apb4 is
   ------------------------------------------------------------------------------
   -- Constants
   ------------------------------------------------------------------------------
