@@ -70,7 +70,7 @@ module peripheral_gpio_testbench;
   // Body
   //////////////////////////////////////////////////////////////////////////////
 
-  peripheral_testbench_utils testbench_utils ();
+  peripheral_utils_testbench testbench_utils ();
 
   initial #1800 wbm_rst <= 1'b0;
 
