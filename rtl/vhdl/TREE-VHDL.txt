@@ -1,8 +1,8 @@
 code
 ├── peripheral
-│   ├── ahb3
-│   │   ├── peripheral_ahb32apb4.vhd
-│   │   └── peripheral_gpio_ahb3.vhd
+│   ├── ahb4
+│   │   ├── peripheral_ahb42apb4.vhd
+│   │   └── peripheral_gpio_ahb4.vhd
 │   ├── apb4
 │   │   └── peripheral_gpio_apb4.vhd
 │   ├── axi4
@@ -21,8 +21,8 @@ code
     ├── core
     │   └── vhdl_pkg.vhd
     └── peripheral
-        ├── ahb3
-        │   └── peripheral_ahb3_pkg.vhd
+        ├── ahb4
+        │   └── peripheral_ahb4_pkg.vhd
         ├── apb4
         │   └── peripheral_apb4_pkg.vhd
         ├── axi4

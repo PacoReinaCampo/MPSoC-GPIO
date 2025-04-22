@@ -44,7 +44,7 @@
 
 read_verilog -sv ../../../../rtl/verilog/code/pkg/peripheral/biu/peripheral_biu_pkg.sv
 
-read_verilog -sv ../../../../rtl/verilog/code/peripheral/biu/peripheral_biu2ahb3.sv
+read_verilog -sv ../../../../rtl/verilog/code/peripheral/biu/peripheral_biu2ahb4.sv
 read_verilog -sv ../../../../rtl/verilog/code/peripheral/biu/peripheral_gpio_biu.sv
 
 read_verilog -sv peripheral_gpio_synthesis.sv

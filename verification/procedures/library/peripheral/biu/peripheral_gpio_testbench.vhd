@@ -51,7 +51,7 @@ architecture rtl of peripheral_gpio_testbench is
   --  Constants
   ------------------------------------------------------------------------------
 
-  -- AHB3 GPIO Interface
+  -- AHB4 GPIO Interface
   constant HADDR_SIZE : integer := 32;
   constant HDATA_SIZE : integer := 32;
   constant PADDR_SIZE : integer := 10;
@@ -66,7 +66,7 @@ architecture rtl of peripheral_gpio_testbench is
   signal HRESETn : std_logic;
   signal HCLK    : std_logic;
 
-  -- AHB3 GPIO Interface
+  -- AHB4 GPIO Interface
   signal mst_gpio_HSEL      : std_logic;
   signal mst_gpio_HADDR     : std_logic_vector(HADDR_SIZE-1 downto 0);
   signal mst_gpio_HWDATA    : std_logic_vector(HDATA_SIZE-1 downto 0);
@@ -98,7 +98,7 @@ architecture rtl of peripheral_gpio_testbench is
   ------------------------------------------------------------------------------
   -- Components
   ------------------------------------------------------------------------------
-  component peripheral_apb42ahb3
+  component peripheral_apb42ahb4
     generic (
       HADDR_SIZE : integer := 32;
       HDATA_SIZE : integer := 32;
@@ -171,8 +171,8 @@ begin
   -- Module Body
   ------------------------------------------------------------------------------
 
-  -- DUT AHB3
-  apb42ahb3 : peripheral_apb42ahb3
+  -- DUT AHB4
+  apb42ahb4 : peripheral_apb42ahb4
     generic map (
       HADDR_SIZE => HADDR_SIZE,
       HDATA_SIZE => HDATA_SIZE,

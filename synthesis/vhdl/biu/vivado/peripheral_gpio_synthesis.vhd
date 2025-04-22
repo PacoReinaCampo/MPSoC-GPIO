@@ -56,7 +56,7 @@ entity peripheral_gpio_synthesis is
     HRESETn   : in  std_logic;
     HCLK      : in  std_logic;
 
-    -- UART AHB3
+    -- UART AHB4
     gpio_HSEL      : in  std_logic;
     gpio_HADDR     : in  std_logic_vector(HADDR_SIZE-1 downto 0);
     gpio_HWDATA    : in  std_logic_vector(HDATA_SIZE-1 downto 0);
@@ -79,7 +79,7 @@ architecture rtl of peripheral_gpio_synthesis is
   -- Components
   ------------------------------------------------------------------------------
 
-  component peripheral_apb42ahb3
+  component peripheral_apb42ahb4
     generic (
       HADDR_SIZE : integer := 32;
       HDATA_SIZE : integer := 32;
@@ -169,8 +169,8 @@ begin
   -- Module Body
   ------------------------------------------------------------------------------
 
-  -- DUT AHB3
-  apb42ahb3 : peripheral_apb42ahb3
+  -- DUT AHB4
+  apb42ahb4 : peripheral_apb42ahb4
     generic map (
       HADDR_SIZE => HADDR_SIZE,
       HDATA_SIZE => HDATA_SIZE,

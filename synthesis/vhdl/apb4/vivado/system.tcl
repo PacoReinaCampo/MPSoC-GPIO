@@ -45,7 +45,7 @@
 read_vhdl -vhdl2008 ../../../../rtl/vhdl/code/pkg/core/vhdl_pkg.vhd
 read_vhdl -vhdl2008 ../../../../rtl/vhdl/code/pkg/peripheral/apb4/peripheral_apb4_pkg.vhd
 
-read_vhdl -vhdl2008 ../../../../rtl/vhdl/code/peripheral/apb4/peripheral_apb42ahb3.vhd
+read_vhdl -vhdl2008 ../../../../rtl/vhdl/code/peripheral/apb4/peripheral_apb42ahb4.vhd
 read_vhdl -vhdl2008 ../../../../rtl/vhdl/code/peripheral/apb4/peripheral_gpio_apb4.vhd
 
 read_vhdl -vhdl2008 peripheral_gpio_synthesis.vhd

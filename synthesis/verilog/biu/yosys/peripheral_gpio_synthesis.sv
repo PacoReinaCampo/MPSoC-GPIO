@@ -49,7 +49,7 @@ module peripheral_gpio_synthesis #(
   input HRESETn,
   input HCLK,
 
-  // UART AHB3
+  // UART AHB4
   input                         gpio_HSEL,
   input      [HADDR_SIZE  -1:0] gpio_HADDR,
   input      [HDATA_SIZE  -1:0] gpio_HWDATA,
@@ -88,14 +88,14 @@ module peripheral_gpio_synthesis #(
   // Body
   //////////////////////////////////////////////////////////////////////////////
 
-  // DUT AHB3
-  peripheral_apb42ahb3 #(
+  // DUT AHB4
+  peripheral_apb42ahb4 #(
     .HADDR_SIZE(HADDR_SIZE),
     .HDATA_SIZE(HDATA_SIZE),
     .PADDR_SIZE(PADDR_SIZE),
     .PDATA_SIZE(PDATA_SIZE),
     .SYNC_DEPTH(SYNC_DEPTH)
-  ) apb42ahb3 (
+  ) apb42ahb4 (
     // AHB Slave Interface
     .HRESETn(HRESETn),
     .HCLK   (HCLK),

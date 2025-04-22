@@ -44,7 +44,7 @@
 
 read_verilog -sv ../../../../rtl/verilog/code/pkg/peripheral/axi4/peripheral_axi4_pkg.sv
 
-read_verilog -sv ../../../../rtl/verilog/code/peripheral/axi4/peripheral_axi42ahb3.sv
+read_verilog -sv ../../../../rtl/verilog/code/peripheral/axi4/peripheral_axi42ahb4.sv
 read_verilog -sv ../../../../rtl/verilog/code/peripheral/axi4/peripheral_gpio_axi4.sv
 
 read_verilog -sv peripheral_gpio_synthesis.sv

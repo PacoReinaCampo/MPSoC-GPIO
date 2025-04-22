@@ -44,7 +44,7 @@ module peripheral_gpio_testbench;
   // Constants
   //////////////////////////////////////////////////////////////////////////////
 
-  // AHB3 GPIO Interface
+  // AHB4 GPIO Interface
   parameter HADDR_SIZE = 32;
   parameter HDATA_SIZE = 32;
   parameter PADDR_SIZE = 10;
@@ -59,7 +59,7 @@ module peripheral_gpio_testbench;
   wire                       HRESETn;
   wire                       HCLK;
 
-  // AHB3 GPIO Interface
+  // AHB4 GPIO Interface
   wire                       mst_gpio_HSEL;
   wire [HADDR_SIZE     -1:0] mst_gpio_HADDR;
   wire [HDATA_SIZE     -1:0] mst_gpio_HWDATA;
@@ -92,14 +92,14 @@ module peripheral_gpio_testbench;
   // Body
   //////////////////////////////////////////////////////////////////////////////
 
-  // DUT AHB3
-  peripheral_apb42ahb3 #(
+  // DUT AHB4
+  peripheral_apb42ahb4 #(
     .HADDR_SIZE(HADDR_SIZE),
     .HDATA_SIZE(HDATA_SIZE),
     .PADDR_SIZE(PADDR_SIZE),
     .PDATA_SIZE(PDATA_SIZE),
     .SYNC_DEPTH(SYNC_DEPTH)
-  ) apb42ahb3 (
+  ) apb42ahb4 (
     // AHB Slave Interface
     .HRESETn(HRESETn),
     .HCLK   (HCLK),

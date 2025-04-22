@@ -45,7 +45,7 @@
 ../../../../../../../rtl/vhdl/code/pkg/core/vhdl_pkg.vhd
 ../../../../../../../rtl/vhdl/code/pkg/peripheral/apb4/peripheral_apb4_pkg.vhd
 
-../../../../../../../rtl/vhdl/code/peripheral/apb4/peripheral_apb42ahb3.vhd
+../../../../../../../rtl/vhdl/code/peripheral/apb4/peripheral_apb42ahb4.vhd
 ../../../../../../../rtl/vhdl/code/peripheral/apb4/peripheral_gpio_apb4.vhd
 
 ../../../../../../../verification/procedures/library/peripheral/apb4/peripheral_gpio_testbench.vhd
