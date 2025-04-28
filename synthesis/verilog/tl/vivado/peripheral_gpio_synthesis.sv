@@ -89,13 +89,13 @@ module peripheral_gpio_synthesis #(
   //////////////////////////////////////////////////////////////////////////////
 
   // DUT AHB4
-  peripheral_apb42ahb4 #(
+  peripheral_apb42tl #(
     .HADDR_SIZE(HADDR_SIZE),
     .HDATA_SIZE(HDATA_SIZE),
     .PADDR_SIZE(PADDR_SIZE),
     .PDATA_SIZE(PDATA_SIZE),
     .SYNC_DEPTH(SYNC_DEPTH)
-  ) apb42ahb4 (
+  ) apb42tl (
     // AHB Slave Interface
     .HRESETn(HRESETn),
     .HCLK   (HCLK),

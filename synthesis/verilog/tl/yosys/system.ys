@@ -45,7 +45,7 @@
 # read design
 read_verilog -sv ../../../../rtl/verilog/code/pkg/peripheral/tl/peripheral_biu_pkg.sv
 
-read_verilog -sv ../../../../rtl/verilog/code/peripheral/tl/peripheral_tl2ahb4.sv
+read_verilog -sv ../../../../rtl/verilog/code/peripheral/tl/peripheral_tl2tl.sv
 read_verilog -sv ../../../../rtl/verilog/code/peripheral/tl/peripheral_gpio_tl.sv
 
 read_verilog -sv peripheral_gpio_synthesis.sv

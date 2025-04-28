@@ -98,7 +98,7 @@ architecture rtl of peripheral_gpio_testbench is
   ------------------------------------------------------------------------------
   -- Components
   ------------------------------------------------------------------------------
-  component peripheral_apb42ahb4
+  component peripheral_apb42tl
     generic (
       HADDR_SIZE : integer := 32;
       HDATA_SIZE : integer := 32;
@@ -172,7 +172,7 @@ begin
   ------------------------------------------------------------------------------
 
   -- DUT AHB4
-  apb42ahb4 : peripheral_apb42ahb4
+  apb42tl : peripheral_apb42tl
     generic map (
       HADDR_SIZE => HADDR_SIZE,
       HDATA_SIZE => HDATA_SIZE,
