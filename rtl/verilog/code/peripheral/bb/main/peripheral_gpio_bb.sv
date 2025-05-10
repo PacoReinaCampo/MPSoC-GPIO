@@ -237,49 +237,49 @@ module peripheral_gpio_bb #(
   // P1IN Register
   wire [7:0] p1in;
 
-  pu_msp430_sync_cell sync_cell_p1in_0 (
+  peripheral_sync_cell_bb sync_cell_p1in_0 (
     .data_out(p1in[0]),
     .data_in (p1_din[0] & P1_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p1in_1 (
+  peripheral_sync_cell_bb sync_cell_p1in_1 (
     .data_out(p1in[1]),
     .data_in (p1_din[1] & P1_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p1in_2 (
+  peripheral_sync_cell_bb sync_cell_p1in_2 (
     .data_out(p1in[2]),
     .data_in (p1_din[2] & P1_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p1in_3 (
+  peripheral_sync_cell_bb sync_cell_p1in_3 (
     .data_out(p1in[3]),
     .data_in (p1_din[3] & P1_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p1in_4 (
+  peripheral_sync_cell_bb sync_cell_p1in_4 (
     .data_out(p1in[4]),
     .data_in (p1_din[4] & P1_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p1in_5 (
+  peripheral_sync_cell_bb sync_cell_p1in_5 (
     .data_out(p1in[5]),
     .data_in (p1_din[5] & P1_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p1in_6 (
+  peripheral_sync_cell_bb sync_cell_p1in_6 (
     .data_out(p1in[6]),
     .data_in (p1_din[6] & P1_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p1in_7 (
+  peripheral_sync_cell_bb sync_cell_p1in_7 (
     .data_out(p1in[7]),
     .data_in (p1_din[7] & P1_EN[0]),
     .clk     (mclk),
@@ -380,49 +380,49 @@ module peripheral_gpio_bb #(
   // P2IN Register
   wire [7:0] p2in;
 
-  pu_msp430_sync_cell sync_cell_p2in_0 (
+  peripheral_sync_cell_bb sync_cell_p2in_0 (
     .data_out(p2in[0]),
     .data_in (p2_din[0] & P2_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p2in_1 (
+  peripheral_sync_cell_bb sync_cell_p2in_1 (
     .data_out(p2in[1]),
     .data_in (p2_din[1] & P2_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p2in_2 (
+  peripheral_sync_cell_bb sync_cell_p2in_2 (
     .data_out(p2in[2]),
     .data_in (p2_din[2] & P2_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p2in_3 (
+  peripheral_sync_cell_bb sync_cell_p2in_3 (
     .data_out(p2in[3]),
     .data_in (p2_din[3] & P2_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p2in_4 (
+  peripheral_sync_cell_bb sync_cell_p2in_4 (
     .data_out(p2in[4]),
     .data_in (p2_din[4] & P2_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p2in_5 (
+  peripheral_sync_cell_bb sync_cell_p2in_5 (
     .data_out(p2in[5]),
     .data_in (p2_din[5] & P2_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p2in_6 (
+  peripheral_sync_cell_bb sync_cell_p2in_6 (
     .data_out(p2in[6]),
     .data_in (p2_din[6] & P2_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p2in_7 (
+  peripheral_sync_cell_bb sync_cell_p2in_7 (
     .data_out(p2in[7]),
     .data_in (p2_din[7] & P2_EN[0]),
     .clk     (mclk),
@@ -525,49 +525,49 @@ module peripheral_gpio_bb #(
   // P3IN Register
   wire [7:0] p3in;
 
-  pu_msp430_sync_cell sync_cell_p3in_0 (
+  peripheral_sync_cell_bb sync_cell_p3in_0 (
     .data_out(p3in[0]),
     .data_in (p3_din[0] & P3_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p3in_1 (
+  peripheral_sync_cell_bb sync_cell_p3in_1 (
     .data_out(p3in[1]),
     .data_in (p3_din[1] & P3_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p3in_2 (
+  peripheral_sync_cell_bb sync_cell_p3in_2 (
     .data_out(p3in[2]),
     .data_in (p3_din[2] & P3_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p3in_3 (
+  peripheral_sync_cell_bb sync_cell_p3in_3 (
     .data_out(p3in[3]),
     .data_in (p3_din[3] & P3_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p3in_4 (
+  peripheral_sync_cell_bb sync_cell_p3in_4 (
     .data_out(p3in[4]),
     .data_in (p3_din[4] & P3_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p3in_5 (
+  peripheral_sync_cell_bb sync_cell_p3in_5 (
     .data_out(p3in[5]),
     .data_in (p3_din[5] & P3_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p3in_6 (
+  peripheral_sync_cell_bb sync_cell_p3in_6 (
     .data_out(p3in[6]),
     .data_in (p3_din[6] & P3_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p3in_7 (
+  peripheral_sync_cell_bb sync_cell_p3in_7 (
     .data_out(p3in[7]),
     .data_in (p3_din[7] & P3_EN[0]),
     .clk     (mclk),
@@ -625,49 +625,49 @@ module peripheral_gpio_bb #(
   // P4IN Register
   wire [7:0] p4in;
 
-  pu_msp430_sync_cell sync_cell_p4in_0 (
+  peripheral_sync_cell_bb sync_cell_p4in_0 (
     .data_out(p4in[0]),
     .data_in (p4_din[0] & P4_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p4in_1 (
+  peripheral_sync_cell_bb sync_cell_p4in_1 (
     .data_out(p4in[1]),
     .data_in (p4_din[1] & P4_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p4in_2 (
+  peripheral_sync_cell_bb sync_cell_p4in_2 (
     .data_out(p4in[2]),
     .data_in (p4_din[2] & P4_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p4in_3 (
+  peripheral_sync_cell_bb sync_cell_p4in_3 (
     .data_out(p4in[3]),
     .data_in (p4_din[3] & P4_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p4in_4 (
+  peripheral_sync_cell_bb sync_cell_p4in_4 (
     .data_out(p4in[4]),
     .data_in (p4_din[4] & P4_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p4in_5 (
+  peripheral_sync_cell_bb sync_cell_p4in_5 (
     .data_out(p4in[5]),
     .data_in (p4_din[5] & P4_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p4in_6 (
+  peripheral_sync_cell_bb sync_cell_p4in_6 (
     .data_out(p4in[6]),
     .data_in (p4_din[6] & P4_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p4in_7 (
+  peripheral_sync_cell_bb sync_cell_p4in_7 (
     .data_out(p4in[7]),
     .data_in (p4_din[7] & P4_EN[0]),
     .clk     (mclk),
@@ -725,49 +725,49 @@ module peripheral_gpio_bb #(
   // P5IN Register
   wire [7:0] p5in;
 
-  pu_msp430_sync_cell sync_cell_p5in_0 (
+  peripheral_sync_cell_bb sync_cell_p5in_0 (
     .data_out(p5in[0]),
     .data_in (p5_din[0] & P5_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p5in_1 (
+  peripheral_sync_cell_bb sync_cell_p5in_1 (
     .data_out(p5in[1]),
     .data_in (p5_din[1] & P5_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p5in_2 (
+  peripheral_sync_cell_bb sync_cell_p5in_2 (
     .data_out(p5in[2]),
     .data_in (p5_din[2] & P5_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p5in_3 (
+  peripheral_sync_cell_bb sync_cell_p5in_3 (
     .data_out(p5in[3]),
     .data_in (p5_din[3] & P5_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p5in_4 (
+  peripheral_sync_cell_bb sync_cell_p5in_4 (
     .data_out(p5in[4]),
     .data_in (p5_din[4] & P5_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p5in_5 (
+  peripheral_sync_cell_bb sync_cell_p5in_5 (
     .data_out(p5in[5]),
     .data_in (p5_din[5] & P5_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p5in_6 (
+  peripheral_sync_cell_bb sync_cell_p5in_6 (
     .data_out(p5in[6]),
     .data_in (p5_din[6] & P5_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p5in_7 (
+  peripheral_sync_cell_bb sync_cell_p5in_7 (
     .data_out(p5in[7]),
     .data_in (p5_din[7] & P5_EN[0]),
     .clk     (mclk),
@@ -825,49 +825,49 @@ module peripheral_gpio_bb #(
   // P6IN Register
   wire [7:0] p6in;
 
-  pu_msp430_sync_cell sync_cell_p6in_0 (
+  peripheral_sync_cell_bb sync_cell_p6in_0 (
     .data_out(p6in[0]),
     .data_in (p6_din[0] & P6_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p6in_1 (
+  peripheral_sync_cell_bb sync_cell_p6in_1 (
     .data_out(p6in[1]),
     .data_in (p6_din[1] & P6_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p6in_2 (
+  peripheral_sync_cell_bb sync_cell_p6in_2 (
     .data_out(p6in[2]),
     .data_in (p6_din[2] & P6_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p6in_3 (
+  peripheral_sync_cell_bb sync_cell_p6in_3 (
     .data_out(p6in[3]),
     .data_in (p6_din[3] & P6_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p6in_4 (
+  peripheral_sync_cell_bb sync_cell_p6in_4 (
     .data_out(p6in[4]),
     .data_in (p6_din[4] & P6_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p6in_5 (
+  peripheral_sync_cell_bb sync_cell_p6in_5 (
     .data_out(p6in[5]),
     .data_in (p6_din[5] & P6_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p6in_6 (
+  peripheral_sync_cell_bb sync_cell_p6in_6 (
     .data_out(p6in[6]),
     .data_in (p6_din[6] & P6_EN[0]),
     .clk     (mclk),
     .rst     (puc_rst)
   );
-  pu_msp430_sync_cell sync_cell_p6in_7 (
+  peripheral_sync_cell_bb sync_cell_p6in_7 (
     .data_out(p6in[7]),
     .data_in (p6_din[7] & P6_EN[0]),
     .clk     (mclk),

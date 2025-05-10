@@ -42,6 +42,9 @@
 ##                                                                               ##
 ###################################################################################
 
-../../../../../../../rtl/vhdl/code/peripheral/bb/peripheral_gpio_bb.vhd
+../../../../../../../rtl/vhdl/code/pkg/core/vhdl_pkg.vhd
+
+../../../../../../../rtl/vhdl/code/peripheral/bb/fuse/peripheral_sync_cell_bb.vhd
+../../../../../../../rtl/vhdl/code/peripheral/bb/main/peripheral_gpio_bb.vhd
 
 ../../../../../../../verification/procedures/library/peripheral/bb/peripheral_gpio_testbench.vhd

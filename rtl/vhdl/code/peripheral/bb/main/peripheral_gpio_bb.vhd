@@ -93,6 +93,14 @@ end peripheral_gpio_bb;
 
 architecture rtl of peripheral_gpio_bb is
 
+  component peripheral_sync_cell_bb
+    port (
+      data_out : out std_logic;
+      data_in  : in  std_logic;
+      clk      : in  std_logic;
+      rst      : in  std_logic);
+  end component peripheral_sync_cell_bb;
+
   -- 0.  PARAMETER DECLARATION
   -- 0.1.        Register base address (must be aligned to decoder bit width)
   constant BASE_ADDR_G : std_logic_vector (14 downto 0) := (others => '0');
@@ -323,7 +331,7 @@ begin
     RD_DEC_WD_G1 : for i in DEC_WD_G - 1 downto 0 generate
       -- 2.1.    PIN Register
       sync_cell_pin_j : for j in 7 downto 0 generate
-        sync_cell_pin : msp430_sync_cell
+        sync_cell_pin : peripheral_sync_cell_bb
           port map (
             data_out => pin(i)(j),
             data_in  => p_din_en(i)(j),
