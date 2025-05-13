@@ -157,9 +157,10 @@ architecture rtl of peripheral_gpio_bb is
   signal pin : std_logic_matrix (DEC_WD_G - 1 downto 0)(7 downto 0);
 
   -- 2.2.        POUT Register
-  signal pout_wr  : std_logic_vector (DEC_SZ_G - 1 downto 0);
-  signal pout     : std_logic_matrix (DEC_WD_G - 1 downto 0)(7 downto 0);
-  signal pout_nxt : std_logic_matrix (DEC_WD_G - 1 downto 0)(7 downto 0);
+  signal data_sync : std_logic_matrix (DEC_WD_G - 1 downto 0)(1 downto 0);
+  signal pout_wr   : std_logic_vector (DEC_SZ_G - 1 downto 0);
+  signal pout      : std_logic_matrix (DEC_WD_G - 1 downto 0)(7 downto 0);
+  signal pout_nxt  : std_logic_matrix (DEC_WD_G - 1 downto 0)(7 downto 0);
 
   -- 2.3.        PDIR Register
   signal pdir_wr  : std_logic_vector (DEC_SZ_G - 1 downto 0);
@@ -331,12 +332,16 @@ begin
     RD_DEC_WD_G1 : for i in DEC_WD_G - 1 downto 0 generate
       -- 2.1.    PIN Register
       sync_cell_pin_j : for j in 7 downto 0 generate
-        sync_cell_pin : peripheral_sync_cell_bb
-          port map (
-            data_out => pin(i)(j),
-            data_in  => p_din_en(i)(j),
-            clk      => mclk,
-            rst      => puc_rst);
+        process (mclk, puc_rst)
+        begin
+          if (puc_rst = '1') then
+            data_sync(i)(j) <= (others => '0');
+          elsif (rising_edge(mclk)) then
+            data_sync(i)(j) <= data_sync(i)(0) & p_din_en(i)(j);
+          end if;
+        end process;
+
+        pin(i)(j) <= data_sync(i)(1);
 
         p_din_en(i)(j) <= p_din(i)(j) and P_EN(i);
       end generate sync_cell_pin_j;

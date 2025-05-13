@@ -9,10 +9,7 @@ code
 │   │   ├── peripheral_axi42apb4.vhd
 │   │   └── peripheral_gpio_axi4.vhd
 │   ├── bb
-│   │   ├── fuse
-│   │   │   └── peripheral_sync_cell_bb.vhd
-│   │   └── main
-│   │       └── peripheral_gpio_bb.vhd
+│   │   └── peripheral_gpio_bb.vhd
 │   ├── tl
 │   │   └── peripheral_gpio_tl.vhd
 │   └── wb
@@ -34,4 +31,4 @@ code
         └── wb
             └── peripheral_wb_pkg.vhd
 
-18 directories, 16 files
+16 directories, 15 files

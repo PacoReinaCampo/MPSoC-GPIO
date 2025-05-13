@@ -28,10 +28,7 @@ code
 │   │   ├── peripheral_axi42apb4.sv
 │   │   └── peripheral_gpio_axi4.sv
 │   ├── bb
-│   │   ├── fuse
-│   │   │   └── peripheral_sync_cell_bb.sv
-│   │   └── main
-│   │       └── peripheral_gpio_bb.sv
+│   │   └── peripheral_gpio_bb.sv
 │   ├── tl
 │   │   └── peripheral_gpio_tl.sv
 │   └── wb
@@ -51,4 +48,4 @@ code
         └── wb
             └── peripheral_wb_pkg.sv
 
-24 directories, 27 files
+22 directories, 26 files

@@ -42,7 +42,6 @@
 //                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////
 
-../../../../../../../rtl/verilog/code/peripheral/tl/fuse/peripheral_sync_cell_tl.sv
 ../../../../../../../rtl/verilog/code/peripheral/tl/peripheral_gpio_tl.sv
 
 ../../../../../../../verification/tasks/library/peripheral/tl/bus/peripheral_bfm_master_tl.sv

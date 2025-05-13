@@ -42,7 +42,6 @@
 ##                                                                               ##
 ###################################################################################
 
-read_verilog -sv ../../../../rtl/verilog/bb/core/fuse/msp430_sync_cell.sv
 read_verilog -sv ../../../../rtl/verilog/bb/core/main/msp430_uart.sv
 
 read_verilog -sv mpsoc_uart_synthesis.sv

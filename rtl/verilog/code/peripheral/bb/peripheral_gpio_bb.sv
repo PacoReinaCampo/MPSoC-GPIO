@@ -237,54 +237,87 @@ module peripheral_gpio_bb #(
   // P1IN Register
   wire [7:0] p1in;
 
-  peripheral_sync_cell_bb sync_cell_p1in_0 (
-    .data_out(p1in[0]),
-    .data_in (p1_din[0] & P1_EN[0]),
-    .clk     (mclk),
-    .rst     (puc_rst)
-  );
-  peripheral_sync_cell_bb sync_cell_p1in_1 (
-    .data_out(p1in[1]),
-    .data_in (p1_din[1] & P1_EN[0]),
-    .clk     (mclk),
-    .rst     (puc_rst)
-  );
-  peripheral_sync_cell_bb sync_cell_p1in_2 (
-    .data_out(p1in[2]),
-    .data_in (p1_din[2] & P1_EN[0]),
-    .clk     (mclk),
-    .rst     (puc_rst)
-  );
-  peripheral_sync_cell_bb sync_cell_p1in_3 (
-    .data_out(p1in[3]),
-    .data_in (p1_din[3] & P1_EN[0]),
-    .clk     (mclk),
-    .rst     (puc_rst)
-  );
-  peripheral_sync_cell_bb sync_cell_p1in_4 (
-    .data_out(p1in[4]),
-    .data_in (p1_din[4] & P1_EN[0]),
-    .clk     (mclk),
-    .rst     (puc_rst)
-  );
-  peripheral_sync_cell_bb sync_cell_p1in_5 (
-    .data_out(p1in[5]),
-    .data_in (p1_din[5] & P1_EN[0]),
-    .clk     (mclk),
-    .rst     (puc_rst)
-  );
-  peripheral_sync_cell_bb sync_cell_p1in_6 (
-    .data_out(p1in[6]),
-    .data_in (p1_din[6] & P1_EN[0]),
-    .clk     (mclk),
-    .rst     (puc_rst)
-  );
-  peripheral_sync_cell_bb sync_cell_p1in_7 (
-    .data_out(p1in[7]),
-    .data_in (p1_din[7] & P1_EN[0]),
-    .clk     (mclk),
-    .rst     (puc_rst)
-  );
+  reg [1:0] data_sync [7:0];
+
+  always @(posedge mclk or posedge puc_rst) begin
+    if (puc_rst) begin
+      data_sync[0] <= 2'b00;
+    end else begin
+      data_sync[0] <= {data_sync[0][0], p1_din[0] & P1_EN[0]};
+    end
+  end
+
+  assign p1in[0] = data_sync[0][1];
+
+  always @(posedge mclk or posedge puc_rst) begin
+    if (puc_rst) begin
+      data_sync[1] <= 2'b00;
+    end else begin
+      data_sync[1] <= {data_sync[1][0], p1_din[1] & P1_EN[0]};
+    end
+  end
+
+  assign p1in[1] = data_sync[1][1];
+
+  always @(posedge mclk or posedge puc_rst) begin
+    if (puc_rst) begin
+      data_sync[2] <= 2'b00;
+    end else begin
+      data_sync[2] <= {data_sync[2][0], p1_din[2] & P1_EN[0]};
+    end
+  end
+
+  assign p1in[2] = data_sync[2][1];
+
+  always @(posedge mclk or posedge puc_rst) begin
+    if (puc_rst) begin
+      data_sync[3] <= 2'b00;
+    end else begin
+      data_sync[3] <= {data_sync[3][0], p1_din[3] & P1_EN[0]};
+    end
+  end
+
+  assign p1in[3] = data_sync[3][1];
+
+  always @(posedge mclk or posedge puc_rst) begin
+    if (puc_rst) begin
+      data_sync[4] <= 2'b00;
+    end else begin
+      data_sync[4] <= {data_sync[4][0], p1_din[4] & P1_EN[0]};
+    end
+  end
+
+  assign p1in[4] = data_sync[4][1];
+
+  always @(posedge mclk or posedge puc_rst) begin
+    if (puc_rst) begin
+      data_sync[5] <= 2'b00;
+    end else begin
+      data_sync[5] <= {data_sync[5][0], p1_din[5] & P1_EN[0]};
+    end
+  end
+
+  assign p1in[5] = data_sync[5][1];
+
+  always @(posedge mclk or posedge puc_rst) begin
+    if (puc_rst) begin
+      data_sync[6] <= 2'b00;
+    end else begin
+      data_sync[6] <= {data_sync[6][0], p1_din[6] & P1_EN[0]};
+    end
+  end
+
+  assign p1in[6] = data_sync[6][1];
+
+  always @(posedge mclk or posedge puc_rst) begin
+    if (puc_rst) begin
+      data_sync[7] <= 2'b00;
+    end else begin
+      data_sync[7] <= {data_sync[7][0], p1_din[7] & P1_EN[0]};
+    end
+  end
+
+  assign p1in[7] = data_sync[7][1];
 
   // P1OUT Register
   reg  [7:0] p1out;

@@ -44,7 +44,6 @@
 
 read_vhdl -vhdl2008 ../../../../rtl/vhdl/bb/pkg/msp430_pkg.vhd
 
-read_vhdl -vhdl2008 ../../../../rtl/vhdl/bb/core/fuse/msp430_sync_cell.vhd
 read_vhdl -vhdl2008 ../../../../rtl/vhdl/bb/core/main/msp430_uart.vhd
 
 read_vhdl -vhdl2008 mpsoc_uart_synthesis.vhd
