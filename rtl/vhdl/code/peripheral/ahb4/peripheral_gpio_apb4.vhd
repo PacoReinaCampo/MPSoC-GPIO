@@ -43,7 +43,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity peripheral_gpio_ahb4 is
+entity peripheral_gpio_apb4 is
   generic (
     PADDR_SIZE : integer := 64;
     PDATA_SIZE : integer := 64
@@ -66,9 +66,9 @@ entity peripheral_gpio_ahb4 is
     gpio_o  : out std_logic_vector(PDATA_SIZE-1 downto 0);
     gpio_oe : out std_logic_vector(PDATA_SIZE-1 downto 0)
     );
-end peripheral_gpio_ahb4;
+end peripheral_gpio_apb4;
 
-architecture rtl of peripheral_gpio_ahb4 is
+architecture rtl of peripheral_gpio_apb4 is
   ------------------------------------------------------------------------------
   -- Constants
   ------------------------------------------------------------------------------

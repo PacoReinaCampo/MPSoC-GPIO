@@ -44,8 +44,8 @@
 
 ../../../../../../../rtl/verilog/code/pkg/peripheral/axi4/peripheral_axi4_pkg.sv
 
-../../../../../../../rtl/verilog/code/peripheral/axi4/peripheral_axi42ahb4.sv
-../../../../../../../rtl/verilog/code/peripheral/axi4/peripheral_gpio_axi4.sv
+../../../../../../../rtl/verilog/code/peripheral/axi4/peripheral_apb2axi.sv
+../../../../../../../rtl/verilog/code/peripheral/axi4/peripheral_gpio_apb4.sv
 
 ../../../../../../../verification/tasks/library/peripheral/axi4/peripheral_bfm_axi4.sv
 ../../../../../../../verification/tasks/library/peripheral/axi4/peripheral_bfm_master_axi4.sv

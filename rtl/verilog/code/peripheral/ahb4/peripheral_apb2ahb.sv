@@ -40,7 +40,7 @@
 
 import peripheral_ahb4_pkg::*;
 
-module peripheral_ahb42apb4 #(
+module peripheral_apb2ahb #(
   parameter HADDR_SIZE = 32,
   parameter HDATA_SIZE = 32,
   parameter PADDR_SIZE = 10,

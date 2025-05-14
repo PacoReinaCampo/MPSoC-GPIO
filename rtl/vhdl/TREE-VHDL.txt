@@ -1,13 +1,13 @@
 code
 ├── peripheral
 │   ├── ahb4
-│   │   ├── peripheral_ahb42apb4.vhd
-│   │   └── peripheral_gpio_ahb4.vhd
+│   │   ├── peripheral_apb2ahb.vhd
+│   │   └── peripheral_gpio_apb4.vhd
 │   ├── apb4
 │   │   └── peripheral_gpio_apb4.vhd
 │   ├── axi4
-│   │   ├── peripheral_axi42apb4.vhd
-│   │   └── peripheral_gpio_axi4.vhd
+│   │   ├── peripheral_apb2axi.vhd
+│   │   └── peripheral_gpio_apb4.vhd
 │   ├── bb
 │   │   └── peripheral_gpio_bb.vhd
 │   ├── tl

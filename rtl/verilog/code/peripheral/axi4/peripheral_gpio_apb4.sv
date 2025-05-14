@@ -38,7 +38,7 @@
 // Author(s):
 //   Paco Reina Campo <pacoreinacampo@queenfield.tech>
 
-module peripheral_gpio_axi4 #(
+module peripheral_gpio_apb4 #(
   PDATA_SIZE = 8,  // must be a multiple of 8
   PADDR_SIZE = 4
 ) (

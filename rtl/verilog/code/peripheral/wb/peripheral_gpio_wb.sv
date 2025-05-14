@@ -37,7 +37,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Author(s):
 //   Damjan Lampret <lampret@opencores.org>
-//    Javier Reina Campo <pacoreinacampo@queenfield.tech>
+//   Francisco Javier Reina Campo <pacoreinacampo@queenfield.tech>
 
 module peripheral_gpio_wb #(
   parameter WB_DATA_WIDTH         = 32,
