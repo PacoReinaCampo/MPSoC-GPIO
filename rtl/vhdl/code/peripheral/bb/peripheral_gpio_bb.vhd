@@ -11,7 +11,7 @@
 --                                                                            --
 --              Peripheral-GPIO for MPSoC                                     --
 --              General Purpose Input Output for MPSoC                        --
---              BlackBone Bus Interface                                       --
+--              BackBone Bus Interface                                       --
 --                                                                            --
 --------------------------------------------------------------------------------
 
